@@ -29,16 +29,17 @@ document.addEventListener('DOMContentLoaded', () => {
     const maxIndex = cards.length - visibleCards;
     currentIndex = Math.max(0, Math.min(index, maxIndex));
     
-    // Calculate exact card width including gap
-    const totalGapWidth = 32; // 2rem gap
+    // Calculate card width including gap
+    const gapWidth = 32; // 2rem gap
     const containerWidth = track.offsetWidth;
-    const visibleWidth = containerWidth / visibleCards;
-    const cardWidth = visibleWidth - (totalGapWidth * (visibleCards - 1) / visibleCards);
+    const cardWidth = containerWidth / visibleCards;
     
-    const scrollPosition = currentIndex * (cardWidth + totalGapWidth);
+    // Calculate total width of a card including its gap
+    const cardTotalWidth = cardWidth + gapWidth;
     
+    // Scroll to the target card
     track.scrollTo({
-      left: scrollPosition,
+      left: currentIndex * cardTotalWidth,
       behavior: 'smooth'
     });
     
