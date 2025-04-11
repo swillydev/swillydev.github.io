@@ -1441,3 +1441,66 @@ textarea {
     text-align: center;
     line-height: 80px;
   }
+
+  /* Update testimonials section styles */
+.testimonials-section {
+  margin: 2rem 0;
+  overflow: hidden;
+}
+
+.carousel-container {
+  position: relative;
+  max-width: 1520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 0 60px;
+}
+
+.carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 4rem) / 3);
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 2rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.carousel-track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari and Opera */
+}
+
+.testimonial-card {
+  min-width: 300px;
+  height: 100%;
+  position: relative;
+  color: #000000;
+  text-align: center;
+  font-size: 16px;
+  background-color: #2C3447;
+  padding: 30px;
+  background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
+  box-sizing: border-box;
+  transition: transform 0.3s ease;
+}
+
+/* Responsive grid adjustments */
+@media (max-width: 1024px) {
+  .carousel-track {
+    grid-auto-columns: calc((100% - 2rem) / 2); /* Show 2 cards */
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-track {
+    grid-auto-columns: 100%; /* Show 1 card */
+  }
+  
+  .carousel-container {
+    padding: 0 30px;
+  }
+}
