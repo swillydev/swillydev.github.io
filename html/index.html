@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haley's Legal Services</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="/styles/animations.css">
+    <script type="module" src="/script.js"></script>
+    <script src="/js/scroll-animations.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@300&display=swap');
+        .checked {
+            color: orange;
+        }
+    </style>
+
+</head>
+<body class="bg-gray-100">
+    <!-- Popup Contact Form Overlay -->
+    <div id="contact-popup-overlay" class="popup-overlay">
+      <div class="popup-content">
+        <span class="popup-close">&times;</span>
+        <div class="popup-form">
+          <h2>Contact Us</h2>
+          <p>Need legal assistance? Fill out this form and we'll get back to you quickly.</p>
+          <form id="popup_contact_form">
+            <div class="form-group">
+              <input type="text" placeholder="Full Name" name="name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Email Address" name="email" required>
+            </div>
+            <div class="form-group">
+              <input type="tel" placeholder="Phone Number" name="phone" required>
+            </div>
+            <div class="form-group">
+              <select name="subject" required>
+                <option value="" disabled selected>Select Service</option>
+                <option>General Enquiries</option>
+                <option>Criminal Appeal Enquiries</option>
+                <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                <option>Arrest, Search and Seizure of Property Enquiries</option>
+                <option>Wills And Probate Enquiries</option>
+                <option>Road Traffic Cases Enquiries</option>
+                <option>Family Law Enquiries</option>
+                <option>Immigration Law Enquiries</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <textarea name="message" placeholder="How can we help you?" rows="3" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Top Navbar -->
+    <nav class="top-navbar">
+        <div class="container mx-auto px-4 flex justify-end">
+            <div class="nav-links">
+                <a href="contact.html">Contact Us</a>
+                <a href="aboutUs.html">About Us</a>
+                <a href="Our-Locations.html">Our Locations</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Contact Navbar -->
+    <nav class="contact-navbar">
+        <div class="nav-container">
+            <div class = "nav-toggle">
+                <a class="openbtn" onclick="openNav()" ><img id = "toggle" src="../images/toggle.png"></a>
+            </div>
+
+            <div class="logo" id="haleys-logo">
+                <a href="index.html"><img src="../images/haleys-logo-purple.png"></a>
+            </div>
+
+            <div id = "numbers-container">
+                <h2 class="phone-number"><em>CALL US NOW ON: </em>  0121 285 3211 </h2>
+                <h2 class='phone-number'><em>24 HOUR DIRECT LINE: </em>  07803 068687 / 07714 487966</h2>
+            </div>
+        </div>
+    </nav>
+
+    <!--side nav bar-->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <nav class = "nav">
+            <ul>
+                <li class="active"><a href="index.html">Home</a></li>
+                <li><div class="dropdown">
+                    <button class="dropbtn"><a>Our Practice Areas</a></button>
+                    <div class="dropdown-content">
+                        <a href="criminal-appeals.html">Criminal Appeals</a>
+                        <a href="immigration.html">Immigration</a>
+                        <a href="criminal-law.html">Criminal Law</a>
+                        <a href="traffic-cases.html">Road Traffic Cases</a>
+                        <a href="wills-probate.html">Wills And Probate</a>
+                        <a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+                        <a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+                    </div>
+                  </div></li>
+                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="contact.html">Get In Touch</a></li>
+                <li><a href="Our-Locations.html">Our Locations</a></li>
+            </ul>
+        </nav>
+      </div>
+
+      <script>
+        function openNav() {
+            document.getElementById("mySidebar").style.width = "250px";
+            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+        }
+
+        function closeNav() {
+            document.getElementById("mySidebar").style.width = "0";
+            document.body.style.backgroundColor = "white";
+        }
+
+        // Close the sidebar when clicking outside
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('mySidebar');
+            const toggleBtn = document.querySelector('.openbtn');
+
+            if (sidebar.style.width === "250px" &&
+                !sidebar.contains(event.target) &&
+                event.target !== toggleBtn &&
+                !toggleBtn.contains(event.target)) {
+                closeNav();
+            }
+        });
+
+        // Add touch event support for mobile
+        document.addEventListener('touchstart', function(event) {
+            const sidebar = document.getElementById('mySidebar');
+            const toggleBtn = document.querySelector('.openbtn');
+
+            if (sidebar.style.width === "250px" &&
+                !sidebar.contains(event.target) &&
+                event.target !== toggleBtn &&
+                !toggleBtn.contains(event.target)) {
+                closeNav();
+            }
+        });
+    </script>
+
+    <!-- Hero Section -->
+    <section class="relative bg-cover bg-center h-96 hero" id="hero">
+        <div class="absolute inset-0 bg-grey-bkg opacity-52">
+            <div class="video-container">
+                <video id="background-video" autoplay loop muted>
+                    <source src="/images/bkg-video.mp4" typ="video/mp4">
+            </video>
+
+                <h1 id = "hero-text1" class= "mb-6">Welcome to Haleys Solicitors</h1>
+                <h1 id = "hero-title" class="brand-pink text-4xl font-bold mb-4">YOUR TRUSTED LEGAL PARTNER FOR EVERY STEP OF THE WAY</h1>
+                <p id="hero-text" class="mb-6">Experts in Criminal, Immigration and Traffic Law, Based in Sheffield.</p>
+                <div class="button-container-container">
+                    <div class="button-container">
+                        <button id='button1' class="brand-yellow px-6 py-3 rounded text-white"><span>BOOK A CONSULTATION</span>
+                    </div>
+                    </button>
+                    <div class="button-container">
+                        <button onclick = "window.location.href = 'aboutUs.html' ;" id='button2' class="brand-grey px-6 py-3 rounded text-white"><span>ABOUT US</span>
+                    </div>
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="relative container mx-auto px-4 py-24 text-center text-white"></div>
+    </section>
+
+    <!-- Practice Areas Section -->
+    <section id = "practice-areas-section" class="container mx-auto px-4 py-16 practice-area-section">
+        <h2 id="practice-title">A Broader Offer of Practice Areas</h2>
+        <div class="grid grid-cols-3 gap-8">
+
+            <!-- Immigration -->
+            <div class="practice-area">
+                <img src="../images/immigration.svg" fill="none" viewBox="0 0 28 28" stroke="currentColor" class="practice-area-icon">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                <h3>Immigration</h3>
+                <p>Immigration law and the rules governing visas change regularly and finding a qualified legal advisor can be a daunting experience. Our immigration team is made up of solicitors that have been highly recommended and ranked as top UK immigration lawyers. At Haleys Solicitors, we are proud to say that we have helped many people with immigration law matters.</p>
+                <a class="readMoreTag" href="/html/immigration.html"><p id="readmore">[Read more]</p></a>
+            </div>
+
+            <!-- Criminal Appeals -->
+            <div class="practice-area">
+                <img src="../images/cuffs.svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <h3>Criminal Appeals</h3>
+                <p>If you have been convicted of an offence in the Magistrates' Court, you have the right to appeal to the Crown Court within 21 days of the date of conviction. Appeals to the Crown Court are a complete re-hearing of the original trial with the same or other witnesses and evidence being given. The appeal will be heard by a Crown Court Judge and at least one magistrate.</p>
+                <a class="readMoreTag" href="/html/criminal-appeals.html"><p id="readmore">[Read more]</p></a>
+            </div>
+
+            <!-- Restraint and Freezing Orders -->
+            <div class="practice-area">
+                <img id ='police' src="/images/restrain.svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                <h3>Restraint and Freezing Orders</h3>
+                <p>The power of the state to restrain or freeze assets has drastically increased in recent years. It may be possible to challenge restraint or freezing orders. In a criminal investigation, our power to challenge orders and protect your assets is unparalleled. We have expertise in challenging process in all environments.</p>
+                <a class="readMoreTag" href="/html/restraint-orders.html"><p id="readmore">[Read more]</p></a>
+            </div>
+
+            <!-- Arrest Search and Seizure -->
+            <div class="practice-area">
+                <img id = "police" src= "/images/police.svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
+                <h3>Arrest Search and Seizure</h3>
+                <p>A person's arrest, the search of their premises and the seizure of their property can be hugely damaging. This is a niche area of law and we work closely with specialist counsel in seeking injunctive relief where necessary, and the appropriate remedies for the unlawful use of these intrusive powers.</p>
+                <a class="readMoreTag" href="/html/arrest-search-seizure.html"><p id="readmore">[Read more]</p></a>
+            </div>
+
+            <!-- Criminal Law -->
+            <div class="practice-area">
+                <img src="/images/criminal-law.svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <h3>Criminal Law</h3>
+                <p>A criminal charge can have serious, lasting impacts on your life—affecting your freedom, reputation, and future opportunities. With our experienced legal team, you get relentless defense, expert strategy, and a commitment to protecting your rights at every stage—because when your freedom is on the line, you deserve the best.</p>
+                <a class="readMoreTag" href="/html/criminal-law.html"><p id="readmore">[Read more]</p></a>
+            </div>
+
+            <!-- Road Traffic Cases -->
+            <div class="practice-area">
+                <img id = "car" src="/images/car.svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
+                <h3>Road Traffic Cases</h3>
+                <p>Being charged with a motoring offence can cause many complications for you and your family, alike personally and professionally. As a result, if you have been charged with a motoring offence, you need a specialist solicitor that can give you the best possible outcome. Here at Haleys Solicitors we have years of experience in helping motorists achieve the best result for their circumstances.</p>
+                <a class="readMoreTag" href="/html/traffic-cases.html"><p id="readmore">[Read more]</p></a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form -->
+    <section id="contact-form" class="bg-white py-16 practice-fadeInUp-animation">
+        <div class="container mx-auto px-4">
+            <h2 id = "contact-title" class="text-3xl text-center mb-12 brand-pink">HOW CAN WE HELP? <em>CONTACT US TODAY</em></h2>
+            <div id="contact-text">
+                <p>Contact us and one of our advisors will be in touch to discuss your situation. We will take some initial information and if we can help, we will book you in for a consultation.</p>
+                <p>Please provide as much information as possible so that your enquiry can be directed to the most appropriate department. Your enquiry will be treated in confidence, however we take the safety of your personal information serious, therefore please refrain from sending confidential information, such as full names of 3rd parties involved, address details etc.</p>
+            </div>
+            <div id="container">
+                <div class="icon_wrapper">
+
+                </div>
+                <form action="form-process.php" method="post" id="contact_form">
+                  <div class="name">
+                    <label for="name"></label>
+                    <input type="text" placeholder="Full Name:" name="name" id="name_input" required>
+                  </div>
+                  <div class="email">
+                    <label for="email"></label>
+                    <input type="email" placeholder="E-mail:" name="email" id="email_input" required>
+                  </div>
+                  <div class="telephone">
+                    <label for="name"></label>
+                    <input type="text" placeholder="Phone Number:" name="telephone" id="telephone_input" required>
+                  </div>
+                  <div class="subject">
+                    <label for="subject"></label>
+                    <select placeholder="Subject line" name="subject" id="subject_input" required>
+                        <option disabled hidden selected>Subject line</option>
+                        <option>General Enquiries</option>
+                        <option>Criminal Appeal Enquiries</option>
+                        <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                        <option>Arrest, Search and Seizure of Property Enquiries</option>
+                        <option>Wills And Probate Enquiries</option>
+                        <option>Road Traffic Cases Enquiries</option>
+                        <option>Family Law Enquiries</option>
+                        <option>Immigration Law Enquiries</option>
+                    </select>
+                  </div>
+                  <div class="message">
+                    <label for="message"></label>
+                    <textarea name="message" placeholder="I'd like to chat about" id="message_input" cols="30" rows="5" required></textarea>
+                  </div>
+                  <div class="submit">
+                    <input type="submit" value="Send Message" id="form_button" />
+                  </div>
+                </form><!-- // End form -->
+              </div><!-- // End #container -->
+        </div>
+    </section>
+
+    <!-- Testimonials -->
+    <div class="testimonials-section">
+        <h2 id = "testimonials-title">What Do Our Clients Say</h2>
+        <div class="carousel-container">
+          <button class="carousel-button prev" aria-label="Previous testimonials">&#8592;</button>
+
+          <div class="carousel-track">
+            <figure class="testimonial-card">
+                <img src="/images/man.png" alt="profile-sample3" class="profile" />
+                <figcaption>
+                  <h2>A Leading QC</h2>
+                  <h4>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                        <span class="fa fa-star checked"></span>
+                  </h4>
+                  <blockquote>Haleys Solicitors commitment to their clients is impressive. Hard work, a good eye for detail and for telling points are obvious strengths. Their advice is, in my experience, realistic and given after a thorough appraisal.</blockquote>
+                </figcaption>
+              </figure>
+
+              <figure class="testimonial-card">
+                <img src="/images/lady.jpg" alt="profile-sample3" class="profile" />
+                <figcaption>
+                  <h2>Kubra Fatima</h2>
+                <h4>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                </h4>
+                  <blockquote>Excellent level of service from Haley's solicitors. I appreciate their efforts and very thankful. You dealt with my immigration matter in a professional way and showed patience and understanding during my many enquiries.</blockquote>
+                </figcaption>
+              </figure>
+
+              <figure class="testimonial-card">
+                <img src="/images/girl2.svg" alt="profile-sample3" class="profile" />
+                <figcaption>
+                  <h2>Uzaira Sajjad</h2>
+                  <h4>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                 </h4>
+                  <blockquote>I am highly impressed by the way I've been dealt with. I got my own and my mothers visa done by Haleys Solicitors .They are professional people. Thank you for your help.</blockquote>
+                </figcaption>
+              </figure>
+
+              <figure class="testimonial-card">
+                <img src="/images/girl3.webp" alt="profile-sample3" class="profile" />
+                <figcaption>
+                  <h2>Zara Bibi</h2>
+                  <h4>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                 </h4>
+                  <blockquote>I have had a few Cases which I gave Haleys Solicitors, Natasha personally dealt with these and she is Excellent in her work, the great thing about Natasha is, she can be contacted at any time. I 100% recommend Haleys Solicitor’s, especially Criminal Law!! I definitely don't go to any other Solicitor Firms when I have the Best ( Haleys ) Thanks Natasha and your Fantastic Team for your Help. </blockquote>
+                </figcaption>
+              </figure>
+
+              <figure class="testimonial-card">
+                <img src="/images/man2.webp" alt="profile-sample3" class="profile" />
+                <figcaption>
+                <h2>Riz</h2>
+                <h4>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                    <span class="fa fa-star checked"></span>
+                 </h4>
+                <blockquote>Using them for my divorce case. Nice place. Great location. Natasha is great and knowledge is awesome. If you want someone to fight for you then Haleys is the one. Plus happy to take my call at any time of the day.</blockquote>
+                </figcaption>
+            </figure>
+
+
+            <button class="carousel-button next" aria-label="Next testimonials">&#8594;</button>
+        </div>
+    </div>
+
+     <!-- Location Section -->
+     <section class="location-section">
+        <h2>Where to find Us:</h2>
+        <p id="contact-text">We're proud to serve clients across three key locations: our office in Sheffield, and additional branches in Birmingham and Bradford. Each office is staffed with dedicated legal professionals, ensuring extensive expert support and local knowledge wherever you are. No matter which location you visit, you'll receive the same trusted, high-quality service we're known for.</p>
+        <div class="address">
+            <p>16 Horton Square</p>
+            <p>Highgate St</p>
+            <p>Birmingham</p>
+            <p>BD1 5BJ</p>
+         </div>
+        <iframe id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2430.763829562057!2d-1.894536223286005!3d52.465304472046896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870bdc57c3bb759%3A0xd71e662ded9aa1a!2sHaleys%20Solicitors!5e0!3m2!1sen!2suk!4v1743761308358!5m2!1sen!2suk" width="800" height="650" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+      </section>
+
+    <!--Acrreditations-->
+      <section id="Acreditations">
+        <div id="acredits">
+            <div>
+                <p>Authorised and regulated by the Bar Standards Board</p>
+            </div>
+            <div>
+                <img id="bar-img" src="/images/bar-standards-board.png">
+            </div>
+        </div>
+      </section>
+
+
+    <!-- Footer -->
+<footer id="footerDiv" class="bg-gray-800 text-white py-12">
+    <div class="container mx-auto px-4 grid grid-cols-3 gap-8">
+        <div>
+            <h4 class="font-bold mb-4">CONTACT US</h4>
+            <p>16 Horton Square, Highgate, Birmingham, B12 0YR</p>
+            <p>Phone: 0121 285 3211</p>
+            <p>Email: info@haleys-solicitors.co.uk</p>
+        </div>
+        <div>
+            <h4 class="font-bold mb-4">KEY SERVICES</h4>
+            <ul id="key-services">
+                <li><a href="criminal-appeals.html">Criminal Appeals</a></li>
+                <li><a href="immigration.html">Immigration</a></li>
+                <li><a href="criminal-law.html">Criminal Law</a></li>
+                <li><a href="traffic-cases.html">Road Traffic Cases</a></li>
+                <li><a href="wills-probate.html">Wills And Probate</a></li>
+                <li><a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a></li>
+                <li><a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a></li>
+            </ul>
+        </div>
+        <div>
+            <h4 class="font-bold mb-4">FOLLOW US ON OUR SOCIAL MEDIAS:</h4>
+            <div class="flex space-x-4">
+                <a href="https://www.facebook.com/people/Haleys-Solicitors/pfbid02eyycUJzBz8kLSFLgmg55snWupLcpLKC3rrWBWmSXHfm4dkKC92fz6rbxaVzoYTpAl/?mibextid=wwXIfr&rdid=BZAT6YUY4rjyHQN8&share_url=https%3A%2F%2Fwww.facebook.com%2Fshare%2F15FdwzCRy6%2F%3Fmibextid%3DwwXIfr"><img class=socials src="../images/facebook.png"></a>
+                <a href="https://www.instagram.com/haleys.solicitors/"><img class=socials src="../images/Insta.png"></a>
+                <a href="https://www.tiktok.com/@haleys.solicitors?_t=ZN-8v8kqDHDXAU&_r=1"><img class=socials src="../images/tikTok.png"></a>
+            </div>
+        </div>
+        <div>
+            <h4 class="font-bold mb-4">QUICK LINKS</h4>
+            <ul id="socials">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="aboutUs.html">About Us</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="Our-Locations.html">Our Locations</a></li>
+            </ul>
+        </div>
+    </div>
+</footer>
+    <!-- Index Form Handler for Mailhog -->
+    <script src="../js/index-form-handler.js"></script>
+    <!-- Popup Contact Form -->
+    <script src="/js/popup-contact.js"></script>
+</body>
+</html>

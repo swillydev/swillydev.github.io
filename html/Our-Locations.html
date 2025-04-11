@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Our Locations- Haley's Solicitors</title>
+    <link rel="stylesheet" href="/styles/contact.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@300&display=swap');
+    </style>
+  </head>
+  <body>
+    <!-- Popup Contact Form Overlay -->
+    <div id="contact-popup-overlay" class="popup-overlay">
+      <div class="popup-content">
+        <span class="popup-close">&times;</span>
+        <div class="popup-form">
+          <h2>Contact Us</h2>
+          <p>Need legal assistance? Fill out this form and we'll get back to you quickly.</p>
+          <form id="popup_contact_form">
+            <div class="form-group">
+              <input type="text" placeholder="Full Name" name="name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Email Address" name="email" required>
+            </div>
+            <div class="form-group">
+              <input type="tel" placeholder="Phone Number" name="phone" required>
+            </div>
+            <div class="form-group">
+              <select name="subject" required>
+                <option value="" disabled selected>Select Service</option>
+                <option>General Enquiries</option>
+                <option>Criminal Appeal Enquiries</option>
+                <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                <option>Arrest, Search and Seizure of Property Enquiries</option>
+                <option>Wills And Probate Enquiries</option>
+                <option>Road Traffic Cases Enquiries</option>
+                <option>Family Law Enquiries</option>
+                <option>Immigration Law Enquiries</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <textarea name="message" placeholder="How can we help you?" rows="3" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+    <!-- Top Navbar -->
+    <nav class="top-navbar">
+      <div class="nav-container">
+        <div class="nav-links">
+          <a href="/html/contact.html">Contact Us</a>
+          <a href="/html/aboutUs.html">About Us</a>
+          <a href="/html/Our-Locations.html">Our Locations</a>
+        </div>
+      </div>
+    </nav>
+
+    <!-- Contact Navbar -->
+    <nav class="contact-navbar">
+      <div class="nav-container">
+        <div class = "nav-toggle">
+            <a class="openbtn" onclick="openNav()" ><img id = "toggle" src="/images/toggle.png"></a>
+        </div>
+
+
+        <div class="logo" id="haleys-logo">
+            <a href="/html/index.html"><img src="/images/haleys-logo-purple.png"></a>
+        </div>
+
+        <div id="numbers-container">
+          <h2 class="phone-number"><em>CALL US NOW ON: </em> 0121 285 3211</h2>
+          <h2 class="phone-number"><em>24 HOUR DIRECT LINE: </em> 07803 068687 / 07714 487966</h2>
+        </div>
+      </div>
+    </nav>
+
+    <!--side nav bar-->
+    <div id="mySidebar" class="sidebar">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+        <nav class = "nav">
+            <ul>
+                <li><a href="/html/index.html">Home</a></li>
+                <li><div class="dropdown">
+                    <button class="dropbtn"><a>Our Practice Areas</a></button>
+                    <div class="dropdown-content">
+                        <a href="/html/criminal-appeals.html">Criminal Appeals</a>
+                        <a href="/html/immigration.html">Immigration</a>
+                        <a href="/html/criminal-law.html">Criminal Law</a>
+                        <a href="/html/traffic-cases.html">Road Traffic Cases</a>
+                        <a href="/html/wills-probate.html">Wills And Probate</a>
+                        <a href="/html/arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+                        <a href="/html/restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+                    </div>
+                  </div></li>
+                <li><a href="/html/aboutUs.html">About Us</a></li>
+                <li><a href="/html/contact.html">Get In Touch</a></li>
+                <li><a href="/html/Our-Locations.html">Our Locations</a></li>
+            </ul>
+        </nav>
+      </div>
+
+      <script>
+      function openNav() {
+        document.getElementById("mySidebar").style.width = "250px";
+        document.getElementById("main").style.marginLeft = "250px";
+      }
+
+      function closeNav() {
+        document.getElementById("mySidebar").style.width = "0";
+        document.getElementById("main").style.marginLeft= "0";
+      }
+      </script>
+
+    <!-- Main Content -->
+    <div class="page-container fade-in-section">
+      <div class="content-container fade-in-section">
+        <h2 class="page-title">Where to find Us:</h2>
+        <p id="contact-text">We’re proud to serve clients across three key locations: our office in Sheffield, and additional branches in Birmingham and Bradford. Each office is staffed with dedicated legal professionals, ensuring extensive expert support and local knowledge wherever you are. No matter which location you visit, you’ll receive the same trusted, high-quality service we're known for.</p>
+
+        <!--Top half-->
+        <div class="top-half-container">
+            <style>
+                body {
+                  margin: 0;
+                  font-family: Arial, sans-serif;
+                }
+
+                .locations-container {
+                  padding: 0 40px;
+                  display: grid;
+                  grid-template-columns: repeat(3, 1fr);
+                  gap: 40px;
+                  width: 100%;
+                  box-sizing: border-box;
+                }
+
+                .location {
+                  display: flex;
+                  flex-direction: column;
+                  align-items: center;
+                }
+
+                .location h3 {
+                  margin-bottom: 15px;
+                  font-size: 1.2rem;
+                  text-align: center;
+                }
+
+                .map {
+                  width: 100%;
+                  height: 300px;
+                  border: none;
+                }
+
+                @media (max-width: 900px) {
+                  .locations-container {
+                    grid-template-columns: 1fr;
+                  }
+                }
+              </style>
+            </head>
+            <body>
+
+              <div class="locations-container fade-in-section">
+                <!-- Sheffield -->
+                <div class="location fade-in-section">
+                  <h3 id="location-title">Sheffield Office</h3>
+                  <div class="address">
+                    <p>16 Horton Square</p>
+                    <p>Highgate St</p>
+                    <p>Birmingham</p>
+                    <p>BD1 5BJ</p>
+                 </div>
+                  <iframe class="map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2371.746196705503!2d-1.4708553841591075!3d53.381128179996735!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487982c344e54b11%3A0x14321dd29ccf645e!2sSheffield!5e0!3m2!1sen!2suk!4v1614000000000"
+                    allowfullscreen=""
+                    loading="lazy">
+                  </iframe>
+                </div>
+
+                <!-- Birmingham -->
+                <div class="location fade-in-section">
+                  <h3 id="location-title">Birmingham Office</h3>
+                  <div class="address">
+                    <p>16 Horton Square</p>
+                    <p>Highgate St</p>
+                    <p>Birmingham</p>
+                    <p>BD1 5BJ</p>
+                 </div>
+                  <iframe class="map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2430.772416239701!2d-1.8944466232860309!3d52.46514897204681!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870bc7acd063e37%3A0x5f53e81f5a83beb9!2s16%20Horton%20Square%2C%20Birmingham%20B12%200YR!5e0!3m2!1sen!2suk!4v1743764899687!5m2!1sen!2suk"
+                    allowfullscreen=""
+                    loading="lazy">
+                  </iframe>
+                </div>
+
+                <!-- Bradford -->
+                <div class="location fade-in-section">
+                  <h3 id="location-title">Bradford Office</h3>
+                  <div class="address">
+                    <p>7a</p>
+                    <p>Burnett Street</p>
+                    <p>Bradford</p>
+                    <p>BD1 5BJ</p>
+                 </div>
+                  <iframe class="map"
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2356.672070826561!2d-1.748326823205741!3d53.79532387242293!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x487be145d1ad7cbb%3A0x232aaf65d4da529!2s7a%20Burnett%20St%2C%20Bradford%20BD1%205BJ!5e0!3m2!1sen!2suk!4v1743764773259!5m2!1sen!2suk"
+                    allowfullscreen=""
+                    loading="lazy">
+                  </iframe>
+                </div>
+              </div>
+
+
+        <div class="contact-container fade-in-section">
+          <!-- Left side - Contact Form -->
+          <section class="bg-white py-16 fade-in-section">
+            <div class="container mx-auto px-4">
+                <h2 id = "contact-title" class="text-3xl text-center mb-12 brand-pink">HOW CAN WE HELP? </h2>
+                <div id="contact-text">
+                    <p>Contact us and one of our advisors will be in touch to discuss your situation. We will take some initial information and if we can help, we will book you in for a consultation.</p>
+                    <p>Please provide as much information as possible so that your enquiry can be directed to the most appropriate department. Your enquiry will be treated in confidence, however we take the safety of your personal information serious, therefore please refrain from sending confidential information, such as full names of 3rd parties involved, address details etc.</p>
+                </div>
+                <div id="container">
+                    <div class="icon_wrapper">
+
+                    </div>
+                    <form id="contact_form">
+                      <div class="name">
+                        <label for="name"></label>
+                        <input type="text" placeholder="Full Name:" name="name" id="name_input" required>
+                      </div>
+                      <div class="email">
+                        <label for="email"></label>
+                        <input type="email" placeholder="E-mail:" name="email" id="email_input" required>
+                      </div>
+                      <div class="telephone">
+                        <label for="name"></label>
+                        <input type="text" placeholder="Phone Number:" name="telephone" id="telephone_input" required>
+                      </div>
+                      <div class="subject">
+                        <label for="subject"></label>
+                        <select placeholder="Subject line" name="subject" id="subject_input" required>
+                            <option disabled hidden selected>Subject line</option>
+                            <option>General Enquiries</option>
+                            <option>Criminal Appeal Enquiries</option>
+                            <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                            <option>Arrest, Search and Seizure of Property Enquiries</option>
+                            <option>Wills And Probate Enquiries</option>
+                            <option>Road Traffic Cases Enquiries</option>
+                            <option>Family Law Enquiries</option>
+                            <option>Immigration Law Enquiries</option>
+                        </select>
+                      </div>
+                      <div class="message">
+                        <label for="message"></label>
+                        <textarea name="message" placeholder="I'd like to chat about" id="message_input" cols="30" rows="5" required></textarea>
+                      </div>
+                      <div class="submit">
+                        <input type="submit" value="Send Message" id="form_button" />
+                      </div>
+                    </form><!-- // End form -->
+                  </div><!-- // End #container -->
+            </div>
+        </section>
+
+          <!-- Right side - Contact Information -->
+          <div class="contact-section contact-section-right fade-in-section">
+            <div class="contact-info-block">
+              <div>
+                <h3 class="contact-heading">Our Office</h3>
+                <p class="contact-text">
+                  16 Horton Square<br />
+                  Highgate, Birmingham<br />
+                  B12 0YR
+                </p>
+              </div>
+
+              <div>
+                <h3 class="contact-heading">Contact Details</h3>
+                <div class="contact-details">
+                  <p class="contact-detail">
+                    <span class="contact-icon">📞</span>
+                    0121 285 3211
+                  </p>
+                  <p class="contact-detail">
+                    <span class="contact-icon">📱</span>
+                    24/7 Direct: 07803 068687
+                  </p>
+                  <p class="contact-detail">
+                    <span class="contact-icon">✉️</span>
+                    info@haleys-solicitors.co.uk
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="contact-heading">Business Hours</h3>
+                <div class="business-hours">
+                  <p>Monday - Friday: 9:00 AM - 5:30 PM</p>
+                  <p>Saturday - Sunday: Closed</p>
+                  <p class="emergency-text">24/7 Emergency Contact Available</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>CONTACT US</h4>
+          <p>16 Horton Square, Highgate, Birmingham, B12 0YR</p>
+          <p>Phone: 0121 285 3211</p>
+          <p>Email: info@haleys-solicitors.co.uk</p>
+        </div>
+        <div class="footer-section">
+          <h4>KEY SERVICES</h4>
+          <ul class="key-services">
+            <li><a href="/html/criminal-appeals.html">Criminal Appeals</a></li>
+            <li><a href="/html/immigration.html">Immigration</a></li>
+            <li><a href="/html/criminal-law.html">Criminal Law</a></li>
+            <li><a href="/html/traffic-cases.html">Road Traffic Cases</a></li>
+            <li><a href="/html/wills-probate.html">Wills And Probate</a></li>
+            <li><a href="/html/arrest-search-seizure.html">Arrest, Search and Seizure of property</a></li>
+            <li><a href="/html/restraint-orders.html">Challenging Restraint and Freezing Orders</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>FOLLOW US ON OUR SOCIAL MEDIAS:</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/people/Haleys-Solicitors/pfbid02eyycUJzBz8kLSFLgmg55snWupLcpLKC3rrWBWmSXHfm4dkKC92fz6rbxaVzoYTpAl/"><img class="social-icon" src="/images/facebook.png" alt="Facebook"></a>
+            <a href="https://www.instagram.com/haleys.solicitors/"><img class="social-icon" src="/images/Insta.png" alt="Instagram"></a>
+            <a href="https://www.tiktok.com/@haleys.solicitors"><img class="social-icon" src="/images/tikTok.png" alt="TikTok"></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>QUICK LINKS</h4>
+          <ul class="quick-links">
+            <li><a href="/html/index.html">Home</a></li>
+            <li><a href="/html/aboutUs.html">About Us</a></li>
+            <li><a href="/html/contact.html">Contact</a></li>
+            <li><a href="/html/Our-Locations.html">Our Locations</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <!-- Mailhog Form Handler -->
+    <script src="/js/mailhog-form-handler.js"></script>
+    <!-- Scroll Animations -->
+    <script src="/js/scroll-animations.js"></script>
+    <!-- Popup Contact Form -->
+    <script src="/js/popup-contact.js"></script>
+  </body>
+</html>

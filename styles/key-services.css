@@ -1,0 +1,530 @@
+/* Common styles for all service pages */
+.page-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+h2, h3{
+    font-family: "bebas neue" ;
+    color: #7C2F84;
+    font-size: 1.3rem;
+}
+
+.page-container{
+    background: rgb(255, 255, 255);
+    background: linear-gradient(0deg, rgb(31, 41, 55) 5%, rgba(17,141,167,1) 15%, rgba(18,148,174,1) 32%, rgba(198,242,251,1) 43%, rgba(255,255,255,0.24695815826330536) 100%);
+}
+
+.content-container {
+    background-color: white;
+    border-radius: 12px;
+    padding: 30px;
+    margin-top: 20px;
+}
+
+/* Service title styling */
+.content-container h1 {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #7C2F84;
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2.5rem;
+    letter-spacing: 1px;
+}
+
+/* Main content box styling */
+.bg-white {
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease;
+}
+
+.bg-white:hover {
+    transform: translateY(-2px);
+}
+
+/* Service description text */
+.content-container p {
+    color: #4b5563;
+    line-height: 1.7;
+    font-family: 'Urbanist', sans-serif;
+    margin-bottom: 1.5rem;
+}
+
+/* Service features list */
+.content-container ul {
+    color: #4b5563;
+    font-family: 'Urbanist', sans-serif;
+    margin-left: 1.5rem;
+}
+
+.content-container ul li {
+    margin-bottom: 0.75rem;
+    line-height: 1.6;
+}
+
+/* Contact form section styling */
+#contact-title {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #7C2F84;
+}
+
+#contact-text {
+    text-align: center;
+    max-width: 700px;
+    margin: 0 auto 2rem;
+    color: #4b5563;
+    font-family: 'Urbanist', sans-serif;
+}
+
+/* Form container */
+#container {
+    max-width: 768px;
+    margin: 0 auto;
+    padding: 30px;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Form inputs styling */
+#contact_form input[type="text"],
+#contact_form input[type="email"],
+#contact_form select,
+#contact_form textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: 'Urbanist', sans-serif;
+    transition: border-color 0.3s ease;
+}
+
+#contact_form input:focus,
+#contact_form select:focus,
+#contact_form textarea:focus {
+    outline: none;
+    border-color: #7C2F84;
+    box-shadow: 0 0 0 2px rgba(91, 33, 182, 0.1);
+}
+
+/* Submit button styling */
+#form_button {
+    background-color: #7C2F84;
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 100%;
+}
+
+#form_button:hover {
+    background-color: #7C2F84;
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .page-container {
+        padding: 20px 10px;
+    }
+
+    .content-container {
+        padding: 20px;
+    }
+
+    .content-container h1 {
+        font-size: 2rem;
+    }
+
+    #container {
+        padding: 20px;
+    }
+}
+
+html {
+    font-family: 'Montserrat', Arial, sans-serif;
+    -ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+  }
+  
+  button {
+    overflow: visible;
+  }
+  
+  button, select {
+    text-transform: none;
+  }
+  
+  button, input, select, textarea {
+    color: #5A5A5A;
+    font: inherit;
+    margin: 0;
+  }
+  
+  input {
+    line-height: normal;
+  }
+  
+  textarea {
+    overflow: auto;
+  }
+  
+  #container {
+    border: solid 3px #474544;
+    max-width: 768px;
+    margin: 60px auto;
+    position: relative;
+  }
+  
+  form {
+    padding: 37.5px;
+    margin: 50px 0;
+  }
+  
+  .underline {
+    border-bottom: solid 2px #474544;
+    margin: -0.512em auto;
+    width: 80px;
+  }
+  
+  .icon_wrapper {
+    margin: 50px auto 0;
+    width: 100%;
+  }
+  
+  .icon {
+    display: block;
+    fill: #474544;
+    height: 50px;
+    margin: 0 auto;
+    width: 50px;
+  }
+  
+  .email {
+      float: right;
+      width: 45%;
+  }
+  
+  input[type='text'], [type='email'], select, textarea {
+      background: none;
+      border: none;
+      border-bottom: solid 2px #474544;
+      color: #474544;
+      font-size: 1.000em;
+      font-weight: 400;
+      letter-spacing: 1px;
+      margin: 0em 0 1.875em 0;
+      padding: 0 0 0.875em 0;
+      text-transform: uppercase;
+      width: 100%;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      -ms-box-sizing: border-box;
+      -o-box-sizing: border-box;
+      box-sizing: border-box;
+      -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+  }
+  
+  input[type='text']:focus, [type='email']:focus, textarea:focus {
+      outline: none;
+      padding: 0 0 0.875em 0;
+  }
+  
+  .message {
+      float: none;
+  }
+  
+  .name {
+      float: left;
+      width: 45%;
+  }
+  
+  select {
+    background: url('https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-ios7-arrow-down-32.png') no-repeat right;
+    outline: none;
+    appearance: none;
+    -webkit-appearance: none;
+  }
+  
+  select::-ms-expand {
+    display: none;
+  }
+  
+  .subject {
+    width: 100%;
+  }
+  
+  .telephone {
+    width: 100%;
+  }
+  
+  textarea {
+      line-height: 150%;
+      height: 150px;
+      resize: none;
+    width: 100%;
+  }
+  
+  ::-webkit-input-placeholder {
+      color: #474544;
+  }
+  
+  :-moz-placeholder { 
+      color: #474544;
+      opacity: 1;
+  }
+  
+  ::-moz-placeholder {
+      color: #474544;
+      opacity: 1;
+  }
+  
+  :-ms-input-placeholder {
+      color: #474544;
+  }
+  
+  #form_button {
+    background: none;
+    border: solid 2px #474544;
+    color: #474544;
+    cursor: pointer;
+    display: inline-block;
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 0.875em;
+    font-weight: bold;
+    outline: none;
+    padding: 20px 35px;
+    text-transform: uppercase;
+    -webkit-transition: all 0.3s;
+      -moz-transition: all 0.3s;
+      -ms-transition: all 0.3s;
+      -o-transition: all 0.3s;
+      transition: all 0.3s;
+  }
+  
+  #form_button:hover {
+    background: #474544;
+    color: #F2F3EB;
+  }
+  
+  @media screen and (max-width: 768px) {
+    #container {
+      margin: 20px auto;
+      width: 95%;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    h1 {
+      font-size: 26px;
+    }
+    
+    .underline {
+      width: 68px;
+    }
+    
+    #form_button {
+      padding: 15px 25px;
+    }
+  }
+  
+  @media screen and (max-width: 420px) {
+    h1 {
+      font-size: 18px;
+    }
+    
+    .icon {
+      height: 35px;
+      width: 35px;
+    }
+    
+    .underline {
+      width: 53px;
+    }
+    
+    input[type='text'], [type='email'], select, textarea {
+      font-size: 0.875em;
+    }
+  }
+/* Dropdown Button */
+.dropbtn {
+    background-color: #fcfcfc00;
+    color: #7C2F84;
+    border: none;
+    font-size: 1.2rem;
+    text-align: end;
+    color: black;
+  }
+  
+  /* The container <div> - needed to position the dropdown content */
+  .dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  /* Dropdown Content (Hidden by Default) */
+  .dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
+  }
+  
+  /* Links inside the dropdown */
+  .dropdown-content a {
+    color: black;
+    padding: 4px 8px;
+    text-decoration: none;
+    display: block;
+    font-size: 0.6rem;
+    border: #1f2937 1px;
+    font-family: "urbanist";
+  }
+  
+  /* Change color of dropdown links on hover */
+  .dropdown-content a:hover {background-color: #ddd;}
+  
+  /* Show the dropdown menu on hover */
+  .dropdown:hover .dropdown-content {display: block;}
+  
+
+.sidebar {
+    height: 100%;
+    width: 0%;
+    position: fixed;
+    z-index: 1;
+    top: 0px;
+    left: 0;
+    background-color: #312450f1;
+    color: black;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+    font-size: 1.2rem;
+  }
+
+.nav {
+    position: relative;
+    margin: 0 15%;
+    text-align: right;
+    top: 40%;
+    transform: translateY(-50%);
+    color: black;
+  }
+
+.nav ul {
+    list-style: none;
+    color: black;
+}
+  
+.sidebar ul li {
+      margin: 3.2em 0;
+      color: black;
+}
+
+.sidebar ul li a {
+    line-height: 3em;
+    text-transform: uppercase;
+    text-decoration: none;
+    letter-spacing: 0.4em;
+    color: white;
+    display: block;
+    transition: all ease-out 300ms;
+}
+    
+
+.nav .dropdown-content a{
+    color: black;
+}
+      
+.sidebar ul li:not(.active)::after {
+    opacity: 0.2;
+}
+
+.sidebar a:hover {
+    color: #7C2F84;
+  }
+      
+.sidebar ul li:not(.active):hover a {
+        color: rgba(#FFF, 0.75);
+      }
+      
+.sidebar ul li.active::after {
+    content: '';
+    width: 100%;
+    height: 0.2em;
+    background: black;
+    left: 0;
+    bottom: 0;
+    background-image: linear-gradient(to right, #5e42a6, #b74e91)
+    }
+
+  
+  .sidebar .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    z-index: -1;
+  }
+  
+  .openbtn {
+    font-size: 20px;
+    cursor: pointer;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+  }
+  
+  
+  #main {
+    transition: margin-left .5s;
+    padding: 16px;
+  }
+  
+  /* On smaller screens, where height is less than 450px, change the style of the sidenav (less padding and a smaller font size) */
+  @media screen and (max-height: 450px) {
+    .sidebar {padding-top: 15px;}
+    .sidebar a {font-size: 18px;}
+  }
+
+/* Container to center everything */
+
+
+/* Grid setup with 5 equal columns */
+.grid {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(3, 1fr);  /* 5 equal columns */
+    grid-template-rows: repeat(10, auto);   /* 10 rows */
+    list-style-type: disc;
+}
+
+.grid li:hover{
+    color: #7C2F84;
+    font-size: large;
+}
+
+.grid li{
+    padding-left: 10px; /* Indentation for bullet points */
+    padding-right: 10px;
+    line-height: 1.5;
+    }
+
+#center{
+    text-align: center;
+}

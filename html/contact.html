@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Haley's Solicitors</title>
+    <link rel="stylesheet" href="/styles/contact.css">
+    <link rel="stylesheet" href="/styles/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@300&display=swap');
+    </style>
+  </head>
+  <body>
+    <!-- Popup Contact Form Overlay -->
+    <div id="contact-popup-overlay" class="popup-overlay">
+      <div class="popup-content">
+        <span class="popup-close">&times;</span>
+        <div class="popup-form">
+          <h2>Contact Us</h2>
+          <p>Need legal assistance? Fill out this form and we'll get back to you quickly.</p>
+          <form id="popup_contact_form">
+            <div class="form-group">
+              <input type="text" placeholder="Full Name" name="name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Email Address" name="email" required>
+            </div>
+            <div class="form-group">
+              <input type="tel" placeholder="Phone Number" name="phone" required>
+            </div>
+            <div class="form-group">
+              <select name="subject" required>
+                <option value="" disabled selected>Select Service</option>
+                <option>General Enquiries</option>
+                <option>Criminal Appeal Enquiries</option>
+                <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                <option>Arrest, Search and Seizure of Property Enquiries</option>
+                <option>Wills And Probate Enquiries</option>
+                <option>Road Traffic Cases Enquiries</option>
+                <option>Family Law Enquiries</option>
+                <option>Immigration Law Enquiries</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <textarea name="message" placeholder="How can we help you?" rows="3" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
+        <!-- Top Navbar -->
+        <nav class="top-navbar">
+          <div class="container mx-auto px-4 flex justify-end">
+              <div class="nav-links">
+                  <a href="/html/contact.html">Contact Us</a>
+                  <a href="/html/aboutUs.html">About Us</a>
+                  <a href="/html/Our-Locations.html">Our Locations</a>
+              </div>
+          </div>
+      </nav>
+
+      <!-- Contact Navbar -->
+      <nav class="contact-navbar">
+          <div class="nav-container">
+              <div class = "nav-toggle">
+                  <a class="openbtn" onclick="openNav()" ><img id = "toggle" src="/images/toggle.png"></a>
+              </div>
+
+              <div class="logo" id="haleys-logo">
+                  <a href="/html/index.html"><img src="/images/haleys-logo-purple.png"></a>
+              </div>
+
+              <div id = "numbers-container">
+                  <h2 class="phone-number"><em>CALL US NOW ON: </em>  0121 285 3211 </h2>
+                  <h2 class='phone-number'><em>24 HOUR DIRECT LINE: </em>  07803 068687 / 07714 487966</h2>
+              </div>
+          </div>
+      </nav>
+
+      <!--side nav bar-->
+      <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+          <nav class = "nav">
+              <ul>
+                  <li class="active"><a href="index.html">Home</a></li>
+                  <li><div class="dropdown">
+                      <button class="dropbtn"><a>Our Practice Areas</a></button>
+                      <div class="dropdown-content">
+                          <a href="/html/criminal-appeals.html">Criminal Appeals</a>
+                          <a href="/html/immigration.html">Immigration</a>
+                          <a href="/html/criminal-law.html">Criminal Law</a>
+                          <a href="/html/traffic-cases.html">Road Traffic Cases</a>
+                          <a href="/html/wills-probate.html">Wills And Probate</a>
+                          <a href="/html/arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+                          <a href="/html/restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+                      </div>
+                    </div></li>
+                  <li><a href="/html/aboutUs.html">About Us</a></li>
+                  <li><a href="/html/contact.html">Get In Touch</a></li>
+                  <li><a href="/html/Our-Locations.html">Our Locations</a></li>
+              </ul>
+          </nav>
+        </div>
+
+        <script>
+          function openNav() {
+              document.getElementById("mySidebar").style.width = "250px";
+              document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+          }
+
+          function closeNav() {
+              document.getElementById("mySidebar").style.width = "0";
+              document.body.style.backgroundColor = "white";
+          }
+
+          // Close the sidebar when clicking outside
+          document.addEventListener('click', function(event) {
+              const sidebar = document.getElementById('mySidebar');
+              const toggleBtn = document.querySelector('.openbtn');
+
+              if (sidebar.style.width === "250px" &&
+                  !sidebar.contains(event.target) &&
+                  event.target !== toggleBtn &&
+                  !toggleBtn.contains(event.target)) {
+                  closeNav();
+              }
+          });
+
+          // Add touch event support for mobile
+          document.addEventListener('touchstart', function(event) {
+              const sidebar = document.getElementById('mySidebar');
+              const toggleBtn = document.querySelector('.openbtn');
+
+              if (sidebar.style.width === "250px" &&
+                  !sidebar.contains(event.target) &&
+                  event.target !== toggleBtn &&
+                  !toggleBtn.contains(event.target)) {
+                  closeNav();
+              }
+          });
+      </script>
+
+    <!-- Main Content -->
+    <div class="page-container">
+      <div class="content-container">
+        <h2 class="page-title">Contact Us</h2>
+
+        <div class="contact-container fade-in-section">
+          <!-- Left side - Contact Form -->
+          <section class="bg-white py-16 fade-in-section">
+            <div class="container mx-auto px-4">
+                <h2 id = "contact-title" class="text-3xl text-center mb-12 brand-pink">HOW CAN WE HELP? </h2>
+                <div id="contact-text">
+                    <p>Contact us and one of our advisors will be in touch to discuss your situation. We will take some initial information and if we can help, we will book you in for a consultation.</p>
+                    <p>Please provide as much information as possible so that your enquiry can be directed to the most appropriate department. Your enquiry will be treated in confidence, however we take the safety of your personal information serious, therefore please refrain from sending confidential information, such as full names of 3rd parties involved, address details etc.</p>
+                </div>
+                <div id="container">
+                    <div class="icon_wrapper">
+
+                    </div>
+                    <form id="contact_form">
+                      <div class="name">
+                        <label for="name"></label>
+                        <input type="text" placeholder="Full Name:" name="name" id="name_input" required>
+                      </div>
+                      <div class="email">
+                        <label for="email"></label>
+                        <input type="email" placeholder="E-mail:" name="email" id="email_input" required>
+                      </div>
+                      <div class="telephone">
+                        <label for="name"></label>
+                        <input type="text" placeholder="Phone Number:" name="telephone" id="telephone_input" required>
+                      </div>
+                      <div class="subject">
+                        <label for="subject"></label>
+                        <select placeholder="Subject line" name="subject" id="subject_input" required>
+                            <option disabled hidden selected>Subject line</option>
+                            <option>General Enquiries</option>
+                            <option>Criminal Appeal Enquiries</option>
+                            <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                            <option>Arrest, Search and Seizure of Property Enquiries</option>
+                            <option>Wills And Probate Enquiries</option>
+                            <option>Road Traffic Cases Enquiries</option>
+                            <option>Family Law Enquiries</option>
+                            <option>Immigration Law Enquiries</option>
+                        </select>
+                      </div>
+                      <div class="message">
+                        <label for="message"></label>
+                        <textarea name="message" placeholder="I'd like to chat about" id="message_input" cols="30" rows="5" required></textarea>
+                      </div>
+                      <div class="submit">
+                        <input type="submit" value="Send Message" id="form_button" />
+                      </div>
+                    </form><!-- // End form -->
+                  </div><!-- // End #container -->
+                   <!-- Location Section -->
+                <section class="location-section fade-in-section">
+                  <h2>Where to find Us:</h2>
+                  <iframe id="map" src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2430.763829562057!2d-1.894536223286005!3d52.465304472046896!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x4870bdc57c3bb759%3A0xd71e662ded9aa1a!2sHaleys%20Solicitors!5e0!3m2!1sen!2suk!4v1743761308358!5m2!1sen!2suk" width="600" height="450" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </section>
+            </div>
+        </section>
+
+          <!-- Right side - Contact Information -->
+          <div class="contact-section contact-section-right fade-in-section">
+            <div class="contact-info-block">
+              <div>
+                <h3 class="contact-heading">Our Office</h3>
+                <p class="contact-text">
+                  16 Horton Square<br />
+                  Highgate, Birmingham<br />
+                  B12 0YR
+                </p>
+              </div>
+
+              <div>
+                <h3 class="contact-heading">Contact Details</h3>
+                <div class="contact-details">
+                  <p class="contact-detail">
+                    <span class="contact-icon">📞</span>
+                    0121 285 3211
+                  </p>
+                  <p class="contact-detail">
+                    <span class="contact-icon">📱</span>
+                    24/7 Direct: 07803 068687
+                  </p>
+                  <p class="contact-detail">
+                    <span class="contact-icon">✉️</span>
+                    info@haleys-solicitors.co.uk
+                  </p>
+                </div>
+              </div>
+
+              <div>
+                <h3 class="contact-heading">Business Hours</h3>
+                <div class="business-hours">
+                  <p>Monday - Friday: 9:00 AM - 5:30 PM</p>
+                  <p>Saturday - Sunday: Closed</p>
+                  <p class="emergency-text">24/7 Emergency Contact Available</p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+      <div class="footer-container">
+        <div class="footer-section">
+          <h4>CONTACT US</h4>
+          <p>16 Horton Square, Highgate, Birmingham, B12 0YR</p>
+          <p>Phone: 0121 285 3211</p>
+          <p>Email: info@haleys-solicitors.co.uk</p>
+        </div>
+        <div class="footer-section">
+          <h4>KEY SERVICES</h4>
+          <ul class="key-services">
+            <li><a href="/html/criminal-appeals.html">Criminal Appeals</a></li>
+            <li><a href="/html/immigration.html">Immigration</a></li>
+            <li><a href="/html/criminal-law.html">Criminal Law</a></li>
+            <li><a href="/html/traffic-cases.html">Road Traffic Cases</a></li>
+            <li><a href="/html/wills-probate.html">Wills And Probate</a></li>
+            <li><a href="/html/arrest-search-seizure.html">Arrest, Search and Seizure of property</a></li>
+            <li><a href="/html/restraint-orders.html">Challenging Restraint and Freezing Orders</a></li>
+          </ul>
+        </div>
+        <div class="footer-section">
+          <h4>FOLLOW US ON OUR SOCIAL MEDIAS:</h4>
+          <div class="social-links">
+            <a href="https://www.facebook.com/people/Haleys-Solicitors/pfbid02eyycUJzBz8kLSFLgmg55snWupLcpLKC3rrWBWmSXHfm4dkKC92fz6rbxaVzoYTpAl/"><img class="social-icon" src="/images/facebook.png" alt="Facebook"></a>
+            <a href="https://www.instagram.com/haleys.solicitors/"><img class="social-icon" src="/images/Insta.png" alt="Instagram"></a>
+            <a href="https://www.tiktok.com/@haleys.solicitors"><img class="social-icon" src="/images/tikTok.png" alt="TikTok"></a>
+          </div>
+        </div>
+        <div class="footer-section">
+          <h4>QUICK LINKS</h4>
+          <ul class="quick-links">
+            <li><a href="/html/index.html">Home</a></li>
+            <li><a href="/html/aboutUs.html">About Us</a></li>
+            <li><a href="/html/contact.html">Contact</a></li>
+            <li><a href="/html/Our-Locations.html">Our Locations</a></li>
+          </ul>
+        </div>
+      </div>
+    </footer>
+    <!-- Mailhog Form Handler -->
+    <script src="/js/mailhog-form-handler.js"></script>
+    <!-- Scroll Animations -->
+    <script src="/js/scroll-animations.js"></script>
+    <!-- Popup Contact Form -->
+    <script src="/js/popup-contact.js"></script>
+  </body>
+</html>
