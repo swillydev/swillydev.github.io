@@ -1613,15 +1613,20 @@ textarea {
 
 @media (max-width: 768px) {
   .carousel-track {
-    grid-auto-columns: 100%; /* Show 1 card */
-    gap: 2rem; /* Keep the gap consistent */
+    grid-auto-columns: 100%; /* Slightly smaller than 100% to show next card */
+    gap: 2rem; /* Specific gap for mobile */
   }
   
-  .carousel-container {
-    padding: 0 30px;
+  /* Ensure cards don't collapse */
+  .testimonial-card {
+    min-width: 100%; /* Ensure card takes full width of its grid column */
+    width: 150px;
+    margin: 0; /* Reset any existing margins */
   }
 
-  .testimonial-card {
-    width: 100%;
+  .carousel-button:disabled {
+    opacity: 0;
+    cursor: not-allowed;
   }
 }
+
