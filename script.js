@@ -4,67 +4,61 @@ document.addEventListener('DOMContentLoaded', () => {
     const nextButton = document.querySelector('.carousel-button.next');
     const cards = document.querySelectorAll('.testimonial-card');
     
-    // Create intersection observer for testimonial cards
-    const testimonialObserver = new IntersectionObserver(
-        (entries) => {
-            entries.forEach((entry) => {
-                if (entry.isIntersecting) {
-                    entry.target.classList.add('fade-in-visible');
-                } else {
-                    // Optional: remove the class when card slides out of view
-                    entry.target.classList.remove('fade-in-visible');
-                }
-            });
-        },
-        {
-            threshold: 0.3, // Card becomes visible when 30% is in view
-            root: track, // Observer works within the carousel track
-            rootMargin: '0px'
-        }
-    );
-
-    // Observe each testimonial card
-    cards.forEach(card => {
-        card.classList.add('fade-in-section');
-        testimonialObserver.observe(card);
-    });
-
+    // Calculate number of cards to show based on screen width
+    const getVisibleCards = () => {
+      if (window.innerWidth <= 768) return 1;
+      if (window.innerWidth <= 1024) return 2;
+      return 3;
+    };
+  
     let currentIndex = 0;
-    const cardWidth = track.offsetWidth / 3; // Show 3 cards at a time
-    const maxIndex = cards.length - 3; // Maximum scroll position
     
-    function updateButtons() {
+    const updateButtons = () => {
+      const visibleCards = getVisibleCards();
+      const maxIndex = cards.length - visibleCards;
+      
       prevButton.disabled = currentIndex === 0;
-      nextButton.disabled = currentIndex === maxIndex;
-    }
-    
-    function scrollToIndex(index) {
+      nextButton.disabled = currentIndex >= maxIndex;
+      
+      prevButton.style.opacity = prevButton.disabled ? '0.5' : '1';
+      nextButton.style.opacity = nextButton.disabled ? '0.5' : '1';
+    };
+  
+    const scrollToIndex = (index) => {
+      const visibleCards = getVisibleCards();
+      const maxIndex = cards.length - visibleCards;
       currentIndex = Math.max(0, Math.min(index, maxIndex));
+      
+      const cardWidth = track.offsetWidth / visibleCards;
       track.scrollTo({
-        left: currentIndex * cardWidth,
+        left: currentIndex * (cardWidth + 32), // 32px is the gap
         behavior: 'smooth'
       });
+      
       updateButtons();
-    }
-    
+    };
+  
     prevButton.addEventListener('click', () => {
       scrollToIndex(currentIndex - 1);
     });
-    
+  
     nextButton.addEventListener('click', () => {
       scrollToIndex(currentIndex + 1);
     });
-    
-    // Initialize button states
-    updateButtons();
-    
-    // Update card width on window resize
+  
+    // Update on window resize
+    let resizeTimeout;
     window.addEventListener('resize', () => {
-      const newCardWidth = track.offsetWidth / 3;
-      scrollToIndex(currentIndex); // Maintain current position
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        currentIndex = 0;
+        scrollToIndex(0);
+      }, 100);
     });
+  
+    // Initialize
+    updateButtons();
   });
-
   // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
   // Sidebar functionality
