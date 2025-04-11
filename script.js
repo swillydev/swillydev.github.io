@@ -1,72 +1,64 @@
 document.addEventListener('DOMContentLoaded', () => {
-  const track = document.querySelector('.carousel-track');
-  const prevButton = document.querySelector('.carousel-button.prev');
-  const nextButton = document.querySelector('.carousel-button.next');
-  const cards = document.querySelectorAll('.testimonial-card');
+    const track = document.querySelector('.carousel-track');
+    const prevButton = document.querySelector('.carousel-button.prev');
+    const nextButton = document.querySelector('.carousel-button.next');
+    const cards = document.querySelectorAll('.testimonial-card');
+    
+    // Calculate number of cards to show based on screen width
+    const getVisibleCards = () => {
+      if (window.innerWidth <= 768) return 1;
+      if (window.innerWidth <= 1024) return 2;
+      return 3;
+    };
   
-  // Calculate number of cards to show based on screen width
-  const getVisibleCards = () => {
-    if (window.innerWidth <= 768) return 1;
-    if (window.innerWidth <= 1024) return 2;
-    return 3;
-  };
-
-  let currentIndex = 0;
+    let currentIndex = 0;
+    
+    const updateButtons = () => {
+      const visibleCards = getVisibleCards();
+      const maxIndex = cards.length - visibleCards;
+      
+      prevButton.disabled = currentIndex === 0;
+      nextButton.disabled = currentIndex >= maxIndex;
+      
+      prevButton.style.opacity = prevButton.disabled ? '0.5' : '1';
+      nextButton.style.opacity = nextButton.disabled ? '0.5' : '1';
+    };
   
-  const updateButtons = () => {
-    const visibleCards = getVisibleCards();
-    const maxIndex = cards.length - visibleCards;
-    
-    prevButton.disabled = currentIndex === 0;
-    nextButton.disabled = currentIndex >= maxIndex;
-    
-    prevButton.style.opacity = prevButton.disabled ? '0.5' : '1';
-    nextButton.style.opacity = nextButton.disabled ? '0.5' : '1';
-  };
-
-  const scrollToIndex = (index) => {
-    const visibleCards = getVisibleCards();
-    const maxIndex = cards.length - visibleCards;
-    currentIndex = Math.max(0, Math.min(index, maxIndex));
-    
-    // Calculate card width including gap
-    const gapWidth = 32; // 2rem gap
-    const containerWidth = track.offsetWidth;
-    const cardWidth = containerWidth / visibleCards;
-    
-    // Calculate total width of a card including its gap
-    const cardTotalWidth = cardWidth + gapWidth;
-    
-    // Scroll to the target card
-    track.scrollTo({
-      left: currentIndex * cardTotalWidth,
-      behavior: 'smooth'
+    const scrollToIndex = (index) => {
+      const visibleCards = getVisibleCards();
+      const maxIndex = cards.length - visibleCards;
+      currentIndex = Math.max(0, Math.min(index, maxIndex));
+      
+      const cardWidth = track.offsetWidth / visibleCards;
+      track.scrollTo({
+        left: currentIndex * (cardWidth + 32), // 32px is the gap
+        behavior: 'smooth'
+      });
+      
+      updateButtons();
+    };
+  
+    prevButton.addEventListener('click', () => {
+      scrollToIndex(currentIndex - 1);
     });
-    
+  
+    nextButton.addEventListener('click', () => {
+      scrollToIndex(currentIndex + 1);
+    });
+  
+    // Update on window resize
+    let resizeTimeout;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimeout);
+      resizeTimeout = setTimeout(() => {
+        currentIndex = 0;
+        scrollToIndex(0);
+      }, 100);
+    });
+  
+    // Initialize
     updateButtons();
-  };
-
-  prevButton.addEventListener('click', () => {
-    scrollToIndex(currentIndex - 1);
   });
-
-  nextButton.addEventListener('click', () => {
-    scrollToIndex(currentIndex + 1);
-  });
-
-  // Update on window resize
-  let resizeTimeout;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimeout);
-    resizeTimeout = setTimeout(() => {
-      currentIndex = 0;
-      scrollToIndex(0);
-    }, 100);
-  });
-
-  // Initialize
-  updateButtons();
-});
   // Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', function() {
   // Sidebar functionality
