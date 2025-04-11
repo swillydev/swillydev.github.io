@@ -756,25 +756,29 @@ body {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   padding: 0 60px;
 }
 
 .carousel-track {
-  display: flex;
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 4rem) / 3);
   gap: 2rem;
-  overflow: hidden;
+  overflow-x: auto;
   scroll-behavior: smooth;
-  padding: 2rem 2rem;
-  width: 100%;
+  padding: 2rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-snap-type: x mandatory;
 }
 
+/* Add scroll-snap-align to testimonial cards */
 .testimonial-card {
-  flex: 0 0 calc((100% - 4rem) / 3);
+  scroll-snap-align: center;
   min-width: 300px;
+  height: 100%;
   position: relative;
-  overflow: hidden;
-  margin: 0;
   color: #000000;
   text-align: center;
   font-size: 16px;
@@ -782,8 +786,7 @@ body {
   padding: 30px;
   background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
   box-sizing: border-box;
-  /* Modify transition to include opacity and transform */
-  transition: transform 0.3s ease, opacity 0.8s ease-out;
+  transition: transform 0.3s ease;
 }
 
 /* Add specific fade-in animations for testimonial cards */
@@ -868,9 +871,7 @@ body {
   box-shadow: inset -1.4px -1.4px 2px rgba(0, 0, 0, 0.3);
   text-align: center;
   position: relative;
-  /* Remove overflow-y to prevent scrolling */
   overflow: hidden;
-  /* Add these properties for text fitting */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1394,7 +1395,7 @@ textarea {
   }
 
   .carousel-container {
-      padding: 0 30px;
+      padding: 30px 30px;
   }
 
   .form-grid {
@@ -1442,7 +1443,7 @@ textarea {
     line-height: 80px;
   }
 
-/* Update testimonials section styles */
+ /* Update testimonials section styles */
 .testimonials-section {
   margin: 2rem 0;
   overflow: hidden;
@@ -1464,7 +1465,7 @@ textarea {
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 2rem;
   padding: 0 60px;
 }
 
@@ -1478,6 +1479,7 @@ textarea {
   padding: 2rem;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  scroll-snap-type: x mandatory;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -1485,6 +1487,7 @@ textarea {
 }
 
 .testimonial-card {
+  scroll-snap-align: start;
   min-width: 300px;
   height: 100%;
   position: relative;
@@ -1608,6 +1611,7 @@ textarea {
 @media (max-width: 1024px) {
   .carousel-track {
     grid-auto-columns: calc((100% - 2rem) / 2); /* Show 2 cards */
+    gap: 2rem
   }
 }
 
@@ -1621,6 +1625,7 @@ textarea {
   .testimonial-card {
     min-width: 100%; /* Ensure card takes full width of its grid column */
     width: 150px;
+    gap:2rem;
     margin: 0; /* Reset any existing margins */
   }
 
@@ -1630,3 +1635,9 @@ textarea {
   }
 }
 
+/* Ensure smooth scrolling on iOS */
+@supports (-webkit-touch-callout: none) {
+  .carousel-track {
+    -webkit-overflow-scrolling: touch;
+  }
+}
