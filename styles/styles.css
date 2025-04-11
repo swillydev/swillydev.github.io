@@ -1442,10 +1442,20 @@ textarea {
     line-height: 80px;
   }
 
-  /* Update testimonials section styles */
+ /* Update testimonials section styles */
 .testimonials-section {
   margin: 2rem 0;
   overflow: hidden;
+}
+
+.testimonials-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #7C2F84;
+  font-family: "Bebas Neue";
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.6rem;
 }
 
 .carousel-container {
@@ -1468,6 +1478,7 @@ textarea {
   padding: 2rem;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
+  scroll-snap-type: x mandatory;
 }
 
 .carousel-track::-webkit-scrollbar {
@@ -1475,6 +1486,7 @@ textarea {
 }
 
 .testimonial-card {
+  scroll-snap-align: start;
   min-width: 300px;
   height: 100%;
   position: relative;
@@ -1488,6 +1500,112 @@ textarea {
   transition: transform 0.3s ease;
 }
 
+.testimonial-card *,
+.testimonial-card *:before,
+.testimonial-card *:after {
+  box-sizing: border-box;
+  transition: all 0.5s ease;
+}
+
+.testimonial-card figcaption {
+  width: 100%;
+}
+
+.testimonial-card h2,
+.testimonial-card h4,
+.testimonial-card blockquote {
+  margin: 0;
+}
+
+.testimonial-card h2,
+.testimonial-card h4 {
+  font-weight: 300;
+}
+
+.testimonial-card h2 {
+  color: #ffffff;
+}
+
+.testimonial-card h4 {
+  color: #a6a6a6;
+}
+
+.testimonial-card blockquote {
+  font-size: 0.9em;
+  padding: 15px 30px;
+  margin-top: 20px;
+  height: 250px;
+  background-color: #ffffff;
+  border-radius: 5px;
+  box-shadow: inset -1.4px -1.4px 2px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: "urbanist";
+}
+
+.testimonial-card blockquote:before {
+  font-family: "Bebas Neue";
+  content: "\201C";
+  position: absolute;
+  font-size: 0.95rem;
+  opacity: 1.0;
+  color: #7C2F84;
+  font-style: normal;
+  top: -35px;
+  left: 0;
+}
+
+.testimonial-card .profile {
+  width: 100px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 3px 3px 20px rgba(0, 0, 0, 0.4);
+  margin-bottom: 10px;
+  border: solid 5px #7C2F84;
+}
+
+.carousel-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 1;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.carousel-button:hover {
+  background-color: #f0f0f0;
+  border-color: #7C2F84;
+  color: #7C2F84;
+}
+
+.carousel-button.prev {
+  left: 0;
+}
+
+.carousel-button.next {
+  right: 0;
+}
+
+.carousel-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
 /* Responsive grid adjustments */
 @media (max-width: 1024px) {
   .carousel-track {
@@ -1498,9 +1616,14 @@ textarea {
 @media (max-width: 768px) {
   .carousel-track {
     grid-auto-columns: 100%; /* Show 1 card */
+    gap: 0;
   }
   
   .carousel-container {
     padding: 0 30px;
+  }
+
+  .testimonial-card {
+    width: 100%;
   }
 }
