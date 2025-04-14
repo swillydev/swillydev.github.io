@@ -364,15 +364,12 @@
       // Simple direct toggle function for mobile menu
       function toggleMobileMenu() {
           const mobileMenu = document.getElementById('mobileMenu');
-          const mobileOverlay = document.getElementById('mobileOverlay');
 
           if (mobileMenu.classList.contains('open')) {
               mobileMenu.classList.remove('open');
-              mobileOverlay.classList.remove('show');
               document.body.style.overflow = ''; // Restore scrolling
           } else {
               mobileMenu.classList.add('open');
-              mobileOverlay.classList.add('show');
               document.body.style.overflow = 'hidden'; // Prevent background scrolling
           }
       }
@@ -383,10 +380,8 @@
           if (isMobile()) {
               // Mobile behavior
               const mobileMenu = document.getElementById("mobileMenu");
-              const mobileOverlay = document.getElementById("mobileOverlay");
 
               mobileMenu.classList.add("open");
-              mobileOverlay.classList.add("show");
               document.body.style.overflow = "hidden"; // Prevent background scrolling
 
               console.log('Mobile menu opened');
@@ -419,10 +414,7 @@
 
               // Only close if it's open
               if (mobileMenu.classList.contains("open")) {
-                  const mobileOverlay = document.getElementById("mobileOverlay");
-
                   mobileMenu.classList.remove("open");
-                  mobileOverlay.classList.remove("show");
                   document.body.style.overflow = ""; // Restore scrolling
 
                   console.log('Mobile menu closed');
