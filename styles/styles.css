@@ -1,11 +1,20 @@
 body {
-    font-family: "hiragino sans"
+    font-family: "hiragino sans";
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
 #hero {
   min-height: 600px; /* Set minimum height */
   position: relative;
   overflow: hidden;
   margin-bottom: 2rem; /* Add margin to prevent overlap */
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
 }
 
 .video-container {
@@ -323,6 +332,8 @@ body {
   max-width: 1800px;
   margin: 0 auto;
   padding: 0 1rem;
+  box-sizing: border-box;
+  overflow-x: hidden;
 }
 
 /* Practice area cards */
@@ -703,10 +714,12 @@ body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    width: 99vw;
+    width: 100%; /* Changed from 99vw to 100% to prevent overflow */
     height: 700px;
     position: absolute;
     padding-bottom: 4rem; /* Added padding at the bottom */
+    left: 0;
+    right: 0;
 }
 
 .video-container video {

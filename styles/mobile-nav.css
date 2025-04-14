@@ -1,0 +1,245 @@
+/* Mobile Navigation Styles */
+
+/* Prevent horizontal scrolling on mobile */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+/* Make toggle button clickable outside of media query */
+.nav-toggle {
+  display: flex;
+  align-items: center;
+}
+
+.openbtn {
+  cursor: pointer;
+  padding: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(124, 47, 132, 0.1);
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.openbtn:hover, .openbtn:active {
+  background-color: rgba(124, 47, 132, 0.2);
+}
+
+#toggle {
+  width: 24px;
+  height: 24px;
+}
+
+/* Mobile dropdown menu */
+.mobile-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  width: 100%; /* Ensure it's exactly 100% width */
+  max-width: 100%; /* Prevent overflow */
+  background-color: #312450f1;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  box-sizing: border-box; /* Include padding in width calculation */
+}
+
+.mobile-menu.open {
+  display: block;
+  max-height: 80vh;
+  overflow-y: auto;
+  padding: 10px 0;
+}
+
+.mobile-menu-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mobile-menu-item {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.mobile-menu-item:last-child {
+  border-bottom: none;
+}
+
+.mobile-menu-link {
+  color: white;
+  font-size: 1rem;
+  padding: 15px 20px;
+  display: block;
+  text-decoration: none;
+  font-family: "Bebas Neue", sans-serif;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words if needed */
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.mobile-menu-dropdown {
+  position: relative;
+}
+
+.mobile-menu-dropdown-toggle {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1rem;
+  padding: 15px 20px;
+  text-align: left;
+  cursor: pointer;
+  font-family: "Bebas Neue", sans-serif;
+}
+
+.mobile-menu-dropdown-toggle::after {
+  content: '▼';
+  font-size: 0.7rem;
+  transition: transform 0.2s ease;
+}
+
+.mobile-menu-dropdown-toggle.active::after {
+  transform: rotate(180deg);
+}
+
+.mobile-menu-dropdown-content {
+  display: none;
+  background-color: rgba(0, 0, 0, 0.2);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.mobile-menu-dropdown-content.show {
+  display: block;
+}
+
+.mobile-menu-dropdown-content a {
+  color: rgba(255, 255, 255, 0.8);
+  padding: 12px 20px 12px 40px;
+  display: block;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-family: "Urbanist", sans-serif;
+  white-space: normal; /* Allow text to wrap */
+  word-wrap: break-word; /* Break long words if needed */
+  box-sizing: border-box;
+}
+
+.mobile-menu-close {
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  font-size: 24px;
+  color: white;
+  background: none;
+  border: none;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Mobile sidebar styles - keep for compatibility */
+@media screen and (max-width: 768px) {
+  .sidebar {
+    display: none; /* Hide the original sidebar on mobile */
+  }
+
+  /* Dropdown styles for mobile */
+  .dropdown-content {
+    position: static;
+    background-color: transparent;
+    box-shadow: none;
+    width: 100%;
+    padding-left: 15px;
+    display: none;
+  }
+
+  .dropdown-content.show {
+    display: block;
+  }
+
+  .dropdown-content a {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+    padding: 8px 0;
+  }
+
+  .dropbtn {
+    width: 100%;
+    text-align: left;
+    padding: 8px 0;
+    color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .dropbtn::after {
+    content: '▼';
+    font-size: 0.7rem;
+    margin-left: 5px;
+  }
+
+  .dropdown {
+    width: 100%;
+  }
+
+  /* Mobile toggle button */
+  .nav-toggle {
+    display: flex;
+    align-items: center;
+  }
+
+  .openbtn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1001;
+    position: relative;
+  }
+
+  #toggle {
+    width: 24px;
+    height: 24px;
+    display: block;
+  }
+
+  /* Overlay for mobile */
+  .mobile-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+    display: none;
+  }
+
+  .mobile-overlay.show {
+    display: block;
+  }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 480px) {
+  .sidebar ul li {
+    margin: 1em 0;
+  }
+
+  .sidebar a, .dropdown-content a {
+    font-size: 0.9rem;
+  }
+}

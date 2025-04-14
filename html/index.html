@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="/styles/styles.css">
     <link rel="stylesheet" href="/styles/animations.css">
+    <link rel="stylesheet" href="/styles/mobile-nav.css">
     <script type="module" src="/script.js"></script>
     <script src="/js/scroll-animations.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
@@ -72,7 +73,7 @@
     <nav class="contact-navbar">
         <div class="nav-container">
             <div class = "nav-toggle">
-                <a class="openbtn" onclick="openNav()" ><img id = "toggle" src="../images/toggle.png"></a>
+                <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()"><img id = "toggle" src="../images/toggle.png"></a>
             </div>
 
             <div class="logo" id="haleys-logo">
@@ -93,7 +94,7 @@
             <ul>
                 <li class="active"><a href="index.html">Home</a></li>
                 <li><div class="dropdown">
-                    <button class="dropbtn"><a>Our Practice Areas</a></button>
+                    <button class="dropbtn"><a>Our Practice Areas</a><span class="dropdown-arrow"></span></button>
                     <div class="dropdown-content">
                         <a href="criminal-appeals.html">Criminal Appeals</a>
                         <a href="immigration.html">Immigration</a>
@@ -111,41 +112,294 @@
         </nav>
       </div>
 
+      <!-- Mobile Menu -->
+      <div id="mobileMenu" class="mobile-menu">
+        <button id="mobileMenuClose" class="mobile-menu-close" onclick="closeNav()">&times;</button>
+        <ul class="mobile-menu-list">
+          <li class="mobile-menu-item"><a href="index.html" class="mobile-menu-link">Home</a></li>
+          <li class="mobile-menu-item mobile-menu-dropdown">
+            <button class="mobile-menu-dropdown-toggle">Our Practice Areas</button>
+            <div class="mobile-menu-dropdown-content">
+              <a href="criminal-appeals.html">Criminal Appeals</a>
+              <a href="immigration.html">Immigration</a>
+              <a href="criminal-law.html">Criminal Law</a>
+              <a href="traffic-cases.html">Road Traffic Cases</a>
+              <a href="wills-probate.html">Wills And Probate</a>
+              <a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+              <a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+            </div>
+          </li>
+          <li class="mobile-menu-item"><a href="aboutUs.html" class="mobile-menu-link">About Us</a></li>
+          <li class="mobile-menu-item"><a href="contact.html" class="mobile-menu-link">Get In Touch</a></li>
+          <li class="mobile-menu-item"><a href="Our-Locations.html" class="mobile-menu-link">Our Locations</a></li>
+        </ul>
+      </div>
+
+      <!-- Mobile overlay -->
+      <div id="mobileOverlay" class="mobile-overlay" onclick="closeNav()"></div>
+
+      <!-- Sidebar overlay for desktop -->
+      <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
       <script>
+        // Check if we're on a mobile device
+        const isMobile = () => window.innerWidth <= 768;
+
+        // Simple direct toggle function for mobile menu
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById("mobileMenu");
+            const mobileOverlay = document.getElementById("mobileOverlay");
+
+            if (mobileMenu.classList.contains("open")) {
+                // Close menu
+                mobileMenu.classList.remove("open");
+                mobileOverlay.classList.remove("show");
+                document.body.style.overflow = ""; // Restore scrolling
+            } else {
+                // Open menu
+                mobileMenu.classList.add("open");
+                mobileOverlay.classList.add("show");
+                document.body.style.overflow = "hidden"; // Prevent scrolling
+            }
+        }
+
         function openNav() {
-            document.getElementById("mySidebar").style.width = "250px";
-            document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+            console.log('openNav called, isMobile:', isMobile());
+
+            if (isMobile()) {
+                // Mobile behavior - vertical dropdown menu
+                toggleMobileMenu();
+            } else {
+                // Desktop behavior - side panel
+                const sidebar = document.getElementById("mySidebar");
+                const overlay = document.getElementById("sidebar-overlay");
+
+                console.log('Desktop elements:', sidebar, overlay);
+
+                sidebar.style.width = "250px";
+                overlay.classList.add("show");
+                document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+
+                console.log('Sidebar opened');
+            }
         }
 
         function closeNav() {
-            document.getElementById("mySidebar").style.width = "0";
-            document.body.style.backgroundColor = "white";
+            console.log('closeNav called');
+
+            if (isMobile()) {
+                // Mobile behavior
+                const mobileMenu = document.getElementById("mobileMenu");
+
+                // Only close if it's open
+                if (mobileMenu.classList.contains("open")) {
+                    const mobileOverlay = document.getElementById("mobileOverlay");
+
+                    mobileMenu.classList.remove("open");
+                    mobileOverlay.classList.remove("show");
+                    document.body.style.overflow = ""; // Restore scrolling
+
+                    console.log('Mobile menu closed');
+                }
+            } else {
+                // Desktop behavior
+                const sidebar = document.getElementById("mySidebar");
+                const overlay = document.getElementById("sidebar-overlay");
+
+                sidebar.style.width = "0";
+                overlay.classList.remove("show");
+                document.body.style.backgroundColor = "white";
+
+                console.log('Sidebar closed');
+            }
         }
 
-        // Close the sidebar when clicking outside
+        // Close navigation when clicking outside
         document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('mySidebar');
             const toggleBtn = document.querySelector('.openbtn');
 
-            if (sidebar.style.width === "250px" &&
-                !sidebar.contains(event.target) &&
-                event.target !== toggleBtn &&
-                !toggleBtn.contains(event.target)) {
-                closeNav();
+            if (isMobile()) {
+                // Mobile behavior
+                const mobileMenu = document.getElementById('mobileMenu');
+
+                // Check if mobile menu is open and click is outside
+                if (mobileMenu.classList.contains("open") &&
+                    !mobileMenu.contains(event.target) &&
+                    event.target !== toggleBtn &&
+                    !toggleBtn.contains(event.target)) {
+                    closeNav();
+                }
+            } else {
+                // Desktop behavior
+                const sidebar = document.getElementById('mySidebar');
+
+                // Check if sidebar is open and click is outside
+                if (sidebar.style.width === "250px" &&
+                    !sidebar.contains(event.target) &&
+                    event.target !== toggleBtn &&
+                    !toggleBtn.contains(event.target)) {
+                    closeNav();
+                }
             }
         });
 
         // Add touch event support for mobile
         document.addEventListener('touchstart', function(event) {
-            const sidebar = document.getElementById('mySidebar');
             const toggleBtn = document.querySelector('.openbtn');
 
-            if (sidebar.style.width === "250px" &&
-                !sidebar.contains(event.target) &&
-                event.target !== toggleBtn &&
-                !toggleBtn.contains(event.target)) {
-                closeNav();
+            if (isMobile()) {
+                // Mobile behavior
+                const mobileMenu = document.getElementById('mobileMenu');
+
+                // Check if mobile menu is open and touch is outside
+                if (mobileMenu.classList.contains("open") &&
+                    !mobileMenu.contains(event.target) &&
+                    event.target !== toggleBtn &&
+                    !toggleBtn.contains(event.target)) {
+                    closeNav();
+                }
+            } else {
+                // Desktop behavior
+                const sidebar = document.getElementById('mySidebar');
+
+                // Check if sidebar is open and touch is outside
+                if (sidebar.style.width === "250px" &&
+                    !sidebar.contains(event.target) &&
+                    event.target !== toggleBtn &&
+                    !toggleBtn.contains(event.target)) {
+                    closeNav();
+                }
             }
+        });
+
+        // Initialize mobile menu functionality when DOM is loaded
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('DOM loaded');
+
+            // Add event listener to the menu toggle button - multiple approaches for redundancy
+            const menuToggle = document.getElementById('menuToggle');
+            if (menuToggle) {
+                console.log('Menu toggle found:', menuToggle);
+
+                // Method 1: Direct click handler
+                menuToggle.addEventListener('click', function(e) {
+                    console.log('Menu toggle clicked via event listener');
+                    e.preventDefault();
+                    openNav();
+                });
+
+                // Method 2: Direct click handler for the image
+                const toggleImg = document.getElementById('toggle');
+                if (toggleImg) {
+                    toggleImg.addEventListener('click', function(e) {
+                        console.log('Toggle image clicked');
+                        e.preventDefault();
+                        e.stopPropagation();
+                        openNav();
+                    });
+                }
+            } else {
+                console.error('Menu toggle button not found!');
+            }
+
+            // Method 3: Add handler to all openbtn elements
+            document.querySelectorAll('.openbtn').forEach(btn => {
+                console.log('Adding click handler to openbtn:', btn);
+                btn.addEventListener('click', function(e) {
+                    console.log('openbtn clicked');
+                    e.preventDefault();
+                    openNav();
+                });
+            });
+
+            // Mobile menu close button
+            const mobileMenuClose = document.getElementById('mobileMenuClose');
+            if (mobileMenuClose) {
+                mobileMenuClose.addEventListener('click', function() {
+                    closeNav();
+                });
+            }
+
+            // Mobile dropdown toggles
+            const mobileDropdownToggles = document.querySelectorAll('.mobile-menu-dropdown-toggle');
+            mobileDropdownToggles.forEach(toggle => {
+                toggle.addEventListener('click', function() {
+                    // Toggle active class for the button
+                    this.classList.toggle('active');
+
+                    // Toggle dropdown content
+                    const content = this.nextElementSibling;
+                    if (content.classList.contains('show')) {
+                        content.classList.remove('show');
+                    } else {
+                        // Close all other dropdowns first
+                        document.querySelectorAll('.mobile-menu-dropdown-content').forEach(item => {
+                            if (item !== content) {
+                                item.classList.remove('show');
+                                // Remove active class from other toggles
+                                if (item.previousElementSibling) {
+                                    item.previousElementSibling.classList.remove('active');
+                                }
+                            }
+                        });
+                        content.classList.add('show');
+                    }
+                });
+            });
+
+            // Desktop dropdown buttons
+            const dropdownBtns = document.querySelectorAll('.dropbtn');
+            dropdownBtns.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    if (isMobile()) {
+                        e.preventDefault();
+                        const content = this.nextElementSibling;
+
+                        // Toggle dropdown visibility
+                        if (content.classList.contains('show')) {
+                            content.classList.remove('show');
+                        } else {
+                            // Close all other dropdowns first
+                            document.querySelectorAll('.dropdown-content').forEach(item => {
+                                item.classList.remove('show');
+                            });
+                            content.classList.add('show');
+                        }
+                    }
+                });
+            });
+
+            // Close dropdowns when clicking outside
+            document.addEventListener('click', function(e) {
+                // Desktop dropdowns
+                if (!e.target.matches('.dropbtn') && !e.target.closest('.dropdown-content')) {
+                    document.querySelectorAll('.dropdown-content').forEach(content => {
+                        content.classList.remove('show');
+                    });
+                }
+
+                // Mobile dropdowns
+                if (!e.target.matches('.mobile-menu-dropdown-toggle') &&
+                    !e.target.closest('.mobile-menu-dropdown-content')) {
+                    document.querySelectorAll('.mobile-menu-dropdown-content').forEach(content => {
+                        content.classList.remove('show');
+                        // Remove active class from toggles
+                        if (content.previousElementSibling) {
+                            content.previousElementSibling.classList.remove('active');
+                        }
+                    });
+                }
+            });
+
+            // Handle overlay clicks
+            document.getElementById('sidebar-overlay').addEventListener('click', closeNav);
+            document.getElementById('mobileOverlay').addEventListener('click', closeNav);
+        });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            // Close sidebar when switching between mobile and desktop views
+            closeNav();
         });
     </script>
 
