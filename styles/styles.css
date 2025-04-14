@@ -774,6 +774,8 @@ body {
   align-items: center;
   gap: 2rem;
   padding: 0 60px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .carousel-track {
@@ -1542,6 +1544,8 @@ textarea {
   align-items: center;
   gap: 2rem;
   padding: 0 60px;
+  box-sizing: border-box;
+  width: 100%;
 }
 
 .carousel-track {
@@ -1692,21 +1696,75 @@ textarea {
 
 @media (max-width: 768px) {
   .carousel-track {
-    grid-auto-columns: 100%; /* Slightly smaller than 100% to show next card */
-    gap: 2rem; /* Specific gap for mobile */
+    grid-auto-columns: 100%; /* Full width for mobile */
+    gap: 1rem; /* Reduced gap for mobile */
+    padding: 1rem; /* Less padding to allow more width */
   }
 
-  /* Ensure cards don't collapse */
+  /* Make cards wider but shorter */
   .testimonial-card {
-    min-width: 100%; /* Ensure card takes full width of its grid column */
-    width: 150px;
-    gap:2rem;
-    margin: 0; /* Reset any existing margins */
+    min-width: 100%; /* Ensure card takes full width */
+    width: 100%;
+    padding: 20px 15px; /* Reduced padding */
+    margin: 0 auto; /* Center the card */
+    max-width: 95vw; /* Almost full viewport width */
+    box-sizing: border-box;
+  }
+
+  /* Make blockquote shorter */
+  .testimonial-card blockquote {
+    height: 180px; /* Reduced height */
+    padding: 10px 20px; /* Less padding */
+    margin-top: 15px; /* Less margin */
+    font-size: 0.85em; /* Slightly smaller font */
+  }
+
+  /* Smaller profile image */
+  .testimonial-card .profile {
+    width: 80px; /* Smaller profile image */
+    margin-bottom: 8px; /* Less margin */
+    border-width: 4px; /* Thinner border */
+  }
+
+  /* Adjust heading sizes */
+  .testimonial-card h2 {
+    font-size: 1.2rem; /* Smaller heading */
+  }
+
+  .testimonial-card h4 {
+    font-size: 0.9rem; /* Smaller subheading */
+  }
+
+  /* Adjust carousel container */
+  .carousel-container {
+    padding: 0 15px; /* Less padding */
   }
 
   .carousel-button:disabled {
     opacity: 0;
     cursor: not-allowed;
+  }
+}
+
+/* Extra small devices */
+@media (max-width: 480px) {
+  .testimonial-card {
+    padding: 15px 10px; /* Even less padding */
+    max-width: 98vw; /* Almost full viewport width */
+  }
+
+  .testimonial-card blockquote {
+    height: 150px; /* Even shorter */
+    padding: 8px 15px; /* Less padding */
+    font-size: 0.8em; /* Smaller font */
+  }
+
+  .testimonial-card .profile {
+    width: 70px; /* Even smaller profile */
+  }
+
+  .carousel-container {
+    padding: 0 10px; /* Minimal padding */
   }
 }
 
