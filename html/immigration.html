@@ -29,25 +29,28 @@
     <nav class="contact-navbar">
         <div class="nav-container">
             <div class = "nav-toggle">
-                <a class="openbtn" onclick="openNav()" ><img id = "toggle" src="/images/toggle.png"></a>
-                <button id="menuToggle" class="menu-toggle">
-                    <span class="menu-icon"></span>
-                </button>
+                <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()" role="button" aria-label="Toggle navigation menu"><img id = "toggle" src="../images/toggle.png" alt="Menu"></a>
 
-                <!-- Always visible dropdown for mobile -->
-                <div id="alwaysVisibleDropdown" class="always-visible-dropdown hidden">
-                    <div class="dropdown-header">
-                        <button id="practiceAreasToggle" class="dropdown-toggle">Our Practice Areas</button>
-                    </div>
-                    <div id="practiceAreasDropdown" class="dropdown-content">
-                        <a href="/html/criminal-appeals.html">Criminal Appeals</a>
-                        <a href="/html/immigration.html">Immigration</a>
-                        <a href="/html/criminal-law.html">Criminal Law</a>
-                        <a href="/html/traffic-cases.html">Road Traffic Cases</a>
-                        <a href="/html/wills-probate.html">Wills And Probate</a>
-                        <a href="/html/arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
-                        <a href="/html/restraint-orders.html">Challenging Restraint and Freezing Orders</a>
-                    </div>
+                <!-- Always visible mobile dropdown menu -->
+                <div class="always-visible-dropdown hidden" id="alwaysVisibleDropdown">
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li>
+                            <button class="dropdown-toggle" id="practiceAreasToggle">Our Practice Areas</button>
+                            <div class="dropdown-content" id="practiceAreasDropdown">
+                                <a href="criminal-appeals.html">Criminal Appeals</a>
+                                <a href="immigration.html">Immigration</a>
+                                <a href="criminal-law.html">Criminal Law</a>
+                                <a href="traffic-cases.html">Road Traffic Cases</a>
+                                <a href="wills-probate.html">Wills And Probate</a>
+                                <a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+                                <a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+                            </div>
+                        </li>
+                        <li><a href="aboutUs.html">About Us</a></li>
+                        <li><a href="contact.html">Get In Touch</a></li>
+                        <li><a href="Our-Locations.html">Our Locations</a></li>
+                    </ul>
                 </div>
             </div>
 
@@ -277,8 +280,9 @@
 
 
 
-    <!-- Mobile menu -->
+    <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu">
+      <button id="mobileMenuClose" class="mobile-menu-close" onclick="closeNav()">&times;</button>
       <ul class="mobile-menu-list">
         <li class="mobile-menu-item"><a href="index.html" class="mobile-menu-link">Home</a></li>
         <li class="mobile-menu-item mobile-menu-dropdown">

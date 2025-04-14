@@ -29,7 +29,7 @@
     <nav class="contact-navbar">
         <div class="nav-container">
             <div class = "nav-toggle">
-                <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()" role="button" aria-label="Toggle navigation menu"><img id = "toggle" src="/images/toggle.png" alt="Menu"></a>
+                <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()" role="button" aria-label="Toggle navigation menu"><img id = "toggle" src="../images/toggle.png" alt="Menu"></a>
 
                 <!-- Always visible mobile dropdown menu -->
                 <div class="always-visible-dropdown hidden" id="alwaysVisibleDropdown">
@@ -237,8 +237,9 @@
 
 
 
-    <!-- Mobile menu -->
+    <!-- Mobile Menu -->
     <div id="mobileMenu" class="mobile-menu">
+      <button id="mobileMenuClose" class="mobile-menu-close" onclick="closeNav()">&times;</button>
       <ul class="mobile-menu-list">
         <li class="mobile-menu-item"><a href="index.html" class="mobile-menu-link">Home</a></li>
         <li class="mobile-menu-item mobile-menu-dropdown">
