@@ -76,7 +76,7 @@
                 <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()"><img id = "toggle" src="../images/toggle.png"></a>
 
                 <!-- Always visible mobile dropdown menu -->
-                <div class="always-visible-dropdown" id="alwaysVisibleDropdown">
+                <div class="always-visible-dropdown hidden" id="alwaysVisibleDropdown">
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li>
@@ -422,7 +422,7 @@
                     });
                 }
 
-                // Always visible dropdown
+                // Always visible dropdown - close practice areas dropdown when clicking outside
                 if (!e.target.matches('.dropdown-toggle') &&
                     !e.target.closest('.dropdown-content') &&
                     !e.target.closest('#practiceAreasToggle')) {
@@ -434,6 +434,46 @@
                         if (practiceAreasToggle) {
                             practiceAreasToggle.classList.remove('active');
                         }
+                    }
+                }
+
+                // Close the entire dropdown menu when clicking outside
+                if (!e.target.matches('#toggle') &&
+                    !e.target.matches('.openbtn') &&
+                    !e.target.closest('.always-visible-dropdown') &&
+                    !e.target.closest('#menuToggle')) {
+                    const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+
+                    if (alwaysVisibleDropdown && window.innerWidth <= 768) {
+                        // Hide all dropdown content first
+                        const dropdownContent = alwaysVisibleDropdown.querySelector('.dropdown-content.show');
+                        const dropdownToggle = alwaysVisibleDropdown.querySelector('.dropdown-toggle.active');
+
+                        if (dropdownContent) {
+                            dropdownContent.classList.remove('show');
+                        }
+
+                        if (dropdownToggle) {
+                            dropdownToggle.classList.remove('active');
+                        }
+
+                        // Add a class to hide the dropdown with animation
+                        alwaysVisibleDropdown.classList.add('hiding');
+
+                        // After animation completes, hide the dropdown
+                        setTimeout(function() {
+                            alwaysVisibleDropdown.classList.remove('hiding');
+                            alwaysVisibleDropdown.classList.add('hidden');
+                        }, 300);
+                    }
+                }
+
+                // Show the dropdown when clicking the toggle button
+                if (e.target.matches('#toggle') || e.target.matches('.openbtn') || e.target.closest('#menuToggle')) {
+                    const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+
+                    if (alwaysVisibleDropdown && window.innerWidth <= 768) {
+                        alwaysVisibleDropdown.classList.remove('hidden');
                     }
                 }
             });
