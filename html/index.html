@@ -301,37 +301,38 @@
             const practiceAreasDropdown = document.getElementById('practiceAreasDropdown');
 
             if (practiceAreasToggle && practiceAreasDropdown) {
-                // Add both click and touchstart events for better mobile support
-                ['click', 'touchstart'].forEach(function(eventType) {
-                    practiceAreasToggle.addEventListener(eventType, function(e) {
-                        // Prevent default only for touchstart to avoid double-firing
-                        if (eventType === 'touchstart') {
-                            e.preventDefault();
-                        }
+                // Use only click event to avoid conflicts with touch events
+                practiceAreasToggle.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
 
-                        // Stop event propagation to prevent document click handler from firing
-                        e.stopPropagation();
+                    // Toggle active state for tab-like appearance
+                    this.classList.toggle('active');
 
-                        // Toggle active state for tab-like appearance
-                        this.classList.toggle('active');
+                    // Toggle content visibility with animation
+                    if (practiceAreasDropdown.classList.contains('show')) {
+                        // If it's open, start closing animation
+                        practiceAreasDropdown.style.maxHeight = '0px';
 
-                        // Toggle content visibility with animation
-                        if (practiceAreasDropdown.classList.contains('show')) {
-                            // If it's open, start closing animation
-                            practiceAreasDropdown.style.maxHeight = '0px';
+                        // Remove show class after animation completes
+                        setTimeout(function() {
+                            practiceAreasDropdown.classList.remove('show');
+                        }, 300);
+                    } else {
+                        // If it's closed, show it first then animate
+                        practiceAreasDropdown.classList.add('show');
 
-                            // Remove show class after animation completes
-                            setTimeout(function() {
-                                practiceAreasDropdown.classList.remove('show');
-                            }, 300);
-                        } else {
-                            // If it's closed, show it first then animate
-                            practiceAreasDropdown.classList.add('show');
+                        // Set max height for animation
+                        practiceAreasDropdown.style.maxHeight = practiceAreasDropdown.scrollHeight + 'px';
+                    }
+                });
 
-                            // Set max height for animation
-                            practiceAreasDropdown.style.maxHeight = practiceAreasDropdown.scrollHeight + 'px';
-                        }
-                    });
+                // Add touch event specifically for mobile
+                practiceAreasToggle.addEventListener('touchend', function(e) {
+                    // Prevent default to avoid any browser-specific behaviors
+                    e.preventDefault();
+                    // Stop propagation to prevent document handlers from firing
+                    e.stopPropagation();
                 });
             }
             console.log('DOM loaded');
@@ -474,9 +475,11 @@
 
                 // Always visible dropdown - close practice areas dropdown when clicking outside
                 // We'll keep this behavior but with smooth animation for tab-like experience
+                // Only close if clicking outside the dropdown AND outside the toggle button
                 if (!e.target.matches('.dropdown-toggle') &&
                     !e.target.closest('.dropdown-content') &&
-                    !e.target.closest('#practiceAreasToggle')) {
+                    !e.target.closest('#practiceAreasToggle') &&
+                    !e.target.closest('.always-visible-dropdown')) {
                     const practiceAreasDropdown = document.getElementById('practiceAreasDropdown');
                     const practiceAreasToggle = document.getElementById('practiceAreasToggle');
 
