@@ -65,7 +65,28 @@
       <nav class="contact-navbar">
           <div class="nav-container">
               <div class = "nav-toggle">
-                  <a class="openbtn" onclick="openNav()" ><img id = "toggle" src="/images/toggle.png"></a>
+                  <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()" role="button" aria-label="Toggle navigation menu"><img id = "toggle" src="/images/toggle.png" alt="Menu"></a>
+
+                  <!-- Always visible mobile dropdown menu -->
+                  <div class="always-visible-dropdown hidden" id="alwaysVisibleDropdown">
+                      <ul>
+                          <li><a href="index.html">Home</a></li>
+                          <li>
+                              <button class="dropdown-toggle" id="practiceAreasToggle">Our Practice Areas</button>
+                              <div class="dropdown-content" id="practiceAreasDropdown">
+                                  <a href="criminal-appeals.html">Criminal Appeals</a>
+                                  <a href="immigration.html">Immigration</a>
+                                  <a href="criminal-law.html">Criminal Law</a>
+                                  <a href="traffic-cases.html">Road Traffic Cases</a>
+                                  <a href="wills-probate.html">Wills And Probate</a>
+                                  <a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+                                  <a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+                              </div>
+                          </li>
+                          <li><a href="aboutUs.html">About Us</a></li>
+                          <li><a href="contact.html">Get In Touch</a></li>
+                      </ul>
+                  </div>
               </div>
 
               <div class="logo" id="haleys-logo">
@@ -305,5 +326,216 @@
     <script src="/js/scroll-animations.js"></script>
     <!-- Popup Contact Form -->
     <script src="/js/popup-contact.js"></script>
+
+    <!-- Mobile menu -->
+    <div id="mobileMenu" class="mobile-menu">
+      <ul class="mobile-menu-list">
+        <li class="mobile-menu-item"><a href="index.html" class="mobile-menu-link">Home</a></li>
+        <li class="mobile-menu-item mobile-menu-dropdown">
+          <button class="mobile-menu-dropdown-toggle">Our Practice Areas</button>
+          <div class="mobile-menu-dropdown-content">
+            <a href="criminal-appeals.html">Criminal Appeals</a>
+            <a href="immigration.html">Immigration</a>
+            <a href="criminal-law.html">Criminal Law</a>
+            <a href="traffic-cases.html">Road Traffic Cases</a>
+            <a href="wills-probate.html">Wills And Probate</a>
+            <a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+            <a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+          </div>
+        </li>
+        <li class="mobile-menu-item"><a href="aboutUs.html" class="mobile-menu-link">About Us</a></li>
+        <li class="mobile-menu-item"><a href="contact.html" class="mobile-menu-link">Get In Touch</a></li>
+        <li class="mobile-menu-item"><a href="Our-Locations.html" class="mobile-menu-link">Our Locations</a></li>
+      </ul>
+    </div>
+
+    <!-- Mobile overlay -->
+    <div id="mobileOverlay" class="mobile-overlay" onclick="closeNav()"></div>
+
+    <!-- Sidebar overlay -->
+    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+
+    <!-- Mobile menu script -->
+    <script>
+      // Check if we're on a mobile device
+      const isMobile = () => window.innerWidth <= 768;
+
+      // Simple direct toggle function for mobile menu
+      function toggleMobileMenu() {
+          const mobileMenu = document.getElementById('mobileMenu');
+          const mobileOverlay = document.getElementById('mobileOverlay');
+
+          if (mobileMenu.classList.contains('open')) {
+              mobileMenu.classList.remove('open');
+              mobileOverlay.classList.remove('show');
+              document.body.style.overflow = ''; // Restore scrolling
+          } else {
+              mobileMenu.classList.add('open');
+              mobileOverlay.classList.add('show');
+              document.body.style.overflow = 'hidden'; // Prevent background scrolling
+          }
+      }
+
+      function openNav() {
+          console.log('openNav called');
+
+          if (isMobile()) {
+              // Mobile behavior
+              const mobileMenu = document.getElementById("mobileMenu");
+              const mobileOverlay = document.getElementById("mobileOverlay");
+
+              mobileMenu.classList.add("open");
+              mobileOverlay.classList.add("show");
+              document.body.style.overflow = "hidden"; // Prevent background scrolling
+
+              console.log('Mobile menu opened');
+
+              // Show the always visible dropdown
+              const alwaysVisibleDropdown = document.getElementById("alwaysVisibleDropdown");
+              if (alwaysVisibleDropdown) {
+                  alwaysVisibleDropdown.classList.remove("hidden");
+                  alwaysVisibleDropdown.classList.remove("hiding");
+              }
+          } else {
+              // Desktop behavior
+              const sidebar = document.getElementById("mySidebar");
+              const overlay = document.getElementById("sidebar-overlay");
+
+              sidebar.style.width = "250px";
+              overlay.classList.add("show");
+              document.body.style.backgroundColor = "rgba(0,0,0,0.4)";
+
+              console.log('Sidebar opened');
+          }
+      }
+
+      function closeNav() {
+          console.log('closeNav called');
+
+          if (isMobile()) {
+              // Mobile behavior
+              const mobileMenu = document.getElementById("mobileMenu");
+
+              // Only close if it's open
+              if (mobileMenu.classList.contains("open")) {
+                  const mobileOverlay = document.getElementById("mobileOverlay");
+
+                  mobileMenu.classList.remove("open");
+                  mobileOverlay.classList.remove("show");
+                  document.body.style.overflow = ""; // Restore scrolling
+
+                  console.log('Mobile menu closed');
+              }
+          } else {
+              // Desktop behavior
+              const sidebar = document.getElementById("mySidebar");
+              const overlay = document.getElementById("sidebar-overlay");
+
+              sidebar.style.width = "0";
+              overlay.classList.remove("show");
+              document.body.style.backgroundColor = "white";
+
+              console.log('Sidebar closed');
+          }
+      }
+
+      // Initialize mobile menu functionality when DOM is loaded
+      document.addEventListener('DOMContentLoaded', function() {
+          // Handle always visible dropdown toggle as a tab
+          const practiceAreasToggle = document.getElementById('practiceAreasToggle');
+          const practiceAreasDropdown = document.getElementById('practiceAreasDropdown');
+
+          if (practiceAreasToggle && practiceAreasDropdown) {
+              // Function to toggle dropdown
+              function toggleDropdown(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+
+                  console.log('Toggle dropdown called');
+
+                  // Toggle active state for tab-like appearance
+                  practiceAreasToggle.classList.toggle('active');
+
+                  // Toggle content visibility with animation
+                  if (practiceAreasDropdown.classList.contains('show')) {
+                      // If it's open, start closing animation
+                      practiceAreasDropdown.style.maxHeight = '0px';
+
+                      // Remove show class after animation completes
+                      setTimeout(function() {
+                          practiceAreasDropdown.classList.remove('show');
+                      }, 300);
+                  } else {
+                      // If it's closed, show it first then animate
+                      practiceAreasDropdown.classList.add('show');
+
+                      // Set max height for animation
+                      practiceAreasDropdown.style.maxHeight = practiceAreasDropdown.scrollHeight + 'px';
+                  }
+              }
+
+              // Add click event
+              practiceAreasToggle.addEventListener('click', toggleDropdown);
+
+              // Add touch events specifically for mobile
+              practiceAreasToggle.addEventListener('touchstart', function(e) {
+                  // Just prevent default to avoid double-firing
+                  e.preventDefault();
+              });
+
+              practiceAreasToggle.addEventListener('touchend', toggleDropdown);
+          }
+
+          // Add event listener to the menu toggle button - multiple approaches for redundancy
+          const menuToggle = document.getElementById('menuToggle');
+          if (menuToggle) {
+              console.log('Menu toggle found:', menuToggle);
+
+              // Method 1: Direct click and touch handlers for better mobile support
+              menuToggle.addEventListener('click', function(e) {
+                  e.preventDefault();
+                  openNav();
+              });
+
+              menuToggle.addEventListener('touchend', function(e) {
+                  e.preventDefault();
+                  openNav();
+              });
+          }
+
+          // Handle mobile dropdown toggles
+          const mobileDropdownToggles = document.querySelectorAll('.mobile-menu-dropdown-toggle');
+          mobileDropdownToggles.forEach(toggle => {
+              toggle.addEventListener('click', function() {
+                  // Toggle active class
+                  this.classList.toggle('active');
+
+                  // Get the dropdown content
+                  const dropdownContent = this.nextElementSibling;
+
+                  // Toggle show class
+                  dropdownContent.classList.toggle('show');
+              });
+          });
+      });
+
+      // Close navigation when clicking outside
+      document.addEventListener('click', function(event) {
+          const toggleBtn = document.querySelector('.openbtn');
+
+          if (isMobile()) {
+              // Mobile behavior
+              const mobileMenu = document.getElementById('mobileMenu');
+
+              // Check if mobile menu is open and click is outside
+              if (mobileMenu.classList.contains("open") &&
+                  !mobileMenu.contains(event.target) &&
+                  event.target !== toggleBtn &&
+                  !toggleBtn.contains(event.target)) {
+                  closeNav();
+              }
+          }
+      });
+    </script>
   </body>
 </html>

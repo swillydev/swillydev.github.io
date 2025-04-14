@@ -647,6 +647,8 @@ body {
     touch-action: manipulation;
     white-space: nowrap;
     cursor: pointer;
+    position: relative;
+    z-index: 5; /* Higher z-index to ensure it's above everything */
 }
 
 #button1:active,
@@ -688,7 +690,7 @@ body {
     justify-content: center;
     line-height: 1em;
     max-width: 100%;
-    z-index: 1; /* Changed from -1 to 1 to ensure visibility */
+    z-index: 5; /* Higher z-index to ensure it's above everything */
     min-width: 140px;
     padding: 3px;
     text-decoration: none;
@@ -697,6 +699,7 @@ body {
     touch-action: manipulation;
     white-space: nowrap;
     cursor: pointer;
+    position: relative;
 }
 
 #button2:active,
@@ -732,7 +735,12 @@ body {
     padding-bottom: 50px; /* Added padding at the bottom */
     margin-bottom: 20px; /* Additional margin for more space */
     position: relative;
-    z-index: 2; /* Ensure buttons are above video and overlay */
+    z-index: 5; /* Higher z-index to ensure it's above everything */
+}
+
+.button-container {
+    position: relative;
+    z-index: 5; /* Higher z-index to ensure it's above everything */
 }
 
  .arrow{
@@ -865,6 +873,16 @@ body {
 @media (max-width: 768px) {
   .testimonial-card.fade-in-section {
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+  }
+
+  /* Disable hover effect on mobile */
+  .testimonial-card.fade-in-visible:hover {
+    transform: translateY(0);
+  }
+
+  /* Disable transition on touch */
+  .testimonial-card {
+    transition: none;
   }
 }
 
@@ -1499,8 +1517,9 @@ textarea {
   #button1, #button2 {
       width: 100%;
       min-width: unset;
-      z-index: 1;
+      z-index: 5; /* Higher z-index to ensure it's above everything */
       font-size: 18px; /* Slightly smaller font */
+      position: relative;
   }
 
   #button1 span, #button2 span {
