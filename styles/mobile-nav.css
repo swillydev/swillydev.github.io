@@ -22,6 +22,21 @@ html, body {
   background-color: rgba(124, 47, 132, 0.1);
   border-radius: 5px;
   transition: background-color 0.3s ease;
+  -webkit-tap-highlight-color: rgba(0,0,0,0); /* Remove tap highlight on mobile */
+}
+
+/* Increase tap target size on mobile */
+@media (max-width: 768px) {
+  .openbtn {
+    padding: 20px; /* Larger padding for better touch target */
+    min-width: 44px; /* Minimum width recommended for touch targets */
+    min-height: 44px; /* Minimum height recommended for touch targets */
+  }
+
+  #toggle {
+    width: 28px; /* Slightly larger icon */
+    height: 28px;
+  }
 }
 
 .openbtn:hover, .openbtn:active {

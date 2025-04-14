@@ -73,7 +73,7 @@
     <nav class="contact-navbar">
         <div class="nav-container">
             <div class = "nav-toggle">
-                <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()"><img id = "toggle" src="../images/toggle.png"></a>
+                <a href="javascript:void(0)" class="openbtn" id="menuToggle" onclick="openNav()" role="button" aria-label="Toggle navigation menu"><img id = "toggle" src="../images/toggle.png" alt="Menu"></a>
 
                 <!-- Always visible mobile dropdown menu -->
                 <div class="always-visible-dropdown hidden" id="alwaysVisibleDropdown">
@@ -301,9 +301,16 @@
             const practiceAreasDropdown = document.getElementById('practiceAreasDropdown');
 
             if (practiceAreasToggle && practiceAreasDropdown) {
-                practiceAreasToggle.addEventListener('click', function() {
-                    this.classList.toggle('active');
-                    practiceAreasDropdown.classList.toggle('show');
+                // Add both click and touchstart events for better mobile support
+                ['click', 'touchstart'].forEach(function(eventType) {
+                    practiceAreasToggle.addEventListener(eventType, function(e) {
+                        // Prevent default only for touchstart to avoid double-firing
+                        if (eventType === 'touchstart') {
+                            e.preventDefault();
+                        }
+                        this.classList.toggle('active');
+                        practiceAreasDropdown.classList.toggle('show');
+                    });
                 });
             }
             console.log('DOM loaded');
@@ -313,21 +320,41 @@
             if (menuToggle) {
                 console.log('Menu toggle found:', menuToggle);
 
-                // Method 1: Direct click handler
-                menuToggle.addEventListener('click', function(e) {
-                    console.log('Menu toggle clicked via event listener');
-                    e.preventDefault();
-                    openNav();
+                // Method 1: Direct click and touch handlers for better mobile support
+                ['click', 'touchstart'].forEach(function(eventType) {
+                    menuToggle.addEventListener(eventType, function(e) {
+                        console.log('Menu toggle ' + eventType + ' via event listener');
+                        e.preventDefault();
+                        openNav();
+
+                        // Show the dropdown menu on mobile
+                        if (window.innerWidth <= 768) {
+                            const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+                            if (alwaysVisibleDropdown) {
+                                alwaysVisibleDropdown.classList.remove('hidden');
+                            }
+                        }
+                    });
                 });
 
-                // Method 2: Direct click handler for the image
+                // Method 2: Direct click and touch handlers for the image
                 const toggleImg = document.getElementById('toggle');
                 if (toggleImg) {
-                    toggleImg.addEventListener('click', function(e) {
-                        console.log('Toggle image clicked');
-                        e.preventDefault();
-                        e.stopPropagation();
-                        openNav();
+                    ['click', 'touchstart'].forEach(function(eventType) {
+                        toggleImg.addEventListener(eventType, function(e) {
+                            console.log('Toggle image ' + eventType);
+                            e.preventDefault();
+                            e.stopPropagation();
+                            openNav();
+
+                            // Show the dropdown menu on mobile
+                            if (window.innerWidth <= 768) {
+                                const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+                                if (alwaysVisibleDropdown) {
+                                    alwaysVisibleDropdown.classList.remove('hidden');
+                                }
+                            }
+                        });
                     });
                 }
             } else {
@@ -401,8 +428,10 @@
                 });
             });
 
-            // Close dropdowns when clicking outside
-            document.addEventListener('click', function(e) {
+            // Close dropdowns when clicking or touching outside
+            // Use both click and touchend events for better mobile support
+            ['click', 'touchend'].forEach(function(eventType) {
+                document.addEventListener(eventType, function(e) {
                 // Desktop dropdowns
                 if (!e.target.matches('.dropbtn') && !e.target.closest('.dropdown-content')) {
                     document.querySelectorAll('.dropdown-content').forEach(content => {
@@ -468,14 +497,15 @@
                     }
                 }
 
-                // Show the dropdown when clicking the toggle button
-                if (e.target.matches('#toggle') || e.target.matches('.openbtn') || e.target.closest('#menuToggle')) {
-                    const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+                    // Show the dropdown when clicking the toggle button
+                    if (e.target.matches('#toggle') || e.target.matches('.openbtn') || e.target.closest('#menuToggle')) {
+                        const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
 
-                    if (alwaysVisibleDropdown && window.innerWidth <= 768) {
-                        alwaysVisibleDropdown.classList.remove('hidden');
+                        if (alwaysVisibleDropdown && window.innerWidth <= 768) {
+                            alwaysVisibleDropdown.classList.remove('hidden');
+                        }
                     }
-                }
+                });
             });
 
             // Handle overlay clicks
