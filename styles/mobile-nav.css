@@ -104,6 +104,7 @@ html, body {
   min-height: 44px; /* Minimum height for touch targets */
   touch-action: manipulation; /* Optimize for touch */
   background-color: rgba(124, 47, 132, 0.1); /* Slight background to indicate it's clickable */
+  padding-right: 30px; /* Extra padding on the right for the arrow */
 }
 
 .always-visible-dropdown .dropdown-toggle:hover {
@@ -114,6 +115,8 @@ html, body {
   content: '▼';
   font-size: 0.7rem;
   transition: transform 0.2s ease;
+  margin-left: 8px; /* Add some space between text and arrow */
+  display: inline-block; /* Ensure it's displayed */
 }
 
 .always-visible-dropdown .dropdown-toggle.active {
