@@ -29,6 +29,18 @@ body {
   align-items: center;
 }
 
+/* Transparent overlay to prevent video interaction */
+.video-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0; /* Above video but below content */
+  background-color: transparent;
+  pointer-events: auto; /* Capture all pointer events */
+}
+
 .video-container video {
   position: absolute;
   top: 0;
@@ -37,6 +49,11 @@ body {
   height: 100%;
   object-fit: cover;
   z-index: -1;
+  pointer-events: none; /* Prevent interaction with the video */
+  touch-action: none; /* Disable touch actions */
+  -webkit-user-select: none; /* Safari */
+  -ms-user-select: none; /* IE 10 and IE 11 */
+  user-select: none; /* Standard syntax */
 }
 
 /* Enhanced popup styles */
@@ -314,6 +331,16 @@ body {
 
   .video-container {
     min-height: 550px; /* Increased height */
+  }
+
+  /* Additional mobile-specific video protection */
+  #background-video {
+    pointer-events: none !important;
+    touch-action: none !important;
+  }
+
+  .video-overlay {
+    z-index: 1; /* Higher z-index on mobile */
   }
 
   #hero-title {
@@ -728,6 +755,11 @@ body {
     position: absolute;
     object-fit: cover;
     z-index: -1;
+    pointer-events: none; /* Prevent interaction with the video */
+    touch-action: none; /* Disable touch actions */
+    -webkit-user-select: none; /* Safari */
+    -ms-user-select: none; /* IE 10 and IE 11 */
+    user-select: none; /* Standard syntax */
   }
 
   #hero{

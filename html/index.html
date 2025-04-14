@@ -80,7 +80,7 @@
                     <ul>
                         <li><a href="index.html">Home</a></li>
                         <li>
-                            <button class="dropdown-toggle" id="practiceAreasToggle">Our Practice Areas</button>
+                            <button class="dropdown-toggle" id="practiceAreasToggle">Our Practice Areas ▼</button>
                             <div class="dropdown-content" id="practiceAreasDropdown">
                                 <a href="criminal-appeals.html">Criminal Appeals</a>
                                 <a href="immigration.html">Immigration</a>
@@ -301,13 +301,15 @@
             const practiceAreasDropdown = document.getElementById('practiceAreasDropdown');
 
             if (practiceAreasToggle && practiceAreasDropdown) {
-                // Use only click event to avoid conflicts with touch events
-                practiceAreasToggle.addEventListener('click', function(e) {
+                // Function to toggle dropdown
+                function toggleDropdown(e) {
                     e.preventDefault();
                     e.stopPropagation();
 
+                    console.log('Toggle dropdown called');
+
                     // Toggle active state for tab-like appearance
-                    this.classList.toggle('active');
+                    practiceAreasToggle.classList.toggle('active');
 
                     // Toggle content visibility with animation
                     if (practiceAreasDropdown.classList.contains('show')) {
@@ -325,15 +327,18 @@
                         // Set max height for animation
                         practiceAreasDropdown.style.maxHeight = practiceAreasDropdown.scrollHeight + 'px';
                     }
+                }
+
+                // Add click event
+                practiceAreasToggle.addEventListener('click', toggleDropdown);
+
+                // Add touch events specifically for mobile
+                practiceAreasToggle.addEventListener('touchstart', function(e) {
+                    // Just prevent default to avoid double-firing
+                    e.preventDefault();
                 });
 
-                // Add touch event specifically for mobile
-                practiceAreasToggle.addEventListener('touchend', function(e) {
-                    // Prevent default to avoid any browser-specific behaviors
-                    e.preventDefault();
-                    // Stop propagation to prevent document handlers from firing
-                    e.stopPropagation();
-                });
+                practiceAreasToggle.addEventListener('touchend', toggleDropdown);
             }
             console.log('DOM loaded');
 
@@ -557,9 +562,11 @@
     <section class="relative bg-cover bg-center h-96 hero" id="hero">
         <div class="absolute inset-0 bg-grey-bkg opacity-52">
             <div class="video-container">
-                <video id="background-video" autoplay loop muted>
-                    <source src="/images/bkg-video.mp4" typ="video/mp4">
-            </video>
+                <video id="background-video" autoplay loop muted playsinline disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" oncontextmenu="return false;">
+                    <source src="/images/bkg-video.mp4" type="video/mp4">
+                </video>
+                <!-- Transparent overlay to prevent video interaction -->
+                <div class="video-overlay"></div>
 
                 <h1 id = "hero-text1" class= "mb-6">Welcome to Haleys Solicitors</h1>
                 <h1 id = "hero-title" class="brand-pink text-4xl font-bold mb-4">YOUR TRUSTED LEGAL PARTNER FOR EVERY STEP OF THE WAY</h1>
