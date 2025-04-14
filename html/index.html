@@ -296,7 +296,7 @@
 
         // Initialize mobile menu functionality when DOM is loaded
         document.addEventListener('DOMContentLoaded', function() {
-            // Handle always visible dropdown toggle
+            // Handle always visible dropdown toggle as a tab
             const practiceAreasToggle = document.getElementById('practiceAreasToggle');
             const practiceAreasDropdown = document.getElementById('practiceAreasDropdown');
 
@@ -308,8 +308,29 @@
                         if (eventType === 'touchstart') {
                             e.preventDefault();
                         }
+
+                        // Stop event propagation to prevent document click handler from firing
+                        e.stopPropagation();
+
+                        // Toggle active state for tab-like appearance
                         this.classList.toggle('active');
-                        practiceAreasDropdown.classList.toggle('show');
+
+                        // Toggle content visibility with animation
+                        if (practiceAreasDropdown.classList.contains('show')) {
+                            // If it's open, start closing animation
+                            practiceAreasDropdown.style.maxHeight = '0px';
+
+                            // Remove show class after animation completes
+                            setTimeout(function() {
+                                practiceAreasDropdown.classList.remove('show');
+                            }, 300);
+                        } else {
+                            // If it's closed, show it first then animate
+                            practiceAreasDropdown.classList.add('show');
+
+                            // Set max height for animation
+                            practiceAreasDropdown.style.maxHeight = practiceAreasDropdown.scrollHeight + 'px';
+                        }
                     });
                 });
             }
@@ -452,6 +473,7 @@
                 }
 
                 // Always visible dropdown - close practice areas dropdown when clicking outside
+                // We'll keep this behavior but with smooth animation for tab-like experience
                 if (!e.target.matches('.dropdown-toggle') &&
                     !e.target.closest('.dropdown-content') &&
                     !e.target.closest('#practiceAreasToggle')) {
@@ -459,10 +481,18 @@
                     const practiceAreasToggle = document.getElementById('practiceAreasToggle');
 
                     if (practiceAreasDropdown && practiceAreasDropdown.classList.contains('show')) {
-                        practiceAreasDropdown.classList.remove('show');
+                        // Start closing animation
+                        practiceAreasDropdown.style.maxHeight = '0px';
+
+                        // Remove active state from toggle
                         if (practiceAreasToggle) {
                             practiceAreasToggle.classList.remove('active');
                         }
+
+                        // Remove show class after animation completes
+                        setTimeout(function() {
+                            practiceAreasDropdown.classList.remove('show');
+                        }, 300);
                     }
                 }
 
@@ -575,7 +605,7 @@
 
             <!-- Restraint and Freezing Orders -->
             <div class="practice-area">
-              <a class="readMoreTag" href="/html/restraint-orders.html"></a>
+              <a class="readMoreTag" href="/html/restraint-orders.html">
                 <img id ='police' src="/images/restrain.svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
                 <h3>Restraint and Freezing Orders</h3>
@@ -586,7 +616,7 @@
 
             <!-- Arrest Search and Seizure -->
             <div class="practice-area">
-              <a class="readMoreTag" href="/html/arrest-search-seizure.html"></a>
+              <a class="readMoreTag" href="/html/arrest-search-seizure.html">
                 <img id = "police" src= "/images/police.svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={5} d="M20.618 5.984A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016zM12 9v2m0 4h.01" />
                 <h3>Arrest Search and Seizure</h3>
@@ -597,7 +627,7 @@
 
             <!-- Criminal Law -->
             <div class="practice-area">
-              <a class="readMoreTag" href="/html/criminal-law.html"></a>
+              <a class="readMoreTag" href="/html/criminal-law.html">
                 <img src="/images/criminal-law.svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
                 <h3>Criminal Law</h3>
@@ -608,7 +638,7 @@
 
             <!-- Road Traffic Cases -->
             <div class="practice-area">
-              <a class="readMoreTag" href="/html/traffic-cases.html"></a>
+              <a class="readMoreTag" href="/html/traffic-cases.html">
                 <img id = "car" src="/images/car.svg"  fill="none" viewBox="0 0 24 24" stroke="currentColor" class="practice-area-icon">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M14 10l-2 1m0 0l-2-1m2 1v2.5M20 7l-2 1m2-1l-2-1m2 1v2.5M14 4l-2-1-2 1M4 7l2-1M4 7l2 1M4 7v2.5M12 21l-2-1m2 1l2-1m-2 1v-2.5M6 18l-2-1v-2.5M18 18l2-1v-2.5" />
                 <h3>Road Traffic Cases</h3>

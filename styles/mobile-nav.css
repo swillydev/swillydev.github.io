@@ -84,7 +84,7 @@ html, body {
   background-color: rgba(255, 255, 255, 0.1);
 }
 
-/* Dropdown toggle and content */
+/* Tab-like dropdown toggle and content */
 .always-visible-dropdown .dropdown-toggle {
   display: flex;
   justify-content: space-between;
@@ -98,12 +98,23 @@ html, body {
   cursor: pointer;
   font-family: "Bebas Neue", sans-serif;
   font-size: 0.9rem;
+  position: relative;
+  transition: background-color 0.3s ease;
+}
+
+.always-visible-dropdown .dropdown-toggle:hover {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .always-visible-dropdown .dropdown-toggle::after {
   content: '▼';
   font-size: 0.7rem;
   transition: transform 0.2s ease;
+}
+
+.always-visible-dropdown .dropdown-toggle.active {
+  background-color: rgba(124, 47, 132, 0.3);
+  border-left: 3px solid #7C2F84;
 }
 
 .always-visible-dropdown .dropdown-toggle.active::after {
@@ -113,16 +124,27 @@ html, body {
 .always-visible-dropdown .dropdown-content {
   display: none;
   background-color: rgba(0, 0, 0, 0.2);
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in-out;
 }
 
 .always-visible-dropdown .dropdown-content.show {
   display: block;
+  max-height: 500px; /* Large enough to fit all content */
 }
 
 .always-visible-dropdown .dropdown-content a {
   padding-left: 30px;
   font-family: "Urbanist", sans-serif;
   font-size: 0.8rem;
+  border-left: 3px solid rgba(124, 47, 132, 0.3);
+  transition: background-color 0.2s ease, border-left 0.2s ease;
+}
+
+.always-visible-dropdown .dropdown-content a:hover {
+  background-color: rgba(124, 47, 132, 0.2);
+  border-left: 3px solid #7C2F84;
 }
 
 /* Animation classes for hiding the dropdown */
