@@ -262,27 +262,17 @@
       }
 
       function openNav() {
-          console.log('openNav called');
+          console.log('openNav called, isMobile:', isMobile());
 
           if (isMobile()) {
-              // Mobile behavior
-              const mobileMenu = document.getElementById("mobileMenu");
-
-              mobileMenu.classList.add("open");
-              document.body.style.overflow = "hidden"; // Prevent background scrolling
-
-              console.log('Mobile menu opened');
-
-              // Show the always visible dropdown
-              const alwaysVisibleDropdown = document.getElementById("alwaysVisibleDropdown");
-              if (alwaysVisibleDropdown) {
-                  alwaysVisibleDropdown.classList.remove("hidden");
-                  alwaysVisibleDropdown.classList.remove("hiding");
-              }
+              // Mobile behavior - vertical dropdown menu
+              toggleMobileMenu();
           } else {
-              // Desktop behavior
+              // Desktop behavior - side panel
               const sidebar = document.getElementById("mySidebar");
               const overlay = document.getElementById("sidebar-overlay");
+
+              console.log('Desktop elements:', sidebar, overlay);
 
               sidebar.style.width = "250px";
               overlay.classList.add("show");
@@ -301,7 +291,10 @@
 
               // Only close if it's open
               if (mobileMenu.classList.contains("open")) {
+                  const mobileOverlay = document.getElementById("mobileOverlay");
+
                   mobileMenu.classList.remove("open");
+                  mobileOverlay.classList.remove("show");
                   document.body.style.overflow = ""; // Restore scrolling
 
                   console.log('Mobile menu closed');
