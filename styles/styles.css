@@ -1270,17 +1270,22 @@ textarea {
 /* Dropdown Button */
 .dropbtn {
     background-color: #fcfcfc00;
-    color: #7C2F84;
+    color: white;
     border: none;
-    font-size: 1.2rem;
-    text-align: end;
-    color: black;
+    font-size: 0.9rem; /* Smaller font size */
+    text-align: right;
+    padding-right: 15px; /* Add padding to prevent text from touching the edge */
+    width: 100%; /* Ensure button takes full width */
+    font-family: "Urbanist", sans-serif; /* Changed to Urbanist font */
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
   }
 
   /* The container <div> - needed to position the dropdown content */
   .dropdown {
     position: relative;
     display: inline-block;
+    width: 100%; /* Take full width */
   }
 
   /* Dropdown Content (Hidden by Default) */
@@ -1289,29 +1294,37 @@ textarea {
     position: absolute;
     background-color: #f1f1f1;
     min-width: 160px;
+    max-width: 200px; /* Limit maximum width */
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
     z-index: 1;
+    max-height: 300px;
+    overflow-y: auto;
+    right: 0; /* Align to the right side of the dropdown button */
   }
 
   /* Links inside the dropdown */
   .dropdown-content a {
     color: black;
-    padding: 4px 8px;
+    padding: 5px 8px;
     text-decoration: none;
     display: block;
-    font-size: 0.6rem;
+    font-size: 0.7rem;
     border: #1f2937 1px;
-    font-family: "urbanist";
+    font-family: "Urbanist", sans-serif;
+    line-height: 1.4;
+    margin-bottom: 5px; /* Add spacing between dropdown items */
   }
 
   .dropbtn a{
-    color: black;
+    color: white;
     padding: 4px 8px;
     text-decoration: none;
     display: block;
-    font-size: 1.2 rem;
+    font-size: 0.9rem;
     border: #1f2937 1px;
-    font-family: "urbanist";
+    font-family: "Urbanist", sans-serif;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
   }
 
   /* Change color of dropdown links on hover */
@@ -1323,26 +1336,30 @@ textarea {
 
 .sidebar {
     height: 100%;
-    width: 0%;
+    width: 0;
     position: fixed;
-    z-index: 1;
-    top: 0px;
+    z-index: 9999; /* Higher z-index to show over navbars */
+    top: 0;
     left: 0;
     background-color: #312450f1;
     color: black;
     overflow-x: hidden;
+    overflow-y: auto; /* Allow vertical scrolling if needed */
     transition: 0.5s;
     padding-top: 60px;
     font-size: 1.0rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center content vertically */
   }
 
 .nav {
     position: relative;
-    margin: 0 15%;
+    margin: 0 10% 0 5%; /* Reduced right margin, increased left margin */
     text-align: right;
-    top: 50%;
-    transform: translateY(-50%);
+    width: 85%; /* Reduced width to prevent overflow */
     color: black;
+    padding: 20px 0;
   }
 
 .nav ul {
@@ -1351,18 +1368,47 @@ textarea {
 }
 
 .sidebar ul li {
-      margin: 3.2em 0;
+      margin: 2.5em 0; /* Increased spacing between items */
       color: black;
+      position: relative; /* For the underline positioning */
+      padding-bottom: 10px; /* Space for the underline */
 }
 
 .sidebar ul li a {
-    line-height: 2.5em;
+    line-height: 1.8em;
     text-transform: uppercase;
     text-decoration: none;
-    letter-spacing: 0.4em;
+    letter-spacing: 0.1em; /* Reduced letter spacing */
     color: white;
     display: block;
     transition: all ease-out 300ms;
+    padding-right: 15px; /* Add padding to prevent text from touching the edge */
+    font-size: 0.9rem; /* Slightly smaller font size */
+    font-family: "Urbanist", sans-serif; /* Changed to Urbanist font */
+}
+
+/* Add grey underline to all sidebar links */
+.sidebar ul li::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background-color: #cccccc; /* Grey line */
+    transition: background-color 0.3s ease;
+}
+
+/* Highlight active link with brand purple */
+.sidebar ul li.active::after {
+    background-color: #7C2F84; /* Brand purple */
+    height: 2px; /* Slightly thicker for active page */
+}
+
+/* Hover effect for the underlines */
+.sidebar ul li:hover::after {
+    background-color: #7C2F84; /* Brand purple on hover */
+    opacity: 0.7; /* Slightly transparent to distinguish from active */
 }
 
 
@@ -1383,24 +1429,18 @@ textarea {
         color: rgba(#FFF, 0.75);
       }
 
-.sidebar ul li.active::after {
-    content: '';
-    width: 100%;
-    height: 0.2em;
-    background: black;
-    left: 0;
-    bottom: 0;
-    background-image: linear-gradient(to right, #5e42a6, #b74e91)
-    }
+/* Active link styles are now handled by the new .sidebar ul li.active::after rule */
 
 
   .sidebar .closebtn {
     position: absolute;
-    top: 0;
-    right: 25px;
+    top: 10px;
+    right: 15px;
     font-size: 36px;
     margin-left: 50px;
-    z-index: -1;
+    z-index: 10000; /* Ensure it's above other content */
+    color: white;
+    text-decoration: none;
   }
 
   .openbtn {
