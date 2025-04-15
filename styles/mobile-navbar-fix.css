@@ -96,6 +96,13 @@
   }
 }
 
+/* Hide top navbar on mobile */
+@media screen and (max-width: 768px) {
+  .top-navbar {
+    display: none;
+  }
+}
+
 /* Extra small devices */
 @media screen and (max-width: 480px) {
   .contact-navbar #haleys-logo img {
