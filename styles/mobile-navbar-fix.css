@@ -4,7 +4,7 @@
   /* Adjust the contact navbar layout */
   .contact-navbar .nav-container {
     display: grid;
-    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-columns: 0.8fr 2.4fr 0.8fr;
     grid-template-areas: "toggle logo numbers";
     align-items: center;
     justify-items: center;
@@ -35,8 +35,9 @@
     grid-area: numbers;
     justify-self: end;
     text-align: right;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     max-width: 100%;
+    line-height: 1.1;
   }
 
   /* Position the dropdown menu centered under the logo */
@@ -44,7 +45,7 @@
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    top: 60px; /* Adjust this value based on your navbar height */
+    top: 80px; /* Increased to position below the logo */
     width: 100%;
     max-width: 200px;
     z-index: 1001;
@@ -75,7 +76,7 @@
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    top: 60px; /* Adjust this value based on your navbar height */
+    top: 80px; /* Increased to position below the logo */
     z-index: 1000;
   }
 }
@@ -96,7 +97,7 @@
 
   /* Adjust layout for very small screens */
   .contact-navbar .nav-container {
-    grid-template-columns: 0.8fr 1.4fr 0.8fr;
+    grid-template-columns: 0.7fr 1.6fr 0.7fr;
     padding: 5px 10px;
   }
 
@@ -114,6 +115,6 @@
   /* Adjust dropdown position for smaller screens */
   .always-visible-dropdown,
   .nav-toggle .always-visible-dropdown {
-    top: 50px;
+    top: 65px; /* Adjusted for smaller screens but still below logo */
   }
 }
