@@ -1,7 +1,6 @@
 /* Fix for mobile menu positioning on law area pages */
 /* Use the always-visible-dropdown for mobile menu */
 .always-visible-dropdown {
-  display: none; /* Hidden by default, shown in media query */
   position: absolute !important;
   top: 100% !important;
   left: 50% !important;
@@ -11,6 +10,87 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
   z-index: 1000 !important;
   border-radius: 0 0 5px 5px !important;
+  padding: 10px 0 !important;
+}
+
+/* Show the dropdown when the hidden class is removed */
+.always-visible-dropdown.hidden {
+  display: none !important;
+}
+
+.always-visible-dropdown:not(.hidden) {
+  display: block !important;
+}
+
+/* Style the dropdown links */
+.always-visible-dropdown ul {
+  list-style: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.always-visible-dropdown li {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+.always-visible-dropdown a,
+.always-visible-dropdown button {
+  display: block !important;
+  padding: 10px 15px !important;
+  color: white !important;
+  text-decoration: none !important;
+  font-size: 16px !important;
+  text-align: left !important;
+  width: 100% !important;
+  background: none !important;
+  border: none !important;
+  cursor: pointer !important;
+}
+
+.always-visible-dropdown a:hover,
+.always-visible-dropdown button:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Style the dropdown content */
+.dropdown-content {
+  display: none;
+  padding-left: 15px !important;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-out;
+}
+
+.dropdown-content.show {
+  display: block;
+  max-height: 500px;
+  transition: max-height 0.3s ease-in;
+}
+
+.dropdown-content a {
+  padding: 8px 15px !important;
+  font-size: 14px !important;
+}
+
+/* Style the dropdown toggle button */
+.dropdown-toggle {
+  position: relative;
+  padding-right: 30px !important;
+}
+
+.dropdown-toggle:after {
+  content: '▼';
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 10px;
+  transition: transform 0.3s;
+}
+
+.dropdown-toggle.active:after {
+  transform: translateY(-50%) rotate(180deg);
 }
 
 /* Hide the mobile-menu since we're using always-visible-dropdown */
@@ -21,4 +101,22 @@
 /* Hide the mobile overlay since we don't need it */
 .mobile-overlay {
   display: none !important;
+}
+
+/* Make sure the nav-toggle is properly positioned */
+.nav-toggle {
+  position: relative !important;
+}
+
+/* Make sure the toggle button is visible */
+.openbtn {
+  display: block !important;
+  cursor: pointer !important;
+}
+
+/* Make sure the toggle image is visible */
+#toggle {
+  display: block !important;
+  width: 30px !important;
+  height: auto !important;
 }
