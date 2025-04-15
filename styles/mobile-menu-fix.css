@@ -22,6 +22,19 @@
   display: block !important;
 }
 
+/* Add animation for showing/hiding the dropdown */
+.always-visible-dropdown.hiding {
+  opacity: 0 !important;
+  transform: translateY(-10px) translateX(-50%) !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
+.always-visible-dropdown:not(.hidden):not(.hiding) {
+  opacity: 1 !important;
+  transform: translateY(0) translateX(-50%) !important;
+  transition: opacity 0.3s ease, transform 0.3s ease !important;
+}
+
 /* Style the dropdown links */
 .always-visible-dropdown ul {
   list-style: none !important;
@@ -106,12 +119,14 @@
 /* Make sure the nav-toggle is properly positioned */
 .nav-toggle {
   position: relative !important;
+  z-index: 1001 !important; /* Higher than the dropdown */
 }
 
 /* Make sure the toggle button is visible */
 .openbtn {
   display: block !important;
   cursor: pointer !important;
+  z-index: 1001 !important; /* Higher than the dropdown */
 }
 
 /* Make sure the toggle image is visible */
@@ -119,4 +134,10 @@
   display: block !important;
   width: 30px !important;
   height: auto !important;
+  z-index: 1001 !important; /* Higher than the dropdown */
+}
+
+/* Add a pointer cursor to all clickable elements */
+.openbtn, #toggle, #menuToggle, .dropdown-toggle {
+  cursor: pointer !important;
 }

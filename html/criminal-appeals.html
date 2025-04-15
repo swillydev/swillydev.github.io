@@ -276,15 +276,32 @@
           }
       }
 
+      // Direct toggle function for the always-visible-dropdown
+      function toggleAlwaysVisibleDropdown() {
+          console.log('toggleAlwaysVisibleDropdown called');
+          const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+
+          if (alwaysVisibleDropdown) {
+              if (alwaysVisibleDropdown.classList.contains('hidden')) {
+                  // Show dropdown
+                  alwaysVisibleDropdown.classList.remove('hidden');
+                  console.log('Dropdown shown');
+              } else {
+                  // Hide dropdown
+                  alwaysVisibleDropdown.classList.add('hidden');
+                  console.log('Dropdown hidden');
+              }
+          } else {
+              console.error('alwaysVisibleDropdown not found');
+          }
+      }
+
       function openNav() {
           console.log('openNav called, isMobile:', isMobile());
 
           if (isMobile()) {
-              // Mobile behavior - show the always visible dropdown
-              const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
-              if (alwaysVisibleDropdown) {
-                  alwaysVisibleDropdown.classList.remove('hidden');
-              }
+              // Mobile behavior - toggle the always visible dropdown
+              toggleAlwaysVisibleDropdown();
           } else {
               // Desktop behavior - side panel
               const sidebar = document.getElementById("mySidebar");
@@ -399,14 +416,13 @@
                   menuToggle.addEventListener(eventType, function(e) {
                       console.log('Menu toggle ' + eventType + ' via event listener');
                       e.preventDefault();
-                      openNav();
 
-                      // Show the dropdown menu on mobile
                       if (window.innerWidth <= 768) {
-                          const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
-                          if (alwaysVisibleDropdown) {
-                              alwaysVisibleDropdown.classList.remove('hidden');
-                          }
+                          // On mobile, directly toggle the dropdown
+                          toggleAlwaysVisibleDropdown();
+                      } else {
+                          // On desktop, use the regular openNav
+                          openNav();
                       }
                   });
               });
@@ -419,14 +435,13 @@
                           console.log('Toggle image ' + eventType);
                           e.preventDefault();
                           e.stopPropagation();
-                          openNav();
 
-                          // Show the dropdown menu on mobile
                           if (window.innerWidth <= 768) {
-                              const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
-                              if (alwaysVisibleDropdown) {
-                                  alwaysVisibleDropdown.classList.remove('hidden');
-                              }
+                              // On mobile, directly toggle the dropdown
+                              toggleAlwaysVisibleDropdown();
+                          } else {
+                              // On desktop, use the regular openNav
+                              openNav();
                           }
                       });
                   });
@@ -509,12 +524,10 @@
                   }
               }
 
-              // Show the dropdown when clicking the toggle button
+              // Toggle the dropdown when clicking the toggle button
               if (event.target.matches('#toggle') || event.target.matches('.openbtn') || event.target.closest('#menuToggle')) {
-                  const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
-
-                  if (alwaysVisibleDropdown && window.innerWidth <= 768) {
-                      alwaysVisibleDropdown.classList.remove('hidden');
+                  if (window.innerWidth <= 768) {
+                      toggleAlwaysVisibleDropdown();
                   }
               }
           }
@@ -578,12 +591,10 @@
                   }
               }
 
-              // Show the dropdown when touching the toggle button
+              // Toggle the dropdown when touching the toggle button
               if (event.target.matches('#toggle') || event.target.matches('.openbtn') || event.target.closest('#menuToggle')) {
-                  const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
-
-                  if (alwaysVisibleDropdown && window.innerWidth <= 768) {
-                      alwaysVisibleDropdown.classList.remove('hidden');
+                  if (window.innerWidth <= 768) {
+                      toggleAlwaysVisibleDropdown();
                   }
               }
           }
