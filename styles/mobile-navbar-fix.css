@@ -1,0 +1,68 @@
+/* Mobile Navbar Fix - Center logo with toggle underneath and phone numbers to the right */
+
+@media screen and (max-width: 768px) {
+  /* Adjust the contact navbar layout */
+  .contact-navbar .nav-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-template-areas:
+      "logo numbers"
+      "toggle toggle";
+    align-items: center;
+    padding: 10px 15px;
+    gap: 5px;
+  }
+
+  /* Logo centered in its column */
+  .contact-navbar #haleys-logo {
+    grid-area: logo;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+  }
+
+  /* Phone numbers to the right */
+  .contact-navbar #numbers-container {
+    grid-area: numbers;
+    text-align: right;
+    font-size: 0.8rem;
+  }
+
+  /* Toggle centered underneath */
+  .contact-navbar .nav-toggle {
+    grid-area: toggle;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 5px;
+  }
+
+  /* Make phone numbers smaller on mobile */
+  .phone-number {
+    font-size: 0.8rem !important;
+    line-height: 1.2;
+  }
+
+  /* Adjust the dropdown position to be centered under the toggle */
+  .always-visible-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
+  }
+}
+
+/* Extra small devices */
+@media screen and (max-width: 480px) {
+  .contact-navbar #haleys-logo img {
+    width: 150px;
+  }
+
+  .phone-number {
+    font-size: 0.7rem !important;
+  }
+
+  .phone-number em {
+    display: none; /* Hide the "CALL US NOW ON:" text on very small screens */
+  }
+}
