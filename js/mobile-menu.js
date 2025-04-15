@@ -5,7 +5,7 @@ const isMobile = () => window.innerWidth <= 768;
 function toggleAlwaysVisibleDropdown() {
     console.log('toggleAlwaysVisibleDropdown called');
     const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
-    
+
     if (alwaysVisibleDropdown) {
         if (alwaysVisibleDropdown.classList.contains('hidden')) {
             // Show dropdown
@@ -33,7 +33,7 @@ function toggleAlwaysVisibleDropdown() {
                 alwaysVisibleDropdown.classList.remove('hiding');
                 alwaysVisibleDropdown.classList.add('hidden');
             }, 300);
-            
+
             console.log('Dropdown hidden');
         }
     } else {
@@ -206,6 +206,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // Close navigation when clicking outside
     document.addEventListener('click', function(event) {
         if (isMobile()) {
+            // Mobile view behavior
             // Close dropdown when clicking outside
             if (!event.target.matches('.dropdown-toggle') &&
                 !event.target.closest('.dropdown-content') &&
@@ -268,6 +269,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (alwaysVisibleDropdown && window.innerWidth <= 768) {
                     alwaysVisibleDropdown.classList.remove('hidden');
                 }
+            }
+        } else {
+            // Desktop view behavior
+            // Close sidebar when clicking outside
+            const sidebar = document.getElementById("mySidebar");
+            const overlay = document.getElementById("sidebar-overlay");
+            const toggleBtn = document.querySelector('.openbtn');
+
+            // If sidebar is open and click is outside sidebar and not on toggle button
+            if (sidebar &&
+                sidebar.style.width === "250px" &&
+                !sidebar.contains(event.target) &&
+                event.target !== toggleBtn &&
+                !toggleBtn.contains(event.target) &&
+                event.target !== overlay) {
+                closeNav();
             }
         }
     });
@@ -344,7 +361,11 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle overlay clicks
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', closeNav);
+        sidebarOverlay.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            closeNav();
+        });
     }
 });
 
