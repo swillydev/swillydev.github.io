@@ -539,6 +539,37 @@
                       alwaysVisibleDropdown.classList.remove('hidden');
                   }
               }
+          } else {
+              // Desktop behavior
+              const sidebar = document.getElementById('mySidebar');
+
+              // Check if sidebar is open and click is outside
+              if (sidebar && sidebar.style.width === "250px" &&
+                  !sidebar.contains(event.target) &&
+                  event.target !== toggleBtn &&
+                  !toggleBtn.contains(event.target)) {
+                  closeNav();
+              }
+          }
+      });
+
+      // Add touch event support for mobile
+      document.addEventListener('touchstart', function(event) {
+          const toggleBtn = document.querySelector('.openbtn');
+
+          if (isMobile()) {
+              // Mobile behavior - handled in touchend event
+          } else {
+              // Desktop behavior
+              const sidebar = document.getElementById('mySidebar');
+
+              // Check if sidebar is open and touch is outside
+              if (sidebar && sidebar.style.width === "250px" &&
+                  !sidebar.contains(event.target) &&
+                  event.target !== toggleBtn &&
+                  !toggleBtn.contains(event.target)) {
+                  closeNav();
+              }
           }
       });
 
@@ -610,6 +641,18 @@
               }
           }
       });
+
+      // Handle overlay clicks
+      const sidebarOverlay = document.getElementById('sidebar-overlay');
+      if (sidebarOverlay) {
+          ['click', 'touchstart'].forEach(function(eventType) {
+              sidebarOverlay.addEventListener(eventType, function(e) {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  closeNav();
+              });
+          });
+      }
     </script>
     <!-- Include the mobile menu JavaScript file -->
     <script src="../js/mobile-menu.js"></script>
