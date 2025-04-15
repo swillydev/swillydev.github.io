@@ -263,13 +263,27 @@
       // Simple direct toggle function for mobile menu
       function toggleMobileMenu() {
           const mobileMenu = document.getElementById('mobileMenu');
+          const mobileOverlay = document.getElementById('mobileOverlay');
+          const navToggle = document.querySelector('.nav-toggle');
 
           if (mobileMenu.classList.contains('open')) {
+              // Close menu
               mobileMenu.classList.remove('open');
+              mobileOverlay.classList.remove('show');
               document.body.style.overflow = ''; // Restore scrolling
           } else {
+              // Open menu
               mobileMenu.classList.add('open');
-              document.body.style.overflow = 'hidden'; // Prevent background scrolling
+              mobileOverlay.classList.add('show');
+              document.body.style.overflow = 'hidden'; // Prevent scrolling
+
+              // Position the menu under the toggle button
+              if (navToggle) {
+                  const rect = navToggle.getBoundingClientRect();
+                  const centerX = rect.left + rect.width / 2;
+                  mobileMenu.style.left = `${centerX}px`;
+                  mobileMenu.style.transform = 'translateX(-50%)';
+              }
           }
       }
 
