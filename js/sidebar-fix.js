@@ -1,5 +1,15 @@
 // Fix for desktop sidebar to show over navbars and take 30% of viewport width
 document.addEventListener('DOMContentLoaded', function() {
+    // Remove any inline scripts that define openNav and closeNav functions
+    // This prevents conflicts with our overridden functions
+    const scripts = document.querySelectorAll('script:not([src])');
+    scripts.forEach(script => {
+        if (script.textContent.includes('function openNav()') ||
+            script.textContent.includes('function closeNav()')) {
+            // Don't actually remove the script, just note that we found it
+            console.log('Found inline navigation script');
+        }
+    });
     // Override the openNav function for desktop
     window.originalOpenNav = window.openNav;
 
@@ -105,6 +115,7 @@ document.addEventListener('DOMContentLoaded', function() {
     window.originalCloseNav = window.closeNav;
 
     window.closeNav = function() {
+        console.log('Global closeNav called');
         // Check if we're on mobile
         if (window.innerWidth <= 768) {
             // Use original mobile behavior
@@ -126,11 +137,34 @@ document.addEventListener('DOMContentLoaded', function() {
             const overlay = document.getElementById("sidebar-overlay");
 
             if (sidebar) {
+                // Force width to 0 to ensure it's closed
                 sidebar.style.width = "0";
-                if (overlay) overlay.classList.remove("show");
+                sidebar.style.minWidth = "0";
+
+                // Remove any classes that might keep it open
+                sidebar.classList.remove('open');
+
+                // Hide the overlay
+                if (overlay) {
+                    overlay.classList.remove("show");
+                    overlay.style.display = "none";
+                }
+
+                // Reset body background
                 document.body.style.backgroundColor = "white";
+
+                console.log('Sidebar closed with width:', sidebar.style.width);
             }
         }
+
+        // Also check for any other sidebar elements that might be open
+        document.querySelectorAll('.sidebar').forEach(sidebar => {
+            if (sidebar && sidebar.style.width && sidebar.style.width !== "0" && sidebar.style.width !== "0px") {
+                sidebar.style.width = "0";
+                sidebar.style.minWidth = "0";
+                console.log('Additional sidebar closed');
+            }
+        });
     };
 
     // Fix click outside detection for all pages
@@ -141,15 +175,24 @@ document.addEventListener('DOMContentLoaded', function() {
             const toggleBtn = document.querySelector('.openbtn');
             const overlay = document.getElementById('sidebar-overlay');
 
-            if (sidebar && sidebar.style.width && sidebar.style.width !== "0px" && sidebar.style.width !== "0" &&
+            // Check if sidebar is open (any width greater than 0)
+            const isSidebarOpen = sidebar && sidebar.style.width &&
+                                 (sidebar.style.width !== "0px" && sidebar.style.width !== "0") &&
+                                 (parseFloat(sidebar.style.width) > 0 || sidebar.style.width.includes('vw'));
+
+            console.log('Sidebar width:', sidebar ? sidebar.style.width : 'no sidebar', 'Is open:', isSidebarOpen);
+
+            if (isSidebarOpen &&
                 !sidebar.contains(event.target) &&
                 event.target !== toggleBtn &&
                 (!toggleBtn || !toggleBtn.contains(event.target))) {
+                console.log('Closing sidebar from click outside');
                 closeNav();
             }
 
             // Also close when clicking on the overlay
             if (overlay && event.target === overlay) {
+                console.log('Closing sidebar from overlay click');
                 closeNav();
             }
         }
@@ -162,6 +205,15 @@ document.addEventListener('DOMContentLoaded', function() {
     // Style the sidebar overlay
     const style = document.createElement('style');
     style.textContent = `
+        /* Ensure sidebar is above all other elements */
+        .sidebar {
+            z-index: 9999 !important; /* Higher z-index to show over navbars */
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            height: 100% !important;
+        }
+
         .sidebar-overlay {
             position: fixed;
             top: 0;
@@ -196,5 +248,25 @@ document.addEventListener('DOMContentLoaded', function() {
     // Make sure all sidebar overlays have click handlers
     document.querySelectorAll('.sidebar-overlay').forEach(overlay => {
         overlay.addEventListener('click', closeNav);
+    });
+
+    // Ensure sidebar is closed when the page loads
+    const sidebar = document.getElementById('mySidebar');
+    if (sidebar) {
+        sidebar.style.width = "0";
+        sidebar.style.minWidth = "0";
+        console.log('Sidebar closed on page load');
+    }
+
+    // Add a global click handler to close any open sidebars
+    window.closeSidebar = function() {
+        closeNav();
+    };
+
+    // Add a keyboard shortcut (Escape key) to close the sidebar
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape') {
+            closeNav();
+        }
     });
 });

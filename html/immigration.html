@@ -118,6 +118,31 @@
       <!-- Mobile overlay -->
       <div id="mobileOverlay" class="mobile-overlay" onclick="closeNav()"></div>
 
+      <!--side nav bar-->
+      <div id="mySidebar" class="sidebar">
+          <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">×</a>
+          <nav class = "nav">
+              <ul>
+                  <li><a href="index.html">Home</a></li>
+                  <li><div class="dropdown">
+                      <button class="dropbtn">Our Practice Areas</button>
+                      <div class="dropdown-content">
+                          <a href="criminal-appeals.html">Criminal Appeals</a>
+                          <a href="immigration.html">Immigration</a>
+                          <a href="criminal-law.html">Criminal Law</a>
+                          <a href="traffic-cases.html">Road Traffic Cases</a>
+                          <a href="wills-probate.html">Wills And Probate</a>
+                          <a href="arrest-search-seizure.html">Arrest, Search and Seizure of property</a>
+                          <a href="restraint-orders.html">Challenging Restraint and Freezing Orders</a>
+                      </div>
+                    </div></li>
+                  <li><a href="aboutUs.html">About Us</a></li>
+                  <li><a href="contact.html">Get In Touch</a></li>
+                  <li><a href="Our-Locations.html">Our Locations</a></li>
+              </ul>
+          </nav>
+        </div>
+
     <!-- Main Content -->
     <div class="page-container fade-in-section">
         <div class="content-container fade-in-section">
@@ -282,6 +307,8 @@
     <script src="/js/mailhog-form-handler.js"></script>
     <!-- Scroll Animations -->
     <script src="/js/scroll-animations.js"></script>
+    <script src="/js/sidebar-fix.js"></script>
+    <script src="/js/active-page.js"></script>
     <script src="/js/phone-number-formatter.js"></script>
 
 
@@ -690,3 +717,5 @@
     </script>
 </body>
 </html>
+
+
