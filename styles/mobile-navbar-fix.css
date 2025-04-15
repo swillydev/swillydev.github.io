@@ -42,10 +42,10 @@
 
   /* Position the dropdown menu centered under the logo */
   .nav-toggle .always-visible-dropdown {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 80px; /* Increased to position below the logo */
+    position: absolute !important; /* Override any other positioning */
+    left: 50vw !important; /* Center in the viewport */
+    transform: translateX(-50%) !important;
+    top: 100px !important; /* Position it below the logo */
     width: 100%;
     max-width: 200px;
     z-index: 1001;
@@ -66,17 +66,17 @@
 
   /* Make phone numbers smaller on mobile */
   .phone-number {
-    font-size: 0.8rem !important;
+    font-size: 0.7rem !important;
     line-height: 1.2;
     margin: 0;
   }
 
   /* Ensure all dropdowns are properly positioned */
   .always-visible-dropdown {
-    position: fixed;
-    left: 50%;
-    transform: translateX(-50%);
-    top: 80px; /* Increased to position below the logo */
+    position: absolute !important; /* Override any other positioning */
+    left: 50vw !important; /* Center in the viewport */
+    transform: translateX(-50%) !important;
+    top: 100px !important; /* Position it below the logo */
     z-index: 1000;
   }
 }
@@ -115,6 +115,6 @@
   /* Adjust dropdown position for smaller screens */
   .always-visible-dropdown,
   .nav-toggle .always-visible-dropdown {
-    top: 65px; /* Adjusted for smaller screens but still below logo */
+    top: 80px !important; /* Adjusted for smaller screens but still below logo */
   }
 }
