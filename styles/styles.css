@@ -443,6 +443,7 @@ body {
   font-size: 0.8rem;
   font-weight: bold;
   text-decoration: none;
+  font-family: "Urbanist", sans-serif;
 }
 
 .contact-navbar {
@@ -450,7 +451,7 @@ body {
   z-index: 10;
   background-color: #fff;
   border-bottom: 1px solid #e0e0e0;
-  font-family: "Bebas Neue";
+  font-family: "Urbanist", sans-serif;
 }
 
 .contact-navbar .nav-container {
@@ -490,6 +491,7 @@ body {
   font-size: 1rem;
   color: black;
   font-weight: bold;
+  font-family: "Urbanist", sans-serif;
 }
 #contact-text{
     text-align: center;
@@ -1034,6 +1036,20 @@ body {
 
 #footerDiv{
     line-height: 1cm;
+    font-family: "Urbanist", sans-serif;
+}
+
+#footerDiv h4 {
+    font-family: "Urbanist", sans-serif;
+    font-weight: 600;
+}
+
+#footerDiv p, #footerDiv a, #footerDiv li {
+    font-family: "Urbanist", sans-serif;
+}
+
+#key-services li a, #socials li a {
+    font-family: "Urbanist", sans-serif;
 }
 
 @import url(https://fonts.googleapis.com/css?family=Montserrat:400,700);
