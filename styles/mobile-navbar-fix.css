@@ -35,9 +35,22 @@
     grid-area: numbers;
     justify-self: end;
     text-align: right;
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     max-width: 100%;
-    line-height: 1.1;
+    line-height: 1;
+  }
+
+  /* Split the second phone number into two lines */
+  .contact-navbar #numbers-container .phone-number:last-child {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Add a slash between the two direct line numbers */
+  .contact-navbar #numbers-container .phone-number:last-child::after {
+    content: "";
+    display: block;
+    margin-top: 2px;
   }
 
   /* Position the dropdown menu centered under the logo */
@@ -45,7 +58,7 @@
     position: absolute !important; /* Override any other positioning */
     left: 50vw !important; /* Center in the viewport */
     transform: translateX(-50%) !important;
-    top: 100px !important; /* Position it below the logo */
+    top: 90px !important; /* Reduced gap between logo and dropdown */
     width: 100%;
     max-width: 200px;
     z-index: 1001;
@@ -76,7 +89,7 @@
     position: absolute !important; /* Override any other positioning */
     left: 50vw !important; /* Center in the viewport */
     transform: translateX(-50%) !important;
-    top: 100px !important; /* Position it below the logo */
+    top: 90px !important; /* Reduced gap between logo and dropdown */
     z-index: 1000;
   }
 }
@@ -109,12 +122,12 @@
   /* Make numbers container smaller on very small screens */
   .contact-navbar #numbers-container {
     max-width: 100%;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
   }
 
   /* Adjust dropdown position for smaller screens */
   .always-visible-dropdown,
   .nav-toggle .always-visible-dropdown {
-    top: 80px !important; /* Adjusted for smaller screens but still below logo */
+    top: 75px !important; /* Adjusted for smaller screens but still below logo */
   }
 }
