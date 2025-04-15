@@ -59,8 +59,8 @@
     left: 50vw !important; /* Center in the viewport */
     transform: translateX(-50%) !important;
     top: 90px !important; /* Reduced gap between logo and dropdown */
-    width: 100%;
-    max-width: 200px;
+    width: 200px !important;
+    max-width: 200px !important;
     z-index: 1001;
   }
 
@@ -90,6 +90,8 @@
     left: 50vw !important; /* Center in the viewport */
     transform: translateX(-50%) !important;
     top: 90px !important; /* Reduced gap between logo and dropdown */
+    width: 200px !important;
+    max-width: 200px !important;
     z-index: 1000;
   }
 }
@@ -129,5 +131,13 @@
   .always-visible-dropdown,
   .nav-toggle .always-visible-dropdown {
     top: 75px !important; /* Adjusted for smaller screens but still below logo */
+    width: 200px !important;
+    max-width: 200px !important;
+  }
+
+  /* Ensure dropdown content is properly displayed */
+  .dropdown-content {
+    width: 100% !important;
+    max-width: 200px !important;
   }
 }
