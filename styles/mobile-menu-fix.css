@@ -1,6 +1,7 @@
 /* Fix for mobile menu positioning on law area pages */
-.mobile-menu {
-  display: none;
+/* Use the always-visible-dropdown for mobile menu */
+.always-visible-dropdown {
+  display: none; /* Hidden by default, shown in media query */
   position: absolute !important;
   top: 100% !important;
   left: 50% !important;
@@ -10,24 +11,14 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
   z-index: 1000 !important;
   border-radius: 0 0 5px 5px !important;
-  overflow: hidden !important;
 }
 
-.mobile-menu.open {
-  display: block !important;
-  max-height: 80vh !important;
-  overflow-y: auto !important;
+/* Hide the mobile-menu since we're using always-visible-dropdown */
+.mobile-menu {
+  display: none !important;
 }
 
-/* Ensure the mobile overlay covers the entire screen */
-.mobile-overlay.show {
-  display: block !important;
-}
-
-/* Make sure the close button is visible and positioned correctly */
-.mobile-menu-close {
-  position: absolute !important;
-  top: 10px !important;
-  right: 15px !important;
-  z-index: 1001 !important;
+/* Hide the mobile overlay since we don't need it */
+.mobile-overlay {
+  display: none !important;
 }

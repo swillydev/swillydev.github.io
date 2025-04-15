@@ -291,8 +291,11 @@
           console.log('openNav called, isMobile:', isMobile());
 
           if (isMobile()) {
-              // Mobile behavior - vertical dropdown menu
-              toggleMobileMenu();
+              // Mobile behavior - show the always visible dropdown
+              const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+              if (alwaysVisibleDropdown) {
+                  alwaysVisibleDropdown.classList.remove('hidden');
+              }
           } else {
               // Desktop behavior - side panel
               const sidebar = document.getElementById("mySidebar");
@@ -312,18 +315,30 @@
           console.log('closeNav called');
 
           if (isMobile()) {
-              // Mobile behavior
-              const mobileMenu = document.getElementById("mobileMenu");
+              // Mobile behavior - hide the always visible dropdown
+              const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
 
-              // Only close if it's open
-              if (mobileMenu.classList.contains("open")) {
-                  const mobileOverlay = document.getElementById("mobileOverlay");
+              if (alwaysVisibleDropdown && !alwaysVisibleDropdown.classList.contains('hidden')) {
+                  // Hide all dropdown content first
+                  const dropdownContent = alwaysVisibleDropdown.querySelector('.dropdown-content.show');
+                  const dropdownToggle = alwaysVisibleDropdown.querySelector('.dropdown-toggle.active');
 
-                  mobileMenu.classList.remove("open");
-                  mobileOverlay.classList.remove("show");
-                  document.body.style.overflow = ""; // Restore scrolling
+                  if (dropdownContent) {
+                      dropdownContent.classList.remove('show');
+                  }
 
-                  console.log('Mobile menu closed');
+                  if (dropdownToggle) {
+                      dropdownToggle.classList.remove('active');
+                  }
+
+                  // Add a class to hide the dropdown with animation
+                  alwaysVisibleDropdown.classList.add('hiding');
+
+                  // After animation completes, hide the dropdown
+                  setTimeout(function() {
+                      alwaysVisibleDropdown.classList.remove('hiding');
+                      alwaysVisibleDropdown.classList.add('hidden');
+                  }, 300);
               }
           } else {
               // Desktop behavior
@@ -391,15 +406,42 @@
               console.log('Menu toggle found:', menuToggle);
 
               // Method 1: Direct click and touch handlers for better mobile support
-              menuToggle.addEventListener('click', function(e) {
-                  e.preventDefault();
-                  openNav();
+              ['click', 'touchstart'].forEach(function(eventType) {
+                  menuToggle.addEventListener(eventType, function(e) {
+                      console.log('Menu toggle ' + eventType + ' via event listener');
+                      e.preventDefault();
+                      openNav();
+
+                      // Show the dropdown menu on mobile
+                      if (window.innerWidth <= 768) {
+                          const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+                          if (alwaysVisibleDropdown) {
+                              alwaysVisibleDropdown.classList.remove('hidden');
+                          }
+                      }
+                  });
               });
 
-              menuToggle.addEventListener('touchend', function(e) {
-                  e.preventDefault();
-                  openNav();
-              });
+              // Method 2: Direct click and touch handlers for the image
+              const toggleImg = document.getElementById('toggle');
+              if (toggleImg) {
+                  ['click', 'touchstart'].forEach(function(eventType) {
+                      toggleImg.addEventListener(eventType, function(e) {
+                          console.log('Toggle image ' + eventType);
+                          e.preventDefault();
+                          e.stopPropagation();
+                          openNav();
+
+                          // Show the dropdown menu on mobile
+                          if (window.innerWidth <= 768) {
+                              const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+                              if (alwaysVisibleDropdown) {
+                                  alwaysVisibleDropdown.classList.remove('hidden');
+                              }
+                          }
+                      });
+                  });
+              }
           }
 
           // Handle mobile dropdown toggles
@@ -488,6 +530,15 @@
                       }, 300);
                   }
               }
+
+              // Show the dropdown when clicking the toggle button
+              if (event.target.matches('#toggle') || event.target.matches('.openbtn') || event.target.closest('#menuToggle')) {
+                  const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+
+                  if (alwaysVisibleDropdown && window.innerWidth <= 768) {
+                      alwaysVisibleDropdown.classList.remove('hidden');
+                  }
+              }
           }
       });
 
@@ -546,6 +597,15 @@
                           alwaysVisibleDropdown.classList.remove('hiding');
                           alwaysVisibleDropdown.classList.add('hidden');
                       }, 300);
+                  }
+              }
+
+              // Show the dropdown when touching the toggle button
+              if (event.target.matches('#toggle') || event.target.matches('.openbtn') || event.target.closest('#menuToggle')) {
+                  const alwaysVisibleDropdown = document.getElementById('alwaysVisibleDropdown');
+
+                  if (alwaysVisibleDropdown && window.innerWidth <= 768) {
+                      alwaysVisibleDropdown.classList.remove('hidden');
                   }
               }
           }
