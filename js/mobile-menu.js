@@ -205,6 +205,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Close navigation when clicking outside
     document.addEventListener('click', function(event) {
+        const toggleBtn = document.querySelector('.openbtn');
+
         if (isMobile()) {
             // Mobile view behavior
             // Close dropdown when clicking outside
@@ -272,18 +274,35 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         } else {
             // Desktop view behavior
-            // Close sidebar when clicking outside
-            const sidebar = document.getElementById("mySidebar");
-            const overlay = document.getElementById("sidebar-overlay");
-            const toggleBtn = document.querySelector('.openbtn');
+            const sidebar = document.getElementById('mySidebar');
 
-            // If sidebar is open and click is outside sidebar and not on toggle button
+            // Check if sidebar is open and click is outside
             if (sidebar &&
                 sidebar.style.width === "250px" &&
                 !sidebar.contains(event.target) &&
                 event.target !== toggleBtn &&
-                !toggleBtn.contains(event.target) &&
-                event.target !== overlay) {
+                !toggleBtn.contains(event.target)) {
+                closeNav();
+            }
+        }
+    });
+
+    // Also add touch event for better mobile support
+    document.addEventListener('touchstart', function(event) {
+        const toggleBtn = document.querySelector('.openbtn');
+
+        if (isMobile()) {
+            // Mobile behavior - handled in touchend event
+        } else {
+            // Desktop view behavior
+            const sidebar = document.getElementById('mySidebar');
+
+            // Check if sidebar is open and touch is outside
+            if (sidebar &&
+                sidebar.style.width === "250px" &&
+                !sidebar.contains(event.target) &&
+                event.target !== toggleBtn &&
+                !toggleBtn.contains(event.target)) {
                 closeNav();
             }
         }
@@ -361,10 +380,12 @@ document.addEventListener('DOMContentLoaded', function() {
     // Handle overlay clicks
     const sidebarOverlay = document.getElementById('sidebar-overlay');
     if (sidebarOverlay) {
-        sidebarOverlay.addEventListener('click', function(e) {
-            e.preventDefault();
-            e.stopPropagation();
-            closeNav();
+        ['click', 'touchstart'].forEach(function(eventType) {
+            sidebarOverlay.addEventListener(eventType, function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                closeNav();
+            });
         });
     }
 });
