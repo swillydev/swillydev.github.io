@@ -1,22 +1,27 @@
-/* Mobile Navbar Fix - Center logo with toggle and phone numbers inline below */
+/* Mobile Navbar Fix - Toggle on left, logo in center, phone numbers on right */
 
 @media screen and (max-width: 768px) {
   /* Adjust the contact navbar layout */
   .contact-navbar .nav-container {
     display: grid;
-    grid-template-areas:
-      "logo"
-      "toggle-numbers";
-    grid-template-rows: auto auto;
+    grid-template-columns: 1fr 2fr 1fr;
+    grid-template-areas: "toggle logo numbers";
     align-items: center;
     justify-items: center;
     padding: 10px 15px;
-    gap: 10px;
     max-width: 1200px;
     margin: 0 auto;
   }
 
-  /* Logo centered on its own line */
+  /* Toggle button on the left */
+  .contact-navbar .nav-toggle {
+    grid-area: toggle;
+    justify-self: start;
+    display: flex;
+    align-items: center;
+  }
+
+  /* Logo centered in the middle */
   .contact-navbar #haleys-logo {
     grid-area: logo;
     display: flex;
@@ -25,47 +30,24 @@
     width: 100%;
   }
 
-  /* Create a centered container for toggle and numbers */
-  .contact-navbar .nav-container::after {
-    content: "";
-    grid-area: toggle-numbers;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
-    max-width: 500px;
-    margin: 0 auto;
-  }
-
-  /* Toggle button */
-  .contact-navbar .nav-toggle {
-    grid-area: toggle-numbers;
-    justify-self: center;
-    display: flex;
-    align-items: center;
-    margin-right: 50px;
-    position: relative;
-    left: -25px;
-  }
-
-  /* Phone numbers inline with toggle */
+  /* Phone numbers on the right */
   .contact-navbar #numbers-container {
-    grid-area: toggle-numbers;
-    justify-self: center;
+    grid-area: numbers;
+    justify-self: end;
     text-align: right;
     font-size: 0.8rem;
-    max-width: 60%;
-    position: relative;
-    left: 25px;
+    max-width: 100%;
   }
 
-  /* Adjust the dropdown position to be centered under the toggle */
+  /* Position the dropdown menu centered under the logo */
   .nav-toggle .always-visible-dropdown {
+    position: fixed;
     left: 50%;
     transform: translateX(-50%);
-    top: 100%;
+    top: 60px; /* Adjust this value based on your navbar height */
     width: 100%;
     max-width: 200px;
+    z-index: 1001;
   }
 
   /* Ensure the toggle button is properly sized */
@@ -88,10 +70,12 @@
     margin: 0;
   }
 
-  /* Ensure dropdown is properly positioned */
+  /* Ensure all dropdowns are properly positioned */
   .always-visible-dropdown {
+    position: fixed;
     left: 50%;
     transform: translateX(-50%);
+    top: 60px; /* Adjust this value based on your navbar height */
     z-index: 1000;
   }
 }
@@ -110,15 +94,26 @@
     display: none; /* Hide the "CALL US NOW ON:" text on very small screens */
   }
 
-  /* Make numbers container even smaller on very small screens */
-  .contact-navbar #numbers-container {
-    max-width: 50%;
-    left: 20px;
+  /* Adjust layout for very small screens */
+  .contact-navbar .nav-container {
+    grid-template-columns: 0.8fr 1.4fr 0.8fr;
+    padding: 5px 10px;
   }
 
-  /* Adjust toggle position on very small screens */
-  .contact-navbar .nav-toggle {
-    left: -20px;
-    margin-right: 40px;
+  /* Make logo smaller on very small screens */
+  .contact-navbar #haleys-logo img {
+    max-width: 100%;
+  }
+
+  /* Make numbers container smaller on very small screens */
+  .contact-navbar #numbers-container {
+    max-width: 100%;
+    font-size: 0.7rem;
+  }
+
+  /* Adjust dropdown position for smaller screens */
+  .always-visible-dropdown,
+  .nav-toggle .always-visible-dropdown {
+    top: 50px;
   }
 }
