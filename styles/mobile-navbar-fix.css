@@ -1,41 +1,49 @@
-/* Mobile Navbar Fix - Center logo with toggle underneath and phone numbers to the right */
+/* Mobile Navbar Fix - Center logo with toggle and phone numbers inline below */
 
 @media screen and (max-width: 768px) {
   /* Adjust the contact navbar layout */
   .contact-navbar .nav-container {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: auto auto;
     grid-template-areas:
-      "logo numbers"
-      "toggle toggle";
+      ". logo ."
+      "toggle . numbers";
     align-items: center;
     padding: 10px 15px;
     gap: 5px;
   }
 
-  /* Logo centered in its column */
+  /* Logo centered */
   .contact-navbar #haleys-logo {
     grid-area: logo;
     display: flex;
-    justify-content: flex-start;
+    justify-content: center;
     align-items: center;
   }
 
-  /* Phone numbers to the right */
+  /* Toggle button */
+  .contact-navbar .nav-toggle {
+    grid-area: toggle;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    margin-top: 10px;
+  }
+
+  /* Phone numbers to the right, inline with toggle */
   .contact-navbar #numbers-container {
     grid-area: numbers;
     text-align: right;
     font-size: 0.8rem;
+    margin-top: 10px;
   }
 
-  /* Toggle centered underneath */
-  .contact-navbar .nav-toggle {
-    grid-area: toggle;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 5px;
+  /* Adjust the dropdown position to be centered under the toggle */
+  .always-visible-dropdown {
+    left: 50%;
+    transform: translateX(-50%);
+    top: 100%;
   }
 
   /* Make phone numbers smaller on mobile */
