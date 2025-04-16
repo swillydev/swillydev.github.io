@@ -11,14 +11,16 @@ load_dotenv()
 
 app = Flask(__name__, static_folder=os.path.abspath('.'))
 
-# Configure CORS to allow requests from any origin
-cors = CORS(app, resources={
-    r"/*": {
-        "origins": "*",  # Allow all origins
-        "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization", "Accept", "X-Requested-With", "Origin"]
-    }
-})
+# Configure CORS to allow requests from specific domains
+CORS(app)
+
+# Add CORS headers to all responses
+@app.after_request
+def add_cors_headers(response):
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,X-Requested-With,Origin')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+    return response
 
 # Connect to MongoDB
 mongo_uri = os.getenv('MONGO_URI')
@@ -26,11 +28,20 @@ client = MongoClient(mongo_uri)
 db = client['contact_form_db']
 collection = db['submissions']
 
-@app.route('/api/submit-form', methods=['POST'])
+@app.route('/api/submit-form', methods=['POST', 'OPTIONS'])
 def submit_form():
+    # Handle preflight OPTIONS request
+    if request.method == 'OPTIONS':
+        return '', 200
+
     try:
+        # Log request details for debugging
+        print(f"Request received from: {request.remote_addr}")
+        print(f"Request headers: {request.headers}")
+
         # Get form data
         form_data = request.form.to_dict()
+        print(f"Form data received: {form_data}")
 
         # Add unique ID and timestamp
         form_data['_id'] = str(uuid.uuid4())
@@ -38,6 +49,7 @@ def submit_form():
 
         # Insert into MongoDB
         collection.insert_one(form_data)
+        print("Data successfully inserted into MongoDB")
 
         return jsonify({
             'status': 'success',
@@ -45,16 +57,40 @@ def submit_form():
         }), 200
 
     except Exception as e:
-        print(f"Error: {str(e)}")
+        error_message = str(e)
+        print(f"Error: {error_message}")
         return jsonify({
             'status': 'error',
-            'message': 'An error occurred while processing your request'
+            'message': f'An error occurred: {error_message}'
         }), 500
 
 # Health check endpoint
 @app.route('/api/health', methods=['GET'])
 def health_check():
     return 'OK', 200
+
+# CORS test endpoint
+@app.route('/api/cors-test', methods=['GET', 'POST', 'OPTIONS'])
+def cors_test():
+    if request.method == 'OPTIONS':
+        return '', 200
+
+    # Log request details
+    print(f"CORS test request from: {request.remote_addr}")
+    print(f"CORS test headers: {request.headers}")
+
+    # Return request details and headers
+    return jsonify({
+        'status': 'success',
+        'message': 'CORS test successful',
+        'request': {
+            'method': request.method,
+            'origin': request.headers.get('Origin', 'No origin'),
+            'referer': request.headers.get('Referer', 'No referer'),
+            'user_agent': request.headers.get('User-Agent', 'No user agent')
+        },
+        'server_time': datetime.now().isoformat()
+    })
 
 # Server info endpoint
 @app.route('/api/info', methods=['GET'])

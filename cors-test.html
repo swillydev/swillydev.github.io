@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CORS Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a0dad;
+        }
+        button {
+            background-color: #6a0dad;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #5a0b9d;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>CORS Test Tool</h1>
+    <p>This page tests CORS with your Render API.</p>
+    
+    <div>
+        <h2>1. CORS Test Endpoint</h2>
+        <button id="testCors">Test CORS</button>
+        <pre id="corsResult">Results will appear here...</pre>
+    </div>
+    
+    <div>
+        <h2>2. Health Check</h2>
+        <button id="testHealth">Test Health</button>
+        <pre id="healthResult">Results will appear here...</pre>
+    </div>
+    
+    <div>
+        <h2>3. Server Info</h2>
+        <button id="testInfo">Get Server Info</button>
+        <pre id="infoResult">Results will appear here...</pre>
+    </div>
+    
+    <div>
+        <h2>4. Test Form Submission</h2>
+        <button id="testForm">Test Form Submission</button>
+        <pre id="formResult">Results will appear here...</pre>
+    </div>
+    
+    <script>
+        // Helper function to log results
+        function logResult(elementId, message, isError = false) {
+            const element = document.getElementById(elementId);
+            const timestamp = new Date().toLocaleTimeString();
+            
+            if (isError) {
+                element.innerHTML = `<span class="error">[${timestamp}] ERROR:</span>\n${message}\n\n${element.innerHTML}`;
+            } else {
+                element.innerHTML = `<span class="success">[${timestamp}] SUCCESS:</span>\n${message}\n\n${element.innerHTML}`;
+            }
+        }
+        
+        // Test 1: CORS Test
+        document.getElementById('testCors').addEventListener('click', async () => {
+            try {
+                const apiUrl = 'https://haleys-contact.onrender.com/api/cors-test';
+                
+                logResult('corsResult', `Sending request to ${apiUrl}...`);
+                
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Origin': window.location.origin
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                
+                logResult('corsResult', `Response status: ${response.status} ${response.statusText}`);
+                
+                // Log response headers
+                const headers = {};
+                response.headers.forEach((value, key) => {
+                    headers[key] = value;
+                });
+                logResult('corsResult', `Response headers: ${JSON.stringify(headers, null, 2)}`);
+                
+                const data = await response.json();
+                logResult('corsResult', `Response data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                logResult('corsResult', `${error.toString()}\n\nThis is likely a CORS error. Check the browser console for more details.`, true);
+            }
+        });
+        
+        // Test 2: Health Check
+        document.getElementById('testHealth').addEventListener('click', async () => {
+            try {
+                const apiUrl = 'https://haleys-contact.onrender.com/api/health';
+                
+                logResult('healthResult', `Sending request to ${apiUrl}...`);
+                
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'text/plain',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Origin': window.location.origin
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                
+                logResult('healthResult', `Response status: ${response.status} ${response.statusText}`);
+                
+                const data = await response.text();
+                logResult('healthResult', `Response data: ${data}`);
+            } catch (error) {
+                logResult('healthResult', `${error.toString()}\n\nThis is likely a CORS error. Check the browser console for more details.`, true);
+            }
+        });
+        
+        // Test 3: Server Info
+        document.getElementById('testInfo').addEventListener('click', async () => {
+            try {
+                const apiUrl = 'https://haleys-contact.onrender.com/api/info';
+                
+                logResult('infoResult', `Sending request to ${apiUrl}...`);
+                
+                const response = await fetch(apiUrl, {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Origin': window.location.origin
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                
+                logResult('infoResult', `Response status: ${response.status} ${response.statusText}`);
+                
+                const data = await response.json();
+                logResult('infoResult', `Response data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                logResult('infoResult', `${error.toString()}\n\nThis is likely a CORS error. Check the browser console for more details.`, true);
+            }
+        });
+        
+        // Test 4: Form Submission
+        document.getElementById('testForm').addEventListener('click', async () => {
+            try {
+                const apiUrl = 'https://haleys-contact.onrender.com/api/submit-form';
+                
+                // Create test form data
+                const formData = new FormData();
+                formData.append('name', 'Test User');
+                formData.append('email', 'test@example.com');
+                formData.append('telephone', '1234567890');
+                formData.append('subject', 'CORS Test');
+                formData.append('message', 'This is a test message from the CORS test tool.');
+                
+                logResult('formResult', `Sending request to ${apiUrl}...`);
+                logResult('formResult', `Form data: ${JSON.stringify(Object.fromEntries(formData), null, 2)}`);
+                
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Origin': window.location.origin
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                
+                logResult('formResult', `Response status: ${response.status} ${response.statusText}`);
+                
+                // Log response headers
+                const headers = {};
+                response.headers.forEach((value, key) => {
+                    headers[key] = value;
+                });
+                logResult('formResult', `Response headers: ${JSON.stringify(headers, null, 2)}`);
+                
+                const data = await response.json();
+                logResult('formResult', `Response data: ${JSON.stringify(data, null, 2)}`);
+            } catch (error) {
+                logResult('formResult', `${error.toString()}\n\nThis is likely a CORS error. Check the browser console for more details.`, true);
+            }
+        });
+    </script>
+</body>
+</html>

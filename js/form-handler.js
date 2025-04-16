@@ -36,6 +36,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 console.log('Form data:', Object.fromEntries(formData));
 
                 // Send data to backend
+                console.log('Sending request with origin:', window.location.origin);
+
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     body: formData,
@@ -48,6 +50,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     mode: 'cors',
                     credentials: 'omit' // Use 'omit' to avoid CORS preflight issues
                 });
+
+                // Log response headers for debugging
+                console.log('Response status:', response.status);
+                console.log('Response headers:', [...response.headers.entries()].reduce((obj, [key, val]) => {
+                    obj[key] = val;
+                    return obj;
+                }, {}));
 
                 // Log response status for debugging
                 console.log('Response status:', response.status, response.statusText);
