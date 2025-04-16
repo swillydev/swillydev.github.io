@@ -198,8 +198,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Form handling is now managed by form-handler.js
-// Check if forms are already being handled by form-handler.js
+// Form handling is managed by form-handler.js
 document.addEventListener('DOMContentLoaded', function() {
   // Set a flag to indicate that script.js has loaded
   window.scriptJsLoaded = true;
