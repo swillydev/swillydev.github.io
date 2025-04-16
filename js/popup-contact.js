@@ -60,25 +60,12 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 
-  // Handle form submission in the popup
+  // Note: Form submission is now handled by form-handler.js
+  // This code is kept for backward compatibility
+  // The popup closing is still handled here
   const popupForm = document.getElementById('popup_contact_form');
   if (popupForm) {
-    popupForm.addEventListener('submit', (e) => {
-      e.preventDefault();
-
-      // Get form data
-      const formData = new FormData(popupForm);
-
-      // You can add AJAX submission here if needed
-      // For now, we'll just close the popup and show a success message
-      const popup = document.getElementById('contact-popup-overlay');
-      popup.classList.remove('active');
-
-      // Show success message
-      alert('Thank you for your message! We will get back to you soon.');
-
-      // Reset the form
-      popupForm.reset();
-    });
+    // We only handle the popup closing here
+    // The actual form submission is handled in form-handler.js
   }
 });

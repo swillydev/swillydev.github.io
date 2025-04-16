@@ -12,19 +12,19 @@
     <script type="module" src="/script.js"></script>
     <script src="/js/scroll-animations.js"></script>
     <script src="/js/sidebar-fix.js"></script>
-    <script src="/js/active-page.js"></script>
     <script src="/js/phone-number-formatter.js"></script>
+    <script src="/js/active-page.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@300&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
         .checked {
             color: orange;
         }
     </style>
 
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
     <!-- Popup Contact Form Overlay -->
@@ -123,7 +123,7 @@
             <ul>
                 <li class="active"><a href="index.html">Home</a></li>
                 <li><div class="dropdown">
-                    <button class="dropbtn"><a>Our Practice Areas</a><span class="dropdown-arrow"></span></button>
+                    <button class="dropbtn">Our Practice Areas</button>
                     <div class="dropdown-content">
                         <a href="criminal-appeals.html">Criminal Appeals</a>
                         <a href="immigration.html">Immigration</a>
@@ -865,12 +865,13 @@
         </div>
     </div>
 </footer>
-    <!-- Index Form Handler for Mailhog -->
-    <script src="../js/index-form-handler.js"></script>
+    <!-- Toast Notifications -->
+    <script src="../js/toast-notification.js"></script>
+    <!-- Form Handler for MongoDB -->
+    <script src="../js/form-handler.js"></script>
     <!-- Popup Contact Form -->
     <script src="/js/popup-contact.js"></script>
 </body>
 </html>
-
 
 
