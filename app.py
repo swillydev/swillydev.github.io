@@ -38,17 +38,36 @@ def submit_form():
         # Log request details for debugging
         print(f"Request received from: {request.remote_addr}")
         print(f"Request headers: {request.headers}")
+        print(f"Content-Type: {request.content_type}")
 
-        # Get form data
-        form_data = request.form.to_dict()
-        print(f"Form data received: {form_data}")
+        # Get data from request
+        if request.content_type and 'application/json' in request.content_type:
+            # Handle JSON data
+            print("Handling JSON data")
+            data = request.get_json()
+        else:
+            # Handle form data
+            print("Handling form data")
+            data = request.form.to_dict()
+
+        print(f"Data received: {data}")
+
+        # If data is empty, try to get raw data
+        if not data:
+            print("Data is empty, trying to get raw data")
+            try:
+                raw_data = request.get_data()
+                print(f"Raw data: {raw_data}")
+            except Exception as e:
+                print(f"Error getting raw data: {str(e)}")
 
         # Add unique ID and timestamp
-        form_data['_id'] = str(uuid.uuid4())
-        form_data['timestamp'] = datetime.now().isoformat()
+        submission_data = data.copy() if data else {}
+        submission_data['_id'] = str(uuid.uuid4())
+        submission_data['timestamp'] = datetime.now().isoformat()
 
         # Insert into MongoDB
-        collection.insert_one(form_data)
+        collection.insert_one(submission_data)
         print("Data successfully inserted into MongoDB")
 
         return jsonify({

@@ -61,7 +61,25 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Log response status for debugging
                 console.log('Response status:', response.status, response.statusText);
 
+                // Check if response is ok (status in the range 200-299)
+                if (!response.ok) {
+                    console.error('Server returned an error status:', response.status);
+
+                    // Try to get error details from response
+                    try {
+                        const errorData = await response.json();
+                        console.error('Error details:', errorData);
+                        toast.error(errorData.message || `Server error: ${response.status} ${response.statusText}`);
+                    } catch (parseError) {
+                        console.error('Could not parse error response:', parseError);
+                        toast.error(`Server error: ${response.status} ${response.statusText}`);
+                    }
+                    return;
+                }
+
+                // Parse successful response
                 const result = await response.json();
+                console.log('Response data:', result);
 
                 if (result.status === 'success') {
                     // Show success toast
@@ -91,6 +109,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else if (error.name === 'SyntaxError') {
                     console.error('Response parsing error: The server response was not valid JSON.');
                     toast.error('Server error: Received an invalid response. Please try again later.');
+                } else if (error.message && error.message.includes('NetworkError')) {
+                    console.error('CORS error: This is likely a CORS issue.');
+                    toast.error('Network error: Could not connect to the server due to CORS restrictions. Please try again later.');
                 } else {
                     // Generic error
                     toast.error('There was an error sending your message. Please try again later.');
@@ -99,6 +120,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Log additional information that might help debugging
                 console.log('API URL:', apiUrl);
                 console.log('Form data keys:', [...formData.keys()]);
+                console.log('Browser:', navigator.userAgent);
+                console.log('Page URL:', window.location.href);
             }
         });
     });
