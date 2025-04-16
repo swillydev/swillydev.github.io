@@ -14,7 +14,7 @@ class ToastNotification {
             const toastContainer = document.createElement('div');
             toastContainer.id = 'toast-container';
             document.body.appendChild(toastContainer);
-
+            
             // Add styles
             const style = document.createElement('style');
             style.textContent = `
@@ -24,7 +24,7 @@ class ToastNotification {
                     right: 20px;
                     z-index: 9999;
                 }
-
+                
                 .toast {
                     min-width: 250px;
                     margin-top: 10px;
@@ -38,19 +38,15 @@ class ToastNotification {
                     align-items: center;
                     animation: slideIn 0.3s ease-in-out;
                 }
-
+                
                 .toast-success {
                     background-color: #4CAF50;
                 }
-
+                
                 .toast-error {
                     background-color: #F44336;
                 }
-
-                .toast-info {
-                    background-color: #2196F3;
-                }
-
+                
                 .toast-close {
                     background: none;
                     border: none;
@@ -59,7 +55,7 @@ class ToastNotification {
                     cursor: pointer;
                     margin-left: 10px;
                 }
-
+                
                 @keyframes slideIn {
                     from {
                         transform: translateX(100%);
@@ -70,7 +66,7 @@ class ToastNotification {
                         opacity: 1;
                     }
                 }
-
+                
                 @keyframes fadeOut {
                     from {
                         opacity: 1;
@@ -87,28 +83,28 @@ class ToastNotification {
     // Show a toast notification
     show(message, type = 'success', duration = 5000) {
         const toastContainer = document.getElementById('toast-container');
-
+        
         // Create toast element
         const toast = document.createElement('div');
         toast.className = `toast toast-${type}`;
-
+        
         // Create message element
         const messageElement = document.createElement('div');
         messageElement.textContent = message;
-
+        
         // Create close button
         const closeButton = document.createElement('button');
         closeButton.className = 'toast-close';
         closeButton.innerHTML = '&times;';
         closeButton.addEventListener('click', () => this.removeToast(toast));
-
+        
         // Append elements to toast
         toast.appendChild(messageElement);
         toast.appendChild(closeButton);
-
+        
         // Append toast to container
         toastContainer.appendChild(toast);
-
+        
         // Auto-remove after duration
         setTimeout(() => {
             if (toast.parentNode === toastContainer) {
