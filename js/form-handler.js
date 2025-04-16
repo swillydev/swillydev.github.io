@@ -4,13 +4,18 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Determine if we're running locally
-    const isLocalDevelopment = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+    // Set a flag to indicate that form-handler.js has initialized
+    window.formHandlerInitialized = true;
 
-    // Use a CORS proxy for local development
-    const apiUrl = isLocalDevelopment
-        ? 'https://cors-anywhere.herokuapp.com/https://haleys-contact.onrender.com/api/submit-form'
-        : 'https://haleys-contact.onrender.com/api/submit-form';
+    // Log if script.js has already loaded
+    if (window.scriptJsLoaded) {
+        console.log('script.js already loaded. form-handler.js will handle forms.');
+    }
+    // Always use the direct URL - we've updated the server to allow CORS from any origin
+    const apiUrl = 'https://haleys-contact.onrender.com/api/submit-form';
+
+    // Log the current hostname for debugging
+    console.log('Current hostname:', window.location.hostname);
 
     console.log('Using API URL:', apiUrl);
 
@@ -35,12 +40,17 @@ document.addEventListener('DOMContentLoaded', function() {
                     method: 'POST',
                     body: formData,
                     headers: {
-                        'Accept': 'application/json'
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Origin': window.location.origin
                         // Don't set Content-Type with FormData as the browser will set it with the boundary
                     },
                     mode: 'cors',
-                    credentials: 'omit' // Changed from 'same-origin' to 'omit' to avoid CORS preflight issues
+                    credentials: 'omit' // Use 'omit' to avoid CORS preflight issues
                 });
+
+                // Log response status for debugging
+                console.log('Response status:', response.status, response.statusText);
 
                 const result = await response.json();
 

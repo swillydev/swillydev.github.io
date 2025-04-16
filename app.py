@@ -11,18 +11,12 @@ load_dotenv()
 
 app = Flask(__name__, static_folder=os.path.abspath('.'))
 
-# Configure CORS to allow requests from specific domains
+# Configure CORS to allow requests from any origin
 cors = CORS(app, resources={
     r"/*": {
-        "origins": [
-            "http://localhost:5000",
-            "http://127.0.0.1:5500",
-            "https://swillydev.github.io",
-            "https://haleys-solicitors.co.uk",
-            "https://swillydev.github.io/swillydev.github.io"
-        ],
+        "origins": "*",  # Allow all origins
         "methods": ["GET", "POST", "OPTIONS"],
-        "allow_headers": ["Content-Type", "Authorization", "Accept"]
+        "allow_headers": ["Content-Type", "Authorization", "Accept", "X-Requested-With", "Origin"]
     }
 })
 
@@ -56,6 +50,22 @@ def submit_form():
             'status': 'error',
             'message': 'An error occurred while processing your request'
         }), 500
+
+# Health check endpoint
+@app.route('/api/health', methods=['GET'])
+def health_check():
+    return 'OK', 200
+
+# Server info endpoint
+@app.route('/api/info', methods=['GET'])
+def server_info():
+    return jsonify({
+        'status': 'running',
+        'version': '1.0.0',
+        'cors': 'enabled',
+        'allowed_origins': '*',
+        'server_time': datetime.now().isoformat()
+    })
 
 # Serve static files
 @app.route('/<path:path>')
