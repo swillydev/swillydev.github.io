@@ -11,10 +11,18 @@ load_dotenv()
 
 app = Flask(__name__, static_folder=os.path.abspath('.'))
 
-# Configure CORS to allow requests from your website domain
+# Configure CORS to allow requests from specific domains
 cors = CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:5000", "https://swillydev.github.io", "https://haleys-solicitors.co.uk", "https://swillydev.github.io/swillydev.github.io"]
+        "origins": [
+            "http://localhost:5000",
+            "http://127.0.0.1:5500",
+            "https://swillydev.github.io",
+            "https://haleys-solicitors.co.uk",
+            "https://swillydev.github.io/swillydev.github.io"
+        ],
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept"]
     }
 })
 

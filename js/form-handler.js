@@ -4,8 +4,13 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Always use the Render server for testing
-    const apiUrl = 'https://haleys-contact.onrender.com/api/submit-form';
+    // Determine if we're running locally
+    const isLocalDevelopment = window.location.hostname === '127.0.0.1' || window.location.hostname === 'localhost';
+
+    // Use a CORS proxy for local development
+    const apiUrl = isLocalDevelopment
+        ? 'https://cors-anywhere.herokuapp.com/https://haleys-contact.onrender.com/api/submit-form'
+        : 'https://haleys-contact.onrender.com/api/submit-form';
 
     console.log('Using API URL:', apiUrl);
 
@@ -21,10 +26,20 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Show loading toast
                 toast.show('Sending your message...', 'info');
 
+                // Show detailed debug info in console
+                console.log('Submitting form to:', apiUrl);
+                console.log('Form data:', Object.fromEntries(formData));
+
                 // Send data to backend
                 const response = await fetch(apiUrl, {
                     method: 'POST',
                     body: formData,
+                    headers: {
+                        'Accept': 'application/json'
+                        // Don't set Content-Type with FormData as the browser will set it with the boundary
+                    },
+                    mode: 'cors',
+                    credentials: 'omit' // Changed from 'same-origin' to 'omit' to avoid CORS preflight issues
                 });
 
                 const result = await response.json();
@@ -49,8 +64,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             } catch (error) {
                 console.error('Error:', error);
-                // Show error toast
-                toast.error('There was an error sending your message. Please try again later.');
+
+                // More detailed error logging
+                if (error instanceof TypeError && error.message.includes('Failed to fetch')) {
+                    console.error('Network error: Could not connect to the server. The server might be down or there might be a CORS issue.');
+                    toast.error('Network error: Could not connect to the server. Please try again later.');
+                } else if (error.name === 'SyntaxError') {
+                    console.error('Response parsing error: The server response was not valid JSON.');
+                    toast.error('Server error: Received an invalid response. Please try again later.');
+                } else {
+                    // Generic error
+                    toast.error('There was an error sending your message. Please try again later.');
+                }
+
+                // Log additional information that might help debugging
+                console.log('API URL:', apiUrl);
+                console.log('Form data keys:', [...formData.keys()]);
             }
         });
     });
