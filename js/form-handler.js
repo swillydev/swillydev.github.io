@@ -4,11 +4,8 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Determine API URL based on environment
-    const isLocalhost = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
-    const apiUrl = isLocalhost
-        ? 'http://localhost:5000/api/submit-form'
-        : 'https://haleys-contact.onrender.com/api/submit-form';
+    // Always use the Render server for testing
+    const apiUrl = 'https://haleys-contact.onrender.com/api/submit-form';
 
     console.log('Using API URL:', apiUrl);
 

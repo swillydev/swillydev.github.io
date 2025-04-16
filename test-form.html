@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Contact Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a0dad;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #6a0dad;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #5a0b9d;
+        }
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .toast {
+            min-width: 250px;
+            margin-top: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease-in-out;
+        }
+        .toast-success {
+            background-color: #4CAF50;
+        }
+        .toast-error {
+            background-color: #F44336;
+        }
+        .toast-info {
+            background-color: #2196F3;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Test Contact Form</h1>
+    <p>This form will submit directly to the Render server at <code>https://haleys-contact.onrender.com</code></p>
+    
+    <form id="contact_form">
+        <div>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+        
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+        
+        <div>
+            <label for="telephone">Phone Number:</label>
+            <input type="tel" id="telephone" name="telephone" required>
+        </div>
+        
+        <div>
+            <label for="subject">Subject:</label>
+            <select id="subject" name="subject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option>General Enquiries</option>
+                <option>Criminal Appeal Enquiries</option>
+                <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                <option>Arrest, Search and Seizure of Property Enquiries</option>
+                <option>Wills And Probate Enquiries</option>
+                <option>Road Traffic Cases Enquiries</option>
+                <option>Family Law Enquiries</option>
+                <option>Immigration Law Enquiries</option>
+            </select>
+        </div>
+        
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+        
+        <button type="submit">Send Message</button>
+    </form>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // Toast notification system
+        class ToastNotification {
+            constructor() {
+                this.createToastContainer();
+            }
+
+            createToastContainer() {
+                if (!document.getElementById('toast-container')) {
+                    const toastContainer = document.createElement('div');
+                    toastContainer.id = 'toast-container';
+                    document.body.appendChild(toastContainer);
+                }
+            }
+
+            show(message, type = 'success', duration = 5000) {
+                const toastContainer = document.getElementById('toast-container');
+                
+                // Create toast element
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+                
+                // Create message element
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+                
+                // Create close button
+                const closeButton = document.createElement('button');
+                closeButton.className = 'toast-close';
+                closeButton.innerHTML = '&times;';
+                closeButton.addEventListener('click', () => this.removeToast(toast));
+                
+                // Append elements to toast
+                toast.appendChild(messageElement);
+                toast.appendChild(closeButton);
+                
+                // Append toast to container
+                toastContainer.appendChild(toast);
+                
+                // Auto-remove after duration
+                setTimeout(() => {
+                    if (toast.parentNode === toastContainer) {
+                        this.removeToast(toast);
+                    }
+                }, duration);
+            }
+
+            removeToast(toast) {
+                toast.style.animation = 'fadeOut 0.3s ease-in-out';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }
+
+            success(message, duration = 5000) {
+                this.show(message, 'success', duration);
+            }
+
+            error(message, duration = 5000) {
+                this.show(message, 'error', duration);
+            }
+
+            info(message, duration = 5000) {
+                this.show(message, 'info', duration);
+            }
+        }
+
+        // Create a global toast instance
+        const toast = new ToastNotification();
+
+        // Form handler
+        document.addEventListener('DOMContentLoaded', function() {
+            // Always use the Render server
+            const apiUrl = 'https://haleys-contact.onrender.com/api/submit-form';
+            
+            console.log('Using API URL:', apiUrl);
+            
+            // Handle contact form
+            const form = document.getElementById('contact_form');
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+                    
+                    // Get form data
+                    const formData = new FormData(e.target);
+                    
+                    try {
+                        // Show loading toast
+                        toast.info('Sending your message...');
+                        
+                        // Send data to backend
+                        const response = await fetch(apiUrl, {
+                            method: 'POST',
+                            body: formData,
+                        });
+                        
+                        const result = await response.json();
+                        
+                        if (result.status === 'success') {
+                            // Show success toast
+                            toast.success('Thank you for your message. We will get back to you soon!');
+                            
+                            // Reset the form
+                            e.target.reset();
+                        } else {
+                            // Show error toast
+                            toast.error(result.message || 'There was an error sending your message. Please try again later.');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        // Show error toast
+                        toast.error('There was an error sending your message. Please try again later.');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
