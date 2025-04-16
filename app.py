@@ -3,6 +3,7 @@ from pymongo import MongoClient
 from dotenv import load_dotenv
 import os
 import uuid
+import json
 from datetime import datetime
 from flask_cors import CORS
 
@@ -44,15 +45,45 @@ def add_cors_headers(response):
 
 # Connect to MongoDB
 mongo_uri = os.getenv('MONGO_URI')
-client = MongoClient(mongo_uri)
-db = client['contact_form_db']
-collection = db['submissions']
+
+# Initialize MongoDB client with proper SSL configuration
+try:
+    client = MongoClient(
+        mongo_uri,
+        ssl=True,
+        ssl_cert_reqs='CERT_NONE',  # Don't verify the server's certificate
+        connectTimeoutMS=30000,     # Increase connection timeout
+        socketTimeoutMS=30000,      # Increase socket timeout
+        serverSelectionTimeoutMS=30000  # Increase server selection timeout
+    )
+    # Test connection
+    client.admin.command('ping')
+    print("MongoDB connection successful!")
+
+    # Set up database and collection
+    db = client['contact_form_db']
+    collection = db['submissions']
+
+    # MongoDB connection status for health checks
+    mongodb_connected = True
+except Exception as e:
+    print(f"MongoDB connection failed: {str(e)}")
+    # Set a flag to indicate MongoDB connection failure
+    mongodb_connected = False
+    # Create dummy objects for graceful failure
+    db = None
+    collection = None
 
 @app.route('/api/submit-form', methods=['POST', 'OPTIONS'])
 def submit_form():
     # Handle preflight OPTIONS request
     if request.method == 'OPTIONS':
         return '', 200
+
+    # Check if MongoDB is connected
+    if not mongodb_connected:
+        # Use fallback storage method
+        return store_submission_fallback(request)
 
     try:
         # Log request details for debugging
@@ -80,15 +111,26 @@ def submit_form():
                 print(f"Raw data: {raw_data}")
             except Exception as e:
                 print(f"Error getting raw data: {str(e)}")
+                return jsonify({
+                    'status': 'error',
+                    'message': f'Error processing form data: {str(e)}'
+                }), 400  # Bad Request
 
         # Add unique ID and timestamp
         submission_data = data.copy() if data else {}
         submission_data['_id'] = str(uuid.uuid4())
         submission_data['timestamp'] = datetime.now().isoformat()
 
-        # Insert into MongoDB
-        collection.insert_one(submission_data)
-        print("Data successfully inserted into MongoDB")
+        # Try to insert into MongoDB
+        try:
+            collection.insert_one(submission_data)
+            print("Data successfully inserted into MongoDB")
+        except Exception as mongo_error:
+            print(f"MongoDB insertion error: {str(mongo_error)}")
+            return jsonify({
+                'status': 'error',
+                'message': f'Database error: {str(mongo_error)}'
+            }), 500  # Internal Server Error
 
         return jsonify({
             'status': 'success',
@@ -106,7 +148,15 @@ def submit_form():
 # Health check endpoint
 @app.route('/api/health', methods=['GET'])
 def health_check():
-    return 'OK', 200
+    # Check MongoDB connection
+    mongo_status = "Connected" if mongodb_connected else "Disconnected"
+
+    # Return detailed health information
+    return jsonify({
+        'status': 'OK' if mongodb_connected else 'Degraded',
+        'mongodb': mongo_status,
+        'server_time': datetime.now().isoformat()
+    }), 200
 
 # CORS test endpoint
 @app.route('/api/cors-test', methods=['GET', 'POST', 'OPTIONS'])
@@ -139,13 +189,88 @@ def server_info():
         'version': '1.0.0',
         'cors': 'enabled',
         'allowed_origins': '*',
-        'server_time': datetime.now().isoformat()
+        'mongodb_connected': mongodb_connected,
+        'server_time': datetime.now().isoformat(),
+        'environment': 'production' if int(os.environ.get('PORT', 5000)) != 5000 else 'development'
     })
 
 # Serve static files
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory('.', path)
+
+# Fallback function to store submissions when MongoDB is down
+def store_submission_fallback(request):
+    try:
+        print("Using fallback storage method")
+
+        # Get data from request
+        if request.content_type and 'application/json' in request.content_type:
+            data = request.get_json()
+        else:
+            data = request.form.to_dict()
+
+        # If data is empty, try to get raw data
+        if not data:
+            try:
+                raw_data = request.get_data()
+                print(f"Raw data: {raw_data}")
+                return jsonify({
+                    'status': 'error',
+                    'message': 'Empty form data received'
+                }), 400
+            except Exception as e:
+                print(f"Error getting raw data: {str(e)}")
+                return jsonify({
+                    'status': 'error',
+                    'message': f'Error processing form data: {str(e)}'
+                }), 400
+
+        # Add unique ID and timestamp
+        submission_data = data.copy()
+        submission_data['_id'] = str(uuid.uuid4())
+        submission_data['timestamp'] = datetime.now().isoformat()
+
+        # Store in a local file
+        fallback_file = os.path.join(os.getcwd(), 'fallback_submissions.json')
+
+        # Read existing submissions
+        try:
+            if os.path.exists(fallback_file):
+                with open(fallback_file, 'r') as f:
+                    submissions = json.load(f)
+            else:
+                submissions = []
+        except Exception as e:
+            print(f"Error reading fallback file: {str(e)}")
+            submissions = []
+
+        # Add new submission
+        submissions.append(submission_data)
+
+        # Write back to file
+        try:
+            with open(fallback_file, 'w') as f:
+                json.dump(submissions, f, indent=2)
+            print(f"Submission saved to fallback file: {fallback_file}")
+        except Exception as e:
+            print(f"Error writing to fallback file: {str(e)}")
+            return jsonify({
+                'status': 'error',
+                'message': f'Error saving submission: {str(e)}'
+            }), 500
+
+        return jsonify({
+            'status': 'success',
+            'message': 'Form submitted successfully (using fallback storage)'
+        }), 200
+
+    except Exception as e:
+        print(f"Fallback storage error: {str(e)}")
+        return jsonify({
+            'status': 'error',
+            'message': f'An error occurred in fallback storage: {str(e)}'
+        }), 500
 
 # Serve index.html
 @app.route('/')
