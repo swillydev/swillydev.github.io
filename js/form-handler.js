@@ -11,12 +11,11 @@ document.addEventListener('DOMContentLoaded', function() {
     if (window.scriptJsLoaded) {
         console.log('script.js already loaded. form-handler.js will handle forms.');
     }
-    // Always use the direct URL - we've updated the server to allow CORS from any origin
+    // Always use the direct URL to the Render API
     const apiUrl = 'https://haleys-contact.onrender.com/api/submit-form';
 
-    // Log the current hostname for debugging
+    // Log the current hostname and API URL for debugging
     console.log('Current hostname:', window.location.hostname);
-
     console.log('Using API URL:', apiUrl);
 
     // Handle all contact forms

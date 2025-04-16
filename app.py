@@ -12,14 +12,34 @@ load_dotenv()
 app = Flask(__name__, static_folder=os.path.abspath('.'))
 
 # Configure CORS to allow requests from specific domains
-CORS(app)
+CORS(app, resources={
+    r"/*": {
+        "origins": ["*"],  # Allow all origins
+        "methods": ["GET", "POST", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "Accept", "X-Requested-With", "Origin"],
+        "supports_credentials": False,
+        "max_age": 86400  # Cache preflight requests for 24 hours
+    }
+})
 
 # Add CORS headers to all responses
 @app.after_request
 def add_cors_headers(response):
+    # Allow requests from any origin
     response.headers.add('Access-Control-Allow-Origin', '*')
+
+    # Allow specific headers
     response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization,Accept,X-Requested-With,Origin')
+
+    # Allow specific methods
     response.headers.add('Access-Control-Allow-Methods', 'GET,POST,OPTIONS')
+
+    # Cache preflight requests for 24 hours
+    response.headers.add('Access-Control-Max-Age', '86400')
+
+    # Don't allow credentials (cookies, etc.)
+    response.headers.add('Access-Control-Allow-Credentials', 'false')
+
     return response
 
 # Connect to MongoDB
