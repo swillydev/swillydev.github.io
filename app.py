@@ -4,6 +4,8 @@ from dotenv import load_dotenv
 import os
 import uuid
 import json
+import threading
+import time
 from datetime import datetime
 from flask_cors import CORS
 
@@ -44,17 +46,22 @@ def add_cors_headers(response):
     return response
 
 # Connect to MongoDB
-mongo_uri = os.getenv('MONGO_URI')
+# Use hardcoded connection string for reliability
+mongo_uri = 'mongodb+srv://swilson:M0nster1234!@haleys-contact.kagfeq3.mongodb.net/?retryWrites=true&w=majority&appName=Haleys-Contact'
 
 # Initialize MongoDB client with proper SSL configuration
 try:
+    print(f"Connecting to MongoDB with URI: {mongo_uri.split('@')[0]}@...")
+
+    # Create the MongoDB client with additional options for reliability
     client = MongoClient(
         mongo_uri,
-        ssl=True,
-        ssl_cert_reqs='CERT_NONE',  # Don't verify the server's certificate
-        connectTimeoutMS=30000,     # Increase connection timeout
-        socketTimeoutMS=30000,      # Increase socket timeout
-        serverSelectionTimeoutMS=30000  # Increase server selection timeout
+        connectTimeoutMS=30000,  # 30 seconds connection timeout
+        socketTimeoutMS=45000,   # 45 seconds socket timeout
+        serverSelectionTimeoutMS=30000,  # 30 seconds server selection timeout
+        retryWrites=True,        # Retry write operations
+        w='majority',            # Write to majority of replicas
+        tlsAllowInvalidCertificates=True  # Allow invalid certificates for testing
     )
     # Test connection
     client.admin.command('ping')
@@ -66,6 +73,36 @@ try:
 
     # MongoDB connection status for health checks
     mongodb_connected = True
+    db = client['contact_form_db']
+    collection = db['submissions']
+
+    # Start a background thread to periodically check the MongoDB connection
+    def check_mongodb_connection():
+        global mongodb_connected, db, collection
+        while True:
+            try:
+                # Sleep for 5 minutes before checking again
+                time.sleep(300)
+
+                # Try to ping the MongoDB server
+                client.admin.command('ping')
+                if not mongodb_connected:
+                    print("MongoDB connection restored!")
+                    mongodb_connected = True
+                    db = client['contact_form_db']
+                    collection = db['submissions']
+
+                    # Try to import any fallback submissions
+                    import_fallback_submissions()
+            except Exception as e:
+                if mongodb_connected:
+                    print(f"MongoDB connection lost: {str(e)}")
+                    mongodb_connected = False
+
+    # Start the connection check thread
+    connection_thread = threading.Thread(target=check_mongodb_connection, daemon=True)
+    connection_thread.start()
+
 except Exception as e:
     print(f"MongoDB connection failed: {str(e)}")
     # Set a flag to indicate MongoDB connection failure
@@ -198,6 +235,106 @@ def server_info():
 @app.route('/<path:path>')
 def serve_static(path):
     return send_from_directory('.', path)
+
+# Function to import fallback submissions to MongoDB
+def import_fallback_submissions():
+    fallback_file = os.path.join(os.getcwd(), 'fallback_submissions.json')
+    if not os.path.exists(fallback_file):
+        print("No fallback submissions file found")
+        return
+
+    try:
+        # Read fallback submissions
+        with open(fallback_file, 'r') as f:
+            submissions = json.load(f)
+
+        if not submissions:
+            print("No fallback submissions to import")
+            return
+
+        print(f"Found {len(submissions)} fallback submissions to import")
+
+        # Import each submission to MongoDB
+        imported_count = 0
+        for submission in submissions:
+            try:
+                # Check if this submission already exists in MongoDB
+                existing = collection.find_one({'_id': submission['_id']})
+                if existing:
+                    print(f"Submission {submission['_id']} already exists in MongoDB, skipping")
+                    continue
+
+                # Insert the submission
+                collection.insert_one(submission)
+                imported_count += 1
+            except Exception as e:
+                print(f"Error importing submission {submission.get('_id', 'unknown')}: {str(e)}")
+
+        print(f"Imported {imported_count} submissions to MongoDB")
+
+        if imported_count > 0:
+            # Backup the original file
+            backup_file = f"{fallback_file}.{int(time.time())}.bak"
+            os.rename(fallback_file, backup_file)
+            print(f"Backed up fallback submissions to {backup_file}")
+
+            # Create a new empty file
+            with open(fallback_file, 'w') as f:
+                json.dump([], f)
+            print("Created new empty fallback submissions file")
+
+    except Exception as e:
+        print(f"Error importing fallback submissions: {str(e)}")
+
+# Function to import fallback submissions to MongoDB
+def import_fallback_submissions():
+    fallback_file = os.path.join(os.getcwd(), 'fallback_submissions.json')
+    if not os.path.exists(fallback_file):
+        print("No fallback submissions file found")
+        return
+
+    try:
+        # Read fallback submissions
+        with open(fallback_file, 'r') as f:
+            submissions = json.load(f)
+
+        if not submissions:
+            print("No fallback submissions to import")
+            return
+
+        print(f"Found {len(submissions)} fallback submissions to import")
+
+        # Import each submission to MongoDB
+        imported_count = 0
+        for submission in submissions:
+            try:
+                # Check if this submission already exists in MongoDB
+                existing = collection.find_one({'_id': submission['_id']})
+                if existing:
+                    print(f"Submission {submission['_id']} already exists in MongoDB, skipping")
+                    continue
+
+                # Insert the submission
+                collection.insert_one(submission)
+                imported_count += 1
+            except Exception as e:
+                print(f"Error importing submission {submission.get('_id', 'unknown')}: {str(e)}")
+
+        print(f"Imported {imported_count} submissions to MongoDB")
+
+        if imported_count > 0:
+            # Backup the original file
+            backup_file = f"{fallback_file}.{int(time.time())}.bak"
+            os.rename(fallback_file, backup_file)
+            print(f"Backed up fallback submissions to {backup_file}")
+
+            # Create a new empty file
+            with open(fallback_file, 'w') as f:
+                json.dump([], f)
+            print("Created new empty fallback submissions file")
+
+    except Exception as e:
+        print(f"Error importing fallback submissions: {str(e)}")
 
 # Fallback function to store submissions when MongoDB is down
 def store_submission_fallback(request):
