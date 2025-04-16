@@ -3,49 +3,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const prevButton = document.querySelector('.carousel-button.prev');
     const nextButton = document.querySelector('.carousel-button.next');
     const cards = document.querySelectorAll('.testimonial-card');
-    
+
     // Calculate number of cards to show based on screen width
     const getVisibleCards = () => {
       if (window.innerWidth <= 768) return 1;
       if (window.innerWidth <= 1024) return 2;
       return 3;
     };
-  
+
     let currentIndex = 0;
-    
+
     const updateButtons = () => {
       const visibleCards = getVisibleCards();
       const maxIndex = cards.length - visibleCards;
-      
+
       prevButton.disabled = currentIndex === 0;
       nextButton.disabled = currentIndex >= maxIndex;
-      
+
       prevButton.style.opacity = prevButton.disabled ? '0.5' : '1';
       nextButton.style.opacity = nextButton.disabled ? '0.5' : '1';
     };
-  
+
     const scrollToIndex = (index) => {
       const visibleCards = getVisibleCards();
       const maxIndex = cards.length - visibleCards;
       currentIndex = Math.max(0, Math.min(index, maxIndex));
-      
+
       const cardWidth = track.offsetWidth / visibleCards;
       track.scrollTo({
         left: currentIndex * (cardWidth + 32), // 32px is the gap
         behavior: 'smooth'
       });
-      
+
       updateButtons();
     };
-  
+
     prevButton.addEventListener('click', () => {
       scrollToIndex(currentIndex - 1);
     });
-  
+
     nextButton.addEventListener('click', () => {
       scrollToIndex(currentIndex + 1);
     });
-  
+
     // Update on window resize
     let resizeTimeout;
     window.addEventListener('resize', () => {
@@ -55,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
         scrollToIndex(0);
       }, 100);
     });
-  
+
     // Initialize
     updateButtons();
   });
@@ -65,7 +65,7 @@ document.addEventListener('DOMContentLoaded', function() {
   window.openNav = function() {
       document.getElementById("mySidebar").style.width = "250px";
       document.getElementById("main").style.marginLeft = "250px";
-      
+
       // Add overlay
       const overlay = document.createElement('div');
       overlay.id = 'sidebar-overlay';
@@ -78,40 +78,40 @@ document.addEventListener('DOMContentLoaded', function() {
       overlay.style.zIndex = '99';
       overlay.style.display = 'block';
       document.body.appendChild(overlay);
-      
+
       // Lock body scrolling when sidebar is open
       document.body.style.overflow = 'hidden';
-      
+
       // Close sidebar when clicking overlay
       overlay.addEventListener('click', closeNav);
   };
-  
+
   window.closeNav = function() {
       document.getElementById("mySidebar").style.width = "0";
       document.getElementById("main").style.marginLeft = "0";
-      
+
       // Remove overlay
       const overlay = document.getElementById('sidebar-overlay');
       if (overlay) {
           document.body.removeChild(overlay);
       }
-      
+
       // Restore body scrolling
       document.body.style.overflow = '';
   };
-  
+
   // Add touch/mobile-friendly dropdown toggle
   const dropdownButtons = document.querySelectorAll('.dropbtn');
-  
+
   dropdownButtons.forEach(button => {
       button.addEventListener('click', function(e) {
           // For touch devices, toggle instead of hover
           if (window.innerWidth <= 576) {
               e.preventDefault();
-              
+
               // Find the associated dropdown content
               const dropdownContent = this.nextElementSibling;
-              
+
               // Toggle the 'show' class
               if (dropdownContent.classList.contains('show')) {
                   dropdownContent.classList.remove('show');
@@ -120,14 +120,14 @@ document.addEventListener('DOMContentLoaded', function() {
                   document.querySelectorAll('.dropdown-content').forEach(content => {
                       content.classList.remove('show');
                   });
-                  
+
                   // Open this dropdown
                   dropdownContent.classList.add('show');
               }
           }
       });
   });
-  
+
   // Handle window resize events
   window.addEventListener('resize', function() {
       if (window.innerWidth > 576) {
@@ -137,25 +137,25 @@ document.addEventListener('DOMContentLoaded', function() {
           });
       }
   });
-  
+
   // Add accessibility support
   const dropdowns = document.querySelectorAll('.dropdown');
-  
+
   dropdowns.forEach(dropdown => {
       const button = dropdown.querySelector('.dropbtn');
       const content = dropdown.querySelector('.dropdown-content');
       const links = content.querySelectorAll('a');
-      
+
       // Add ARIA attributes
       button.setAttribute('aria-expanded', 'false');
       button.setAttribute('aria-haspopup', 'true');
       content.setAttribute('aria-label', 'submenu');
-      
+
       button.addEventListener('click', function() {
           const expanded = this.getAttribute('aria-expanded') === 'true';
           this.setAttribute('aria-expanded', !expanded);
       });
-      
+
       // Allow keyboard navigation through dropdown items
       links.forEach((link, index) => {
           link.addEventListener('keydown', function(e) {
@@ -179,7 +179,7 @@ document.addEventListener('DOMContentLoaded', function() {
           });
       });
   });
-  
+
   // Make the hero section responsive to viewport height
   function adjustHeroHeight() {
       const hero = document.getElementById('hero');
@@ -189,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function() {
           hero.style.height = `${minHeight}px`;
       }
   }
-  
+
   // Run on page load and resize
   adjustHeroHeight();
   window.addEventListener('resize', adjustHeroHeight);
@@ -198,31 +198,16 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 
-// Add form handling to all contact forms
-document.querySelectorAll('#contact_form').forEach(form => {
-    form.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const formData = new FormData(e.target);
-        
-        try {
-            const response = await fetch('form-process.php', {
-                method: 'POST',
-                body: formData,
-            });
-            
-            const result = await response.json();
-            
-            if (result.status === 'success') {
-                alert('Thank you for your message. We will get back to you soon!');
-                e.target.reset();
-            } else {
-                alert('There was an error sending your message. Please try again later.');
-            }
-        } catch (error) {
-            console.error('Error:', error);
-            alert('There was an error sending your message. Please try again later.');
-        }
-    });
+// Form handling is now managed by form-handler.js
+// Check if forms are already being handled by form-handler.js
+document.addEventListener('DOMContentLoaded', function() {
+  // Set a flag to indicate that script.js has loaded
+  window.scriptJsLoaded = true;
+
+  // Check if form-handler.js has already set up event listeners
+  if (!window.formHandlerInitialized) {
+    console.log('Form handler not initialized yet. script.js will wait for form-handler.js');
+  }
 });
 
   document.addEventListener('DOMContentLoaded', () => {
@@ -275,7 +260,7 @@ document.querySelectorAll('#contact_form').forEach(form => {
 
 function adjustTestimonialText() {
     const blockquotes = document.querySelectorAll('.testimonial-card blockquote');
-    
+
     blockquotes.forEach(blockquote => {
         const content = blockquote.querySelector('.quote-content');
         if (!content) return;
