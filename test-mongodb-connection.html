@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MongoDB Connection Test</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a0dad;
+        }
+        button {
+            background-color: #6a0dad;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            margin: 10px 0;
+        }
+        button:hover {
+            background-color: #5a0b9d;
+        }
+        pre {
+            background-color: #f5f5f5;
+            padding: 15px;
+            border-radius: 4px;
+            overflow-x: auto;
+            white-space: pre-wrap;
+        }
+        .success {
+            color: green;
+            font-weight: bold;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+        }
+        .info {
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <h1>MongoDB Connection Test</h1>
+    <p>This page tests the connection to your MongoDB Atlas database using the Render API.</p>
+
+    <div>
+        <button id="testConnection">Test API Connection</button>
+        <button id="testSubmission">Test Form Submission</button>
+        <button id="clearLog">Clear Log</button>
+    </div>
+
+    <h2>Log</h2>
+    <pre id="log">Click a button above to start testing...</pre>
+
+    <script>
+        // Log function
+        function log(message, type = 'info') {
+            const logElement = document.getElementById('log');
+            const timestamp = new Date().toLocaleTimeString();
+
+            let formattedMessage = `[${timestamp}] `;
+            if (type === 'success') {
+                formattedMessage += `<span class="success">SUCCESS:</span> `;
+            } else if (type === 'error') {
+                formattedMessage += `<span class="error">ERROR:</span> `;
+            } else {
+                formattedMessage += `<span class="info">INFO:</span> `;
+            }
+
+            formattedMessage += message;
+            logElement.innerHTML = formattedMessage + '<br>' + logElement.innerHTML;
+        }
+
+        // Test connection to the API
+        async function testConnection() {
+            log('Testing connection to the API...');
+
+            try {
+                const response = await fetch('https://haleys-contact.onrender.com/api/health');
+                log(`Response status: ${response.status} ${response.statusText}`);
+
+                const data = await response.json();
+                log(`API health: ${JSON.stringify(data)}`, data.status === 'OK' ? 'success' : 'error');
+
+                // Test server info
+                const infoResponse = await fetch('https://haleys-contact.onrender.com/api/info');
+                const infoData = await infoResponse.json();
+                log(`Server info: ${JSON.stringify(infoData)}`);
+
+                // Check MongoDB connection
+                if (infoData.mongodb_connected) {
+                    log('MongoDB is connected!', 'success');
+                } else {
+                    log('MongoDB is not connected!', 'error');
+                }
+
+                return data.status === 'OK';
+            } catch (error) {
+                log(`Error connecting to API: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+        // Test form submission
+        async function testSubmission() {
+            log('Testing form submission...');
+
+            try {
+                // Create test form data
+                const formData = new FormData();
+                formData.append('name', 'Test User');
+                formData.append('email', 'test@example.com');
+                formData.append('telephone', '1234567890');
+                formData.append('subject', 'Test Subject');
+                formData.append('message', 'This is a test message from the connection test page.');
+
+                log(`Sending test submission to API...`);
+
+                const response = await fetch('https://haleys-contact.onrender.com/api/submit-form', {
+                    method: 'POST',
+                    body: formData,
+                    headers: {
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'Origin': window.location.origin
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+
+                log(`Response status: ${response.status} ${response.statusText}`);
+
+                const data = await response.json();
+                log(`Submission result: ${JSON.stringify(data)}`, data.status === 'success' ? 'success' : 'error');
+
+                return data.status === 'success';
+            } catch (error) {
+                log(`Error submitting form: ${error.message}`, 'error');
+                return false;
+            }
+        }
+
+
+        // Event listeners
+        document.getElementById('testConnection').addEventListener('click', testConnection);
+        document.getElementById('testSubmission').addEventListener('click', testSubmission);
+        document.getElementById('clearLog').addEventListener('click', () => {
+            document.getElementById('log').innerHTML = 'Log cleared...';
+        });
+
+        // Auto-run connection test on page load
+        window.addEventListener('DOMContentLoaded', () => {
+            setTimeout(testConnection, 1000);
+        });
+    </script>
+</body>
+</html>

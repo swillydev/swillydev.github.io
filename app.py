@@ -1,11 +1,13 @@
 from flask import Flask, request, jsonify, send_from_directory
 from pymongo import MongoClient
+from pymongo.errors import ConnectionFailure, ServerSelectionTimeoutError
 from dotenv import load_dotenv
 import os
 import uuid
 import json
 import threading
 import time
+import ssl
 from datetime import datetime
 from flask_cors import CORS
 
@@ -45,71 +47,91 @@ def add_cors_headers(response):
 
     return response
 
-# Connect to MongoDB
-# Use hardcoded connection string for reliability
-mongo_uri = 'mongodb+srv://swilson:M0nster1234!@haleys-contact.kagfeq3.mongodb.net/?retryWrites=true&w=majority&appName=Haleys-Contact'
+# MongoDB connection configuration
+MONGO_URI = 'mongodb+srv://swilson:M0nster1234!@haleys-contact.kagfeq3.mongodb.net/?retryWrites=true&w=majority&appName=Haleys-Contact'
+DB_NAME = 'contact_form_db'
+COLLECTION_NAME = 'submissions'
 
-# Initialize MongoDB client with proper SSL configuration
-try:
-    print(f"Connecting to MongoDB with URI: {mongo_uri.split('@')[0]}@...")
+# Initialize MongoDB connection status and objects
+mongodb_connected = False
+db = None
+collection = None
 
-    # Create the MongoDB client with additional options for reliability
-    client = MongoClient(
-        mongo_uri,
-        connectTimeoutMS=30000,  # 30 seconds connection timeout
-        socketTimeoutMS=45000,   # 45 seconds socket timeout
-        serverSelectionTimeoutMS=30000,  # 30 seconds server selection timeout
-        retryWrites=True,        # Retry write operations
-        w='majority',            # Write to majority of replicas
-        tlsAllowInvalidCertificates=True  # Allow invalid certificates for testing
-    )
-    # Test connection
-    client.admin.command('ping')
-    print("MongoDB connection successful!")
+# Create a custom SSL context that doesn't verify certificates
+ssl_context = ssl.create_default_context()
+ssl_context.check_hostname = False
+ssl_context.verify_mode = ssl.CERT_NONE
 
-    # Set up database and collection
-    db = client['contact_form_db']
-    collection = db['submissions']
+# Function to connect to MongoDB
+def connect_to_mongodb():
+    global mongodb_connected, db, collection
+    try:
+        print(f"Connecting to MongoDB at {MONGO_URI.split('@')[0]}@...")
 
-    # MongoDB connection status for health checks
-    mongodb_connected = True
-    db = client['contact_form_db']
-    collection = db['submissions']
+        # Create MongoDB client with custom SSL context and extended timeouts
+        client = MongoClient(
+            MONGO_URI,
+            ssl=True,
+            ssl_cert_reqs=ssl.CERT_NONE,
+            tlsAllowInvalidCertificates=True,
+            connectTimeoutMS=30000,
+            socketTimeoutMS=60000,
+            serverSelectionTimeoutMS=30000
+        )
 
-    # Start a background thread to periodically check the MongoDB connection
-    def check_mongodb_connection():
-        global mongodb_connected, db, collection
-        while True:
-            try:
-                # Sleep for 5 minutes before checking again
-                time.sleep(300)
+        # Test connection with ping
+        client.admin.command('ping')
+        print("MongoDB connection successful!")
 
-                # Try to ping the MongoDB server
-                client.admin.command('ping')
-                if not mongodb_connected:
+        # Set up database and collection
+        db = client[DB_NAME]
+        collection = db[COLLECTION_NAME]
+        mongodb_connected = True
+
+        return client
+    except (ConnectionFailure, ServerSelectionTimeoutError) as e:
+        print(f"MongoDB connection failed: {str(e)}")
+        mongodb_connected = False
+        return None
+
+# Start a background thread to periodically check the MongoDB connection
+def check_mongodb_connection_periodically():
+    global mongodb_connected, db, collection
+    client = None
+
+    while True:
+        try:
+            # Sleep for 5 minutes before checking again
+            time.sleep(300)
+
+            if not mongodb_connected:
+                # Try to reconnect
+                print("Attempting to reconnect to MongoDB...")
+                client = connect_to_mongodb()
+
+                if mongodb_connected and client:
+                    # If connection is restored, try to import fallback submissions
                     print("MongoDB connection restored!")
-                    mongodb_connected = True
-                    db = client['contact_form_db']
-                    collection = db['submissions']
-
-                    # Try to import any fallback submissions
                     import_fallback_submissions()
-            except Exception as e:
-                if mongodb_connected:
+            else:
+                # Test existing connection
+                try:
+                    db.command('ping')
+                    print("MongoDB connection is healthy")
+                except Exception as e:
                     print(f"MongoDB connection lost: {str(e)}")
                     mongodb_connected = False
+                    db = None
+                    collection = None
+        except Exception as e:
+            print(f"Error checking MongoDB connection: {str(e)}")
 
-    # Start the connection check thread
-    connection_thread = threading.Thread(target=check_mongodb_connection, daemon=True)
-    connection_thread.start()
+# Connect to MongoDB on startup
+client = connect_to_mongodb()
 
-except Exception as e:
-    print(f"MongoDB connection failed: {str(e)}")
-    # Set a flag to indicate MongoDB connection failure
-    mongodb_connected = False
-    # Create dummy objects for graceful failure
-    db = None
-    collection = None
+# Start the connection check thread
+connection_thread = threading.Thread(target=check_mongodb_connection_periodically, daemon=True)
+connection_thread.start()
 
 @app.route('/api/submit-form', methods=['POST', 'OPTIONS'])
 def submit_form():
@@ -159,15 +181,17 @@ def submit_form():
         submission_data['timestamp'] = datetime.now().isoformat()
 
         # Try to insert into MongoDB
-        try:
-            collection.insert_one(submission_data)
-            print("Data successfully inserted into MongoDB")
-        except Exception as mongo_error:
-            print(f"MongoDB insertion error: {str(mongo_error)}")
-            return jsonify({
-                'status': 'error',
-                'message': f'Database error: {str(mongo_error)}'
-            }), 500  # Internal Server Error
+        if mongodb_connected and collection is not None:
+            try:
+                result = collection.insert_one(submission_data)
+                print(f"Data successfully inserted into MongoDB with ID: {result.inserted_id}")
+            except Exception as mongo_error:
+                print(f"MongoDB insertion error: {str(mongo_error)}")
+                print("Using fallback storage instead")
+                return store_submission_fallback(request)
+        else:
+            print("MongoDB is not connected, using fallback storage")
+            return store_submission_fallback(request)
 
         return jsonify({
             'status': 'success',
@@ -238,6 +262,10 @@ def serve_static(path):
 
 # Function to import fallback submissions to MongoDB
 def import_fallback_submissions():
+    if not mongodb_connected or collection is None:
+        print("MongoDB is not connected, cannot import fallback submissions")
+        return
+
     fallback_file = os.path.join(os.getcwd(), 'fallback_submissions.json')
     if not os.path.exists(fallback_file):
         print("No fallback submissions file found")
@@ -265,7 +293,8 @@ def import_fallback_submissions():
                     continue
 
                 # Insert the submission
-                collection.insert_one(submission)
+                result = collection.insert_one(submission)
+                print(f"Imported submission {submission.get('_id', 'unknown')} to MongoDB")
                 imported_count += 1
             except Exception as e:
                 print(f"Error importing submission {submission.get('_id', 'unknown')}: {str(e)}")
@@ -286,55 +315,7 @@ def import_fallback_submissions():
     except Exception as e:
         print(f"Error importing fallback submissions: {str(e)}")
 
-# Function to import fallback submissions to MongoDB
-def import_fallback_submissions():
-    fallback_file = os.path.join(os.getcwd(), 'fallback_submissions.json')
-    if not os.path.exists(fallback_file):
-        print("No fallback submissions file found")
-        return
 
-    try:
-        # Read fallback submissions
-        with open(fallback_file, 'r') as f:
-            submissions = json.load(f)
-
-        if not submissions:
-            print("No fallback submissions to import")
-            return
-
-        print(f"Found {len(submissions)} fallback submissions to import")
-
-        # Import each submission to MongoDB
-        imported_count = 0
-        for submission in submissions:
-            try:
-                # Check if this submission already exists in MongoDB
-                existing = collection.find_one({'_id': submission['_id']})
-                if existing:
-                    print(f"Submission {submission['_id']} already exists in MongoDB, skipping")
-                    continue
-
-                # Insert the submission
-                collection.insert_one(submission)
-                imported_count += 1
-            except Exception as e:
-                print(f"Error importing submission {submission.get('_id', 'unknown')}: {str(e)}")
-
-        print(f"Imported {imported_count} submissions to MongoDB")
-
-        if imported_count > 0:
-            # Backup the original file
-            backup_file = f"{fallback_file}.{int(time.time())}.bak"
-            os.rename(fallback_file, backup_file)
-            print(f"Backed up fallback submissions to {backup_file}")
-
-            # Create a new empty file
-            with open(fallback_file, 'w') as f:
-                json.dump([], f)
-            print("Created new empty fallback submissions file")
-
-    except Exception as e:
-        print(f"Error importing fallback submissions: {str(e)}")
 
 # Fallback function to store submissions when MongoDB is down
 def store_submission_fallback(request):
@@ -425,12 +406,13 @@ if __name__ == '__main__':
         print("Working directory:", os.getcwd())
         print("Static folder:", app.static_folder)
 
-        try:
-            # Test MongoDB connection
-            client.admin.command('ping')
-            print("MongoDB connection successful!")
-        except Exception as e:
-            print(f"MongoDB connection failed: {str(e)}")
+        # Check MongoDB connection status
+        if mongodb_connected:
+            print("MongoDB connection is active")
+        else:
+            print("MongoDB connection is not active, using fallback storage")
+            # Try to reconnect
+            connect_to_mongodb()
 
         # Debug mode only in development
         app.run(host='0.0.0.0', debug=True, port=port)
