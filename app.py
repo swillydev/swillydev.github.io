@@ -14,7 +14,7 @@ app = Flask(__name__, static_folder=os.path.abspath('.'))
 # Configure CORS to allow requests from your website domain
 cors = CORS(app, resources={
     r"/*": {
-        "origins": ["http://localhost:5000", "https://swillydev.github.io", "https://haleys-solicitors.co.uk"]
+        "origins": ["http://localhost:5000", "https://swillydev.github.io", "https://haleys-solicitors.co.uk", "https://swillydev.github.io/swillydev.github.io"]
     }
 })
 
