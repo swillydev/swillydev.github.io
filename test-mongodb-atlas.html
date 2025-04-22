@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test MongoDB Atlas Form</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            color: #6a0dad;
+            text-align: center;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        label {
+            font-weight: bold;
+        }
+        input, select, textarea {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 100%;
+        }
+        button {
+            background-color: #6a0dad;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #5a0b9d;
+        }
+        #toast-container {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 9999;
+        }
+        .toast {
+            min-width: 250px;
+            margin-top: 10px;
+            padding: 15px;
+            border-radius: 4px;
+            color: white;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            animation: slideIn 0.3s ease-in-out;
+        }
+        .toast-success {
+            background-color: #4CAF50;
+        }
+        .toast-error {
+            background-color: #F44336;
+        }
+        .toast-info {
+            background-color: #2196F3;
+        }
+        .toast-close {
+            background: none;
+            border: none;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+            }
+        }
+        #log-container {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border-radius: 4px;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+        .log-entry {
+            margin-bottom: 5px;
+            font-family: monospace;
+        }
+        .log-info {
+            color: #2196F3;
+        }
+        .log-error {
+            color: #F44336;
+        }
+        .log-success {
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <h1>Test MongoDB Atlas Form</h1>
+    <p>This form will submit data directly to MongoDB Atlas.</p>
+
+    <form id="contact_form">
+        <div>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+        </div>
+
+        <div>
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+        </div>
+
+        <div>
+            <label for="telephone">Phone Number:</label>
+            <input type="tel" id="telephone" name="telephone" required>
+        </div>
+
+        <div>
+            <label for="subject">Subject:</label>
+            <select id="subject" name="subject" required>
+                <option value="" disabled selected>Select a subject</option>
+                <option>General Enquiries</option>
+                <option>Criminal Appeal Enquiries</option>
+                <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                <option>Arrest, Search and Seizure of Property Enquiries</option>
+                <option>Wills And Probate Enquiries</option>
+                <option>Road Traffic Cases Enquiries</option>
+                <option>Family Law Enquiries</option>
+                <option>Immigration Law Enquiries</option>
+            </select>
+        </div>
+
+        <div>
+            <label for="message">Message:</label>
+            <textarea id="message" name="message" rows="5" required></textarea>
+        </div>
+
+        <button type="submit">Send Message</button>
+    </form>
+
+    <div id="log-container">
+        <h3>Console Log:</h3>
+        <div id="log-output"></div>
+    </div>
+
+    <div id="toast-container"></div>
+
+    <script>
+        // Toast notification system
+        class ToastNotification {
+            constructor() {
+                this.createToastContainer();
+            }
+
+            createToastContainer() {
+                if (!document.getElementById('toast-container')) {
+                    const toastContainer = document.createElement('div');
+                    toastContainer.id = 'toast-container';
+                    document.body.appendChild(toastContainer);
+                }
+            }
+
+            show(message, type = 'success', duration = 5000) {
+                const toastContainer = document.getElementById('toast-container');
+
+                // Create toast element
+                const toast = document.createElement('div');
+                toast.className = `toast toast-${type}`;
+
+                // Create message element
+                const messageElement = document.createElement('div');
+                messageElement.textContent = message;
+
+                // Create close button
+                const closeButton = document.createElement('button');
+                closeButton.className = 'toast-close';
+                closeButton.innerHTML = '&times;';
+                closeButton.addEventListener('click', () => this.removeToast(toast));
+
+                // Append elements to toast
+                toast.appendChild(messageElement);
+                toast.appendChild(closeButton);
+
+                // Append toast to container
+                toastContainer.appendChild(toast);
+
+                // Auto-remove after duration
+                setTimeout(() => {
+                    if (toast.parentNode === toastContainer) {
+                        this.removeToast(toast);
+                    }
+                }, duration);
+            }
+
+            removeToast(toast) {
+                toast.style.animation = 'fadeOut 0.3s ease-in-out';
+                setTimeout(() => {
+                    if (toast.parentNode) {
+                        toast.parentNode.removeChild(toast);
+                    }
+                }, 300);
+            }
+
+            success(message, duration = 5000) {
+                this.show(message, 'success', duration);
+            }
+
+            error(message, duration = 5000) {
+                this.show(message, 'error', duration);
+            }
+
+            info(message, duration = 5000) {
+                this.show(message, 'info', duration);
+            }
+        }
+
+        // Create a global toast instance
+        const toast = new ToastNotification();
+
+        // Console log to UI
+        const logOutput = document.getElementById('log-output');
+
+        function log(message, type = 'info') {
+            const logEntry = document.createElement('div');
+            logEntry.className = `log-entry log-${type}`;
+            logEntry.textContent = `${new Date().toLocaleTimeString()}: ${message}`;
+            logOutput.appendChild(logEntry);
+            logOutput.scrollTop = logOutput.scrollHeight;
+            console.log(message);
+        }
+
+        // Override console methods to also log to UI
+        const originalConsoleLog = console.log;
+        const originalConsoleError = console.error;
+
+        console.log = function() {
+            const message = Array.from(arguments).join(' ');
+            log(message, 'info');
+            originalConsoleLog.apply(console, arguments);
+        };
+
+        console.error = function() {
+            const message = Array.from(arguments).join(' ');
+            log(message, 'error');
+            originalConsoleError.apply(console, arguments);
+        };
+
+        // MongoDB Atlas API endpoint
+        const MONGODB_API_URL = "https://eu-west-2.aws.data.mongodb-api.com/app/data-lfnxs/endpoint/data/v1/action/insertOne";
+        const MONGODB_API_KEY = "Ov5CIbOKvGLHLFtQoYxhQJIQdsxgRNBFxlKPYHOgHbvUwKJdWLgHjJ3oHvm3DSFo";
+
+        // MongoDB database and collection
+        const DATABASE = "contact_form_db";
+        const COLLECTION = "submissions";
+
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log("MongoDB Atlas Test Form loaded");
+
+            // Handle contact form
+            const form = document.getElementById('contact_form');
+            if (form) {
+                form.addEventListener('submit', async function(e) {
+                    e.preventDefault();
+
+                    // Get form data
+                    const formData = new FormData(e.target);
+                    const formDataObj = Object.fromEntries(formData);
+
+                    // Add timestamp
+                    formDataObj.timestamp = new Date().toISOString();
+
+                    try {
+                        // Show loading toast
+                        toast.info('Sending your message...');
+
+                        console.log('Submitting form data to MongoDB Atlas:', formDataObj);
+
+                        // Send data to MongoDB Atlas
+                        const response = await fetch(MONGODB_API_URL, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'api-key': MONGODB_API_KEY,
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                dataSource: "haleys-contact",
+                                database: DATABASE,
+                                collection: COLLECTION,
+                                document: formDataObj
+                            })
+                        });
+
+                        // Check if response is ok
+                        if (!response.ok) {
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+
+                        const result = await response.json();
+                        console.log('MongoDB response:', result);
+
+                        if (result.insertedId) {
+                            // Show success toast
+                            toast.success('Thank you for your message. We will get back to you soon!');
+                            log(`Form submitted successfully. Document ID: ${result.insertedId}`, 'success');
+
+                            // Reset the form
+                            e.target.reset();
+                        } else {
+                            // Show error toast
+                            toast.error('There was an error sending your message. Please try again later.');
+                            log('Form submission failed: No insertedId returned', 'error');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        toast.error('There was an error sending your message. Please try again later.');
+                        log(`Form submission error: ${error.message}`, 'error');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
