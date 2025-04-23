@@ -18,6 +18,44 @@
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
 </head>
 <body>
+    <!-- Popup Contact Form Overlay -->
+    <div id="contact-popup-overlay" class="popup-overlay">
+      <div class="popup-content">
+        <span class="popup-close">&times;</span>
+        <div class="popup-form">
+          <h2>Contact Us</h2>
+          <p>Need legal assistance? Fill out this form and we'll get back to you quickly.</p>
+          <form id="popup_contact_form">
+            <div class="form-group">
+              <input type="text" placeholder="Full Name" name="name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" placeholder="Email Address" name="email" required>
+            </div>
+            <div class="form-group">
+              <input type="tel" placeholder="Phone Number" name="phone" required>
+            </div>
+            <div class="form-group">
+              <select name="subject" required>
+                <option value="" disabled selected>Select Service</option>
+                <option>General Enquiries</option>
+                <option>Criminal Appeal Enquiries</option>
+                <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                <option>Arrest, Search and Seizure of Property Enquiries</option>
+                <option>Wills And Probate Enquiries</option>
+                <option>Road Traffic Cases Enquiries</option>
+                <option>Family Law Enquiries</option>
+                <option>Immigration Law Enquiries</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <textarea name="message" placeholder="How can we help you?" rows="3" required></textarea>
+            </div>
+            <button type="submit">Send Message</button>
+          </form>
+        </div>
+      </div>
+    </div>
 
     <!-- Top Navbar -->
     <nav class="top-navbar">
@@ -229,6 +267,58 @@
         </div>
     </div>
 
+    <!-- Contact Form -->
+    <section id="contact-form" class="bg-white py-16 practice-fadeInUp-animation">
+        <div class="container mx-auto px-4">
+            <h2 id="contact-title" class="text-3xl text-center mb-12 brand-pink">HOW CAN WE HELP? <em>CONTACT US TODAY</em></h2>
+            <div id="contact-text">
+                <p>Contact us and one of our advisors will be in touch to discuss your situation. We will take some initial information and if we can help, we will book you in for a consultation.</p>
+                <p>Please provide as much information as possible so that your enquiry can be directed to the most appropriate department. Your enquiry will be treated in confidence, however we take the safety of your personal information serious, therefore please refrain from sending confidential information, such as full names of 3rd parties involved, address details etc.</p>
+            </div>
+            <div id="container">
+                <div class="icon_wrapper">
+
+                </div>
+                <form action="https://api.web3forms.com/submit" method="POST" id="contact_form">
+                  <input type="hidden" name="access_key" value="4366b25c-8d7f-49d2-8a6b-17784f13aaf9">
+                  <div class="name">
+                    <label for="name"></label>
+                    <input type="text" placeholder="Full Name:" name="name" id="name_input" required>
+                  </div>
+                  <div class="email">
+                    <label for="email"></label>
+                    <input type="email" placeholder="E-mail:" name="email" id="email_input" required>
+                  </div>
+                  <div class="telephone">
+                    <label for="name"></label>
+                    <input type="text" placeholder="Phone Number:" name="telephone" id="telephone_input" required>
+                  </div>
+                  <div class="subject">
+                    <label for="subject"></label>
+                    <select placeholder="Subject line" name="subject" id="subject_input" required>
+                        <option disabled hidden selected>Subject line</option>
+                        <option>General Enquiries</option>
+                        <option>Criminal Appeal Enquiries</option>
+                        <option>Challenging Restraint and Freezing Orders Enquiries</option>
+                        <option>Arrest, Search and Seizure of Property Enquiries</option>
+                        <option>Wills And Probate Enquiries</option>
+                        <option>Road Traffic Cases Enquiries</option>
+                        <option>Family Law Enquiries</option>
+                        <option>Immigration Law Enquiries</option>
+                    </select>
+                  </div>
+                  <div class="message">
+                    <label for="message"></label>
+                    <textarea name="message" placeholder="I'd like to chat about" id="message_input" cols="30" rows="5" required></textarea>
+                  </div>
+                  <div class="submit">
+                    <input type="submit" value="Send Message" id="form_button" />
+                  </div>
+                </form><!-- // End form -->
+              </div><!-- // End #container -->
+        </div>
+    </section>
+
     <!-- Footer -->
     <footer id="footerDiv" class="bg-gray-800 text-white py-12">
         <div class="container mx-auto px-4 grid grid-cols-3 gap-8">
@@ -281,6 +371,8 @@
     <script src="/js/script.js"></script>
     <!-- Case Animations -->
     <script src="/js/case-animations.js"></script>
+    <!-- Popup Contact Form -->
+    <script src="/js/popup-contact.js"></script>
     <script src="/js/phone-number-formatter.js"></script>
 
     <!-- Sidebar overlay -->
