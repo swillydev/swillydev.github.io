@@ -301,7 +301,7 @@
   width: 50px;
   height: 50px;
   cursor: pointer;
-  display: flex;
+  display: none; /* Hide by default (desktop view) */
   align-items: center;
   justify-content: center;
   font-size: 1.5rem;
@@ -433,15 +433,21 @@
     border: 2px solid #7C2F84; /* Brand color border */
     color: #7C2F84; /* Brand color */
     z-index: 10; /* Ensure buttons are above cards */
+    display: flex; /* Show buttons on mobile */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
   }
 
   /* Position buttons for single card view */
   .team-carousel-button.prev {
     left: 5px;
+    padding-right: 3px; /* Adjust icon position */
+    touch-action: manipulation; /* Optimize for touch */
   }
 
   .team-carousel-button.next {
     right: 5px;
+    padding-left: 3px; /* Adjust icon position */
+    touch-action: manipulation; /* Optimize for touch */
   }
 
   .team-popup-content {
@@ -453,6 +459,30 @@
 @media (max-width: 480px) {
   .team-section {
     padding: 2rem 0; /* Further reduced vertical padding for smaller screens */
+  }
+
+  /* Make buttons slightly larger and more visible on smallest screens */
+  .team-carousel-button {
+    width: 44px;
+    height: 44px;
+    font-size: 1.3rem;
+    background-color: white;
+    border: 2.5px solid #7C2F84;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+    position: absolute; /* Ensure proper positioning */
+    top: 50%; /* Center vertically */
+    transform: translateY(-50%); /* Center vertically */
+  }
+
+  /* Add a larger touch target area */
+  .team-carousel-button::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    z-index: -1; /* Behind the button */
   }
 
   .team-carousel-track {
