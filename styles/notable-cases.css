@@ -1,0 +1,192 @@
+/* Notable Cases Page Styles */
+
+/* Main container for case listings */
+.cases-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem 1rem;
+}
+
+/* Page title styling */
+.page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #7C2F84;
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 3rem;
+    letter-spacing: 1px;
+}
+
+/* Individual case card */
+.case-card {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4rem;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    opacity: 0; /* Start with opacity 0 for fade effect */
+}
+
+/* Animation for cases sliding in from left (default) */
+.case-card.animate {
+    animation: slideInFromLeft 0.8s ease forwards;
+}
+
+/* Animation for cases sliding in from right (reverse layout) */
+.case-card.reverse.animate {
+    animation: slideInFromRight 0.8s ease forwards;
+}
+
+/* Keyframes for sliding in from left */
+@keyframes slideInFromLeft {
+    0% {
+        transform: translateX(-50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+/* Keyframes for sliding in from right */
+@keyframes slideInFromRight {
+    0% {
+        transform: translateX(50px);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+.case-card.animate:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Case content (text side) */
+.case-content {
+    flex: 0 0 60%; /* Takes exactly 60% of the width */
+    padding: 2rem;
+}
+
+/* Case image container */
+.case-image {
+    flex: 0 0 40%; /* Takes exactly 40% of the width */
+    height: 400px;
+    overflow: hidden;
+}
+
+.case-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.case-card.animate:hover .case-image img {
+    transform: scale(1.05);
+}
+
+/* Case title */
+.case-title {
+    font-family: 'Bebas Neue', sans-serif;
+    color: #7C2F84;
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+}
+
+/* Case metadata */
+.case-meta {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+    font-family: 'Urbanist', sans-serif;
+    color: #6b7280;
+}
+
+.case-date, .case-type {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+/* Case description */
+.case-description {
+    font-family: 'Urbanist', sans-serif;
+    color: #4b5563;
+    line-height: 1.7;
+}
+
+/* Reverse layout for alternating cases */
+.case-card.reverse {
+    flex-direction: row-reverse;
+}
+
+/* Responsive design */
+/* Tablet view */
+@media (max-width: 1024px) and (min-width: 769px) {
+    .case-content {
+        flex: 0 0 55%;
+    }
+
+    .case-image {
+        flex: 0 0 45%;
+    }
+}
+
+/* Mobile view */
+@media (max-width: 768px) {
+    /* Adjust animations for mobile */
+    @keyframes slideInFromLeft {
+        0% {
+            transform: translateX(-30px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    @keyframes slideInFromRight {
+        0% {
+            transform: translateX(30px);
+            opacity: 0;
+        }
+        100% {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .case-card, .case-card.reverse {
+        flex-direction: column;
+    }
+
+    .case-image {
+        width: 100%;
+        flex: 0 0 100%; /* Full width on mobile */
+        height: 250px;
+    }
+
+    .case-content {
+        width: 100%;
+        flex: 0 0 100%; /* Full width on mobile */
+        padding: 1.5rem;
+    }
+
+    .case-title {
+        font-size: 1.75rem;
+    }
+
+    .case-meta {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
