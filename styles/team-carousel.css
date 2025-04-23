@@ -306,12 +306,13 @@
   justify-content: center;
   font-size: 1.5rem;
   transition: all 0.3s ease;
-  z-index: 5; /* Higher z-index to ensure visibility */
+  z-index: 50; /* Higher z-index to ensure visibility */
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
   opacity: 0.9; /* Slightly transparent */
+  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
 }
 
 .team-carousel-button:hover {
@@ -362,6 +363,8 @@
     padding: 2rem; /* Maintain good padding */
     margin: 0 auto; /* Center the track */
     max-width: 90%; /* Limit width to prevent overflow */
+    position: relative; /* For proper positioning of cards */
+    min-height: 450px; /* Ensure enough height for cards */
   }
 
   /* Enhance card styling for mobile single view */
@@ -370,10 +373,13 @@
     width: 100%; /* Ensure full width */
     height: auto; /* Allow height to adjust based on content */
     min-height: 450px; /* Minimum height */
-    margin: 1.5rem auto; /* Add vertical margin and center the card */
+    margin: 0 auto; /* Center the card */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
     opacity: 1; /* Make cards visible by default */
-    transition: opacity 0.5s ease; /* Add transition for fade effect */
+    transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for fade effect */
+    position: absolute; /* Position cards absolutely for our carousel */
+    left: 0;
+    right: 0;
   }
 
   /* First card is always visible */
@@ -432,20 +438,21 @@
     background-color: white;
     border: 2px solid #7C2F84; /* Brand color border */
     color: #7C2F84; /* Brand color */
-    z-index: 10; /* Ensure buttons are above cards */
-    display: flex; /* Show buttons on mobile */
+    z-index: 100; /* Ensure buttons are above cards */
+    display: flex !important; /* Show buttons on mobile */
     -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
+    pointer-events: auto !important; /* Ensure clicks are registered */
   }
 
   /* Position buttons for single card view */
   .team-carousel-button.prev {
-    left: 5px;
+    left: 10px;
     padding-right: 3px; /* Adjust icon position */
     touch-action: manipulation; /* Optimize for touch */
   }
 
   .team-carousel-button.next {
-    right: 5px;
+    right: 10px;
     padding-left: 3px; /* Adjust icon position */
     touch-action: manipulation; /* Optimize for touch */
   }
