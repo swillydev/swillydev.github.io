@@ -1,0 +1,518 @@
+/* Team Carousel Styles */
+
+.team-section {
+  margin: 0;
+  overflow: hidden;
+  padding: 4rem 0;
+  background-color: #f9f9f9;
+}
+
+.team-section h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  color: #7C2F84;
+  font-family: "Bebas Neue";
+  text-transform: uppercase;
+  font-weight: bold;
+  font-size: 1.6rem;
+}
+
+.team-carousel-container {
+  position: relative;
+  max-width: 1520px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+  padding: 0 60px;
+  box-sizing: border-box;
+  width: 100%;
+}
+
+.team-carousel-track {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: calc((100% - 4rem) / 3);
+  gap: 2rem;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 2rem;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+  scroll-snap-type: x mandatory;
+}
+
+.team-carousel-track::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
+.team-card {
+  scroll-snap-align: center;
+  min-width: 300px;
+  height: 450px;
+  position: relative;
+  color: #333;
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+.team-card-image {
+  width: 100%;
+  height: 220px;
+  overflow: hidden;
+}
+
+.team-card-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.team-card:hover .team-card-image img {
+  transform: scale(1.05);
+}
+
+.team-card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+}
+
+.team-card-header {
+  margin-bottom: 1rem;
+}
+
+.team-card-name {
+  font-family: "Bebas Neue", sans-serif;
+  color: #7C2F84;
+  font-size: 1.5rem;
+  margin: 0 0 0.25rem;
+}
+
+.team-card-title {
+  font-family: "Urbanist", sans-serif;
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+.team-card-area {
+  font-family: "Urbanist", sans-serif;
+  color: #7C2F84;
+  font-size: 0.9rem;
+  font-weight: bold;
+  margin: 0.5rem 0 0;
+}
+
+.team-card-contact {
+  margin-top: 1rem;
+  font-family: "Urbanist", sans-serif;
+}
+
+.team-card-contact p {
+  margin: 0.25rem 0;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+}
+
+.team-card-contact i {
+  margin-right: 0.5rem;
+  color: #7C2F84;
+  width: 20px;
+  text-align: center;
+}
+
+.team-card-button {
+  margin-top: auto;
+  text-align: center;
+  padding-top: 1rem;
+}
+
+.see-more-btn {
+  background-color: #7C2F84;
+  color: white;
+  border: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 5px;
+  font-family: "Urbanist", sans-serif;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.see-more-btn:hover {
+  background-color: #6a1b72;
+}
+
+/* Team Member Popup Styles */
+.team-popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  backdrop-filter: blur(5px);
+  -webkit-backdrop-filter: blur(5px);
+  padding: 10vh 0;
+}
+
+.team-popup-overlay.active {
+  display: flex;
+}
+
+.team-popup-content {
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  position: relative;
+  width: 90%;
+  max-width: 800px;
+  max-height: 80vh;
+  overflow-y: auto;
+  animation: popupFade 0.3s ease-out;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  z-index: 10000;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.team-popup-close {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  font-size: 1.5rem;
+  cursor: pointer;
+  color: #666;
+  transition: color 0.3s ease;
+  z-index: 10001;
+}
+
+.team-popup-close:hover {
+  color: #7C2F84;
+}
+
+.team-popup-header {
+  display: flex;
+  gap: 2rem;
+  margin-bottom: 2rem;
+}
+
+.team-popup-image {
+  width: 200px;
+  height: 200px;
+  border-radius: 10px;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.team-popup-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.team-popup-info {
+  flex-grow: 1;
+}
+
+.team-popup-name {
+  font-family: "Bebas Neue", sans-serif;
+  color: #7C2F84;
+  font-size: 2rem;
+  margin: 0 0 0.5rem;
+}
+
+.team-popup-title {
+  font-family: "Urbanist", sans-serif;
+  color: #666;
+  font-size: 1.2rem;
+  margin: 0;
+}
+
+.team-popup-area {
+  font-family: "Urbanist", sans-serif;
+  color: #7C2F84;
+  font-size: 1rem;
+  font-weight: bold;
+  margin: 0.5rem 0 1rem;
+}
+
+.team-popup-contact {
+  margin-top: 1rem;
+  font-family: "Urbanist", sans-serif;
+}
+
+.team-popup-contact p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.team-popup-contact i {
+  margin-right: 0.5rem;
+  color: #7C2F84;
+  width: 20px;
+  text-align: center;
+}
+
+.team-popup-quote {
+  font-family: "Urbanist", sans-serif;
+  font-style: italic;
+  color: #7C2F84;
+  font-size: 1.1rem;
+  margin: 1.5rem 0;
+  padding: 1rem;
+  border-left: 3px solid #7C2F84;
+  background-color: #f9f9f9;
+}
+
+.team-popup-bio {
+  font-family: "Urbanist", sans-serif;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* Carousel Navigation Buttons */
+.team-carousel-button {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  transition: all 0.3s ease;
+  z-index: 5; /* Higher z-index to ensure visibility */
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
+  opacity: 0.9; /* Slightly transparent */
+}
+
+.team-carousel-button:hover {
+  background-color: #7C2F84;
+  border-color: #7C2F84;
+  color: white;
+  opacity: 1;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.team-carousel-button.prev {
+  left: 0;
+}
+
+.team-carousel-button.next {
+  right: 0;
+}
+
+/* Responsive Styles */
+@media (max-width: 1024px) {
+  .team-carousel-track {
+    grid-auto-columns: calc((100% - 2rem) / 2);
+  }
+
+  .team-popup-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .team-popup-image {
+    margin-bottom: 1rem;
+  }
+
+  .team-carousel-container {
+    padding: 0 40px;
+  }
+}
+
+@media (max-width: 768px) {
+  .team-section {
+    padding: 3rem 0; /* Slightly reduced vertical padding */
+  }
+
+  .team-carousel-track {
+    grid-auto-columns: calc((100% - 3rem) / 2); /* Show exactly 2 cards on mobile with more gap */
+    gap: 3rem; /* Increased gap between cards */
+    padding: 2rem 3rem; /* Increased horizontal padding */
+    margin: 0 1rem; /* Add margin to the track */
+  }
+
+  /* Keep the card dimensions and styling the same as desktop but add more padding */
+  .team-card {
+    min-width: 280px; /* Slightly smaller to fit better */
+    height: 450px; /* Same as desktop */
+    margin: 0.5rem; /* Add margin around each card */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
+  }
+
+  /* Keep the image height the same */
+  .team-card-image {
+    height: 200px; /* Slightly smaller image height */
+  }
+
+  /* Increase the content padding */
+  .team-card-content {
+    padding: 1.75rem; /* Increased padding */
+  }
+
+  /* Keep font sizes the same */
+  .team-card-name {
+    font-size: 1.5rem; /* Same as desktop */
+  }
+
+  .team-card-title,
+  .team-card-area {
+    font-size: 1rem; /* Same as desktop */
+  }
+
+  .team-card-contact p {
+    font-size: 0.9rem; /* Same as desktop */
+  }
+
+  /* Keep button styling the same */
+  .see-more-btn {
+    padding: 0.75rem 1.5rem; /* Same as desktop */
+    font-size: 0.9rem; /* Same as desktop */
+  }
+
+  /* Adjust container padding for mobile */
+  .team-carousel-container {
+    padding: 0 50px; /* Increased padding to accommodate navigation buttons */
+    margin: 0 auto;
+    max-width: 95%;
+  }
+
+  /* Make buttons slightly more visible on mobile */
+  .team-carousel-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    opacity: 1; /* Fully visible on mobile */
+  }
+
+  .team-popup-content {
+    padding: 1.5rem;
+    width: 95%;
+  }
+}
+
+@media (max-width: 480px) {
+  .team-section {
+    padding: 2.5rem 0; /* Further reduced vertical padding for smaller screens */
+  }
+
+  .team-carousel-track {
+    grid-auto-columns: calc((100% - 2.5rem) / 2); /* Show exactly 2 cards on smaller mobile */
+    gap: 2.5rem; /* Slightly reduced gap for smaller screens but still more than default */
+    padding: 1.5rem 2rem; /* Adjusted padding for smaller screens */
+    margin: 0 0.5rem; /* Reduced margin for smaller screens */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scroll-snap-type: x mandatory; /* Ensure cards snap into place */
+  }
+
+  /* Adjust card dimensions for smaller screens but maintain padding */
+  .team-card {
+    min-width: 250px; /* Smaller width for smaller screens */
+    height: 430px; /* Slightly reduced height */
+    margin: 0.75rem; /* Increased margin for better spacing */
+    scroll-snap-align: center; /* Ensure cards snap into place */
+    touch-action: pan-x; /* Optimize for horizontal touch gestures */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Adjusted shadow for smaller screens */
+  }
+
+  /* Adjust image height for smaller screens */
+  .team-card-image {
+    height: 180px; /* Reduced image height for smaller screens */
+  }
+
+  /* Maintain increased content padding */
+  .team-card-content {
+    padding: 1.5rem; /* Maintain good padding */
+  }
+
+  /* Keep font sizes the same */
+  .team-card-name {
+    font-size: 1.5rem; /* Same as desktop */
+  }
+
+  .team-card-title,
+  .team-card-area {
+    font-size: 1rem; /* Same as desktop */
+  }
+
+  .team-card-contact p {
+    font-size: 0.9rem; /* Same as desktop */
+    margin: 0.25rem 0; /* Same as desktop */
+  }
+
+  /* Keep button styling the same but make it more touch-friendly */
+  .see-more-btn {
+    padding: 0.75rem 1.5rem; /* Same as desktop */
+    font-size: 0.9rem; /* Same as desktop */
+    min-height: 44px; /* Apple's recommended minimum touch target size */
+  }
+
+  /* Adjust container padding for smaller screens */
+  .team-carousel-container {
+    padding: 0 45px; /* Adjusted padding for smaller screens */
+    max-width: 100%;
+  }
+
+  /* Make buttons more visible on mobile */
+  .team-carousel-button {
+    width: 45px;
+    height: 45px;
+    font-size: 1.3rem;
+    opacity: 1; /* Fully visible on mobile */
+    background-color: #fff;
+  }
+
+  /* Position buttons for better visibility on mobile */
+  .team-carousel-button.prev {
+    left: 5px;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Add shadow on the right side */
+  }
+
+  .team-carousel-button.next {
+    right: 5px;
+    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* Add shadow on the left side */
+  }
+
+  /* Popup adjustments for mobile */
+  .team-popup-content {
+    padding: 1.5rem;
+    max-height: 85vh; /* Slightly taller on mobile */
+  }
+
+  /* Ensure popup is fully visible and scrollable on mobile */
+  .team-popup-overlay {
+    padding: 5vh 0;
+    overflow-y: auto;
+  }
+}
