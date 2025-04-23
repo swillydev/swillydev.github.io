@@ -2,6 +2,15 @@
 
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Team carousel script loaded');
+
+    // Function to check if element is in viewport
+    function isInViewport(element) {
+        const rect = element.getBoundingClientRect();
+        return (
+            rect.left >= 0 &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+        );
+    }
     // Team carousel scroll functionality
     const teamCarouselTrack = document.querySelector('.team-carousel-track');
     const teamCards = document.querySelectorAll('.team-card');
@@ -14,8 +23,10 @@ document.addEventListener('DOMContentLoaded', function() {
             // Determine how many cards to show based on viewport width
             let cardsToShow = 3; // Default for desktop
 
-            if (window.innerWidth <= 1024) {
-                cardsToShow = 2; // Show 2 cards on tablet and mobile
+            if (window.innerWidth <= 768) {
+                cardsToShow = 1; // Show 1 card on mobile
+            } else if (window.innerWidth <= 1024) {
+                cardsToShow = 2; // Show 2 cards on tablet
             }
 
             // Calculate card width including gap
@@ -31,6 +42,25 @@ document.addEventListener('DOMContentLoaded', function() {
             cardWidth = calculateCardWidth();
         });
 
+        // Function to update card visibility based on viewport
+        function updateCardVisibility() {
+            teamCards.forEach(card => {
+                if (isInViewport(card)) {
+                    card.classList.add('in-view');
+                } else {
+                    card.classList.remove('in-view');
+                }
+            });
+        }
+
+        // Set initial visibility
+        updateCardVisibility();
+
+        // Make first card visible by default
+        if (teamCards.length > 0) {
+            teamCards[0].classList.add('in-view');
+        }
+
         // Scroll to next/previous card
         if (prevButton) {
             prevButton.addEventListener('click', () => {
@@ -38,6 +68,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     left: -cardWidth,
                     behavior: 'smooth'
                 });
+
+                // Update card visibility after scrolling
+                setTimeout(updateCardVisibility, 500);
             });
         }
 
@@ -47,8 +80,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     left: cardWidth,
                     behavior: 'smooth'
                 });
+
+                // Update card visibility after scrolling
+                setTimeout(updateCardVisibility, 500);
             });
         }
+
+        // Update card visibility on scroll
+        teamCarouselTrack.addEventListener('scroll', () => {
+            updateCardVisibility();
+        });
 
         // Add touch swipe functionality for mobile
         let touchStartX = 0;
@@ -88,6 +129,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         behavior: 'smooth'
                     });
                     console.log('Swiped left - showing next card');
+
+                    // Update card visibility after swiping
+                    setTimeout(updateCardVisibility, 500);
                 } else {
                     // Swipe right - go to previous
                     teamCarouselTrack.scrollBy({
@@ -95,6 +139,9 @@ document.addEventListener('DOMContentLoaded', function() {
                         behavior: 'smooth'
                     });
                     console.log('Swiped right - showing previous card');
+
+                    // Update card visibility after swiping
+                    setTimeout(updateCardVisibility, 500);
                 }
             }
         }
