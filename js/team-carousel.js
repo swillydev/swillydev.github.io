@@ -3,12 +3,15 @@
 document.addEventListener('DOMContentLoaded', function() {
     console.log('Team carousel script loaded');
 
-    // Function to check if element is in viewport
+    // Function to check if element is in viewport with more tolerance
     function isInViewport(element) {
         const rect = element.getBoundingClientRect();
+        const tolerance = 50; // Add some tolerance to consider partially visible elements
         return (
-            rect.left >= 0 &&
-            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            rect.left >= -tolerance &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth) + tolerance &&
+            rect.top >= -tolerance &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + tolerance
         );
     }
     // Team carousel scroll functionality
@@ -44,13 +47,27 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Function to update card visibility based on viewport
         function updateCardVisibility() {
-            teamCards.forEach(card => {
+            console.log('Updating card visibility');
+            let visibleCardFound = false;
+
+            teamCards.forEach((card, index) => {
                 if (isInViewport(card)) {
+                    console.log(`Card ${index + 1} is in viewport`);
                     card.classList.add('in-view');
+                    visibleCardFound = true;
                 } else {
-                    card.classList.remove('in-view');
+                    // Only remove in-view class if we're not on mobile
+                    if (window.innerWidth > 768 || visibleCardFound) {
+                        card.classList.remove('in-view');
+                    }
                 }
             });
+
+            // If no cards are visible (especially on mobile), make the first one visible
+            if (!visibleCardFound && teamCards.length > 0) {
+                console.log('No visible cards found, making first card visible');
+                teamCards[0].classList.add('in-view');
+            }
         }
 
         // Set initial visibility
@@ -58,7 +75,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
         // Make first card visible by default
         if (teamCards.length > 0) {
+            console.log('Making first card visible by default');
             teamCards[0].classList.add('in-view');
+            // Ensure it's actually visible in the DOM
+            teamCards[0].style.opacity = '1';
+            teamCards[0].style.display = 'block';
         }
 
         // Scroll to next/previous card

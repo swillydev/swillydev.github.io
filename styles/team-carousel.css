@@ -372,8 +372,13 @@
     min-height: 450px; /* Minimum height */
     margin: 0 auto; /* Center the card */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
-    opacity: 0; /* Start with opacity 0 for fade-in effect */
+    opacity: 1; /* Make cards visible by default */
     transition: opacity 0.5s ease; /* Add transition for fade effect */
+  }
+
+  /* First card is always visible */
+  .team-card:first-child {
+    opacity: 1;
   }
 
   /* Card that is in view */
@@ -470,6 +475,7 @@
     touch-action: pan-x; /* Optimize for horizontal touch gestures */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Adjusted shadow for smaller screens */
     border-radius: 12px; /* Slightly larger border radius */
+    opacity: 1; /* Make cards visible by default */
   }
 
   /* Adjust image height for smaller screens */
