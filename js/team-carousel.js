@@ -43,6 +43,11 @@ document.addEventListener('DOMContentLoaded', function() {
         // Recalculate on window resize
         window.addEventListener('resize', () => {
             cardWidth = calculateCardWidth();
+            // Update current card index and visibility after resize
+            setTimeout(() => {
+                updateCurrentCardIndex();
+                updateCardVisibility();
+            }, 300);
         });
 
         // Function to update card visibility based on viewport
@@ -82,35 +87,99 @@ document.addEventListener('DOMContentLoaded', function() {
             teamCards[0].style.display = 'block';
         }
 
+        // Get all team cards
+        const allTeamCards = Array.from(teamCards);
+        let currentCardIndex = 0;
+
+        // Function to scroll to a specific card
+        function scrollToCard(index) {
+            // Ensure index is within bounds
+            if (index < 0) index = 0;
+            if (index >= allTeamCards.length) index = allTeamCards.length - 1;
+
+            // Update current index
+            currentCardIndex = index;
+
+            // Get the target card
+            const targetCard = allTeamCards[index];
+
+            // Scroll to the target card
+            targetCard.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+
+            console.log(`Scrolling to card ${index + 1}`);
+
+            // Update card visibility after scrolling
+            setTimeout(updateCardVisibility, 500);
+        }
+
         // Scroll to next/previous card
         if (prevButton) {
             prevButton.addEventListener('click', () => {
-                teamCarouselTrack.scrollBy({
-                    left: -cardWidth,
-                    behavior: 'smooth'
-                });
-
-                // Update card visibility after scrolling
-                setTimeout(updateCardVisibility, 500);
+                // On mobile, use index-based navigation
+                if (window.innerWidth <= 768) {
+                    scrollToCard(currentCardIndex - 1);
+                } else {
+                    // On desktop, use the original scrollBy method
+                    teamCarouselTrack.scrollBy({
+                        left: -cardWidth,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(updateCardVisibility, 500);
+                }
             });
         }
 
         if (nextButton) {
             nextButton.addEventListener('click', () => {
-                teamCarouselTrack.scrollBy({
-                    left: cardWidth,
-                    behavior: 'smooth'
-                });
-
-                // Update card visibility after scrolling
-                setTimeout(updateCardVisibility, 500);
+                // On mobile, use index-based navigation
+                if (window.innerWidth <= 768) {
+                    scrollToCard(currentCardIndex + 1);
+                } else {
+                    // On desktop, use the original scrollBy method
+                    teamCarouselTrack.scrollBy({
+                        left: cardWidth,
+                        behavior: 'smooth'
+                    });
+                    setTimeout(updateCardVisibility, 500);
+                }
             });
         }
 
-        // Update card visibility on scroll
+        // Function to determine which card is currently most visible
+        function updateCurrentCardIndex() {
+            if (window.innerWidth <= 768) {
+                // For mobile view
+                let maxVisibleArea = 0;
+                let maxVisibleIndex = 0;
+
+                allTeamCards.forEach((card, index) => {
+                    const rect = card.getBoundingClientRect();
+                    const visibleWidth = Math.min(rect.right, window.innerWidth) - Math.max(rect.left, 0);
+                    const visibleHeight = Math.min(rect.bottom, window.innerHeight) - Math.max(rect.top, 0);
+                    const visibleArea = visibleWidth * visibleHeight;
+
+                    if (visibleArea > maxVisibleArea) {
+                        maxVisibleArea = visibleArea;
+                        maxVisibleIndex = index;
+                    }
+                });
+
+                // Update current index if it changed
+                if (currentCardIndex !== maxVisibleIndex) {
+                    currentCardIndex = maxVisibleIndex;
+                    console.log(`Current card index updated to ${currentCardIndex + 1}`);
+                }
+            }
+        }
+
+        // Update card visibility and current index on scroll
         teamCarouselTrack.addEventListener('scroll', () => {
             updateCardVisibility();
+            updateCurrentCardIndex();
         });
+
+        // Initial update of current card index
+        updateCurrentCardIndex();
 
         // Add touch swipe functionality for mobile
         let touchStartX = 0;
@@ -145,23 +214,34 @@ document.addEventListener('DOMContentLoaded', function() {
             if (swipeDistance > swipeThreshold) {
                 if (touchStartX - touchEndX > 0) {
                     // Swipe left - go to next
-                    teamCarouselTrack.scrollBy({
-                        left: cardWidth,
-                        behavior: 'smooth'
-                    });
+                    if (window.innerWidth <= 768) {
+                        // On mobile, use index-based navigation
+                        scrollToCard(currentCardIndex + 1);
+                    } else {
+                        // On desktop, use the original scrollBy method
+                        teamCarouselTrack.scrollBy({
+                            left: cardWidth,
+                            behavior: 'smooth'
+                        });
+                    }
                     console.log('Swiped left - showing next card');
-
-                    // Update card visibility after swiping
-                    setTimeout(updateCardVisibility, 500);
                 } else {
                     // Swipe right - go to previous
-                    teamCarouselTrack.scrollBy({
-                        left: -cardWidth,
-                        behavior: 'smooth'
-                    });
+                    if (window.innerWidth <= 768) {
+                        // On mobile, use index-based navigation
+                        scrollToCard(currentCardIndex - 1);
+                    } else {
+                        // On desktop, use the original scrollBy method
+                        teamCarouselTrack.scrollBy({
+                            left: -cardWidth,
+                            behavior: 'smooth'
+                        });
+                    }
                     console.log('Swiped right - showing previous card');
+                }
 
-                    // Update card visibility after swiping
+                // Update card visibility after swiping (for desktop)
+                if (window.innerWidth > 768) {
                     setTimeout(updateCardVisibility, 500);
                 }
             }
