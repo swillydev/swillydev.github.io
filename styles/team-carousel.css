@@ -358,7 +358,7 @@
 
   .team-carousel-track {
     grid-auto-columns: 100%; /* Show only 1 card on mobile */
-    gap: 0; /* No gap needed for single card view */
+    gap: 3rem; /* Add a big gap between cards */
     padding: 2rem; /* Maintain good padding */
     margin: 0 auto; /* Center the track */
     max-width: 90%; /* Limit width to prevent overflow */
@@ -370,7 +370,7 @@
     width: 100%; /* Ensure full width */
     height: auto; /* Allow height to adjust based on content */
     min-height: 450px; /* Minimum height */
-    margin: 0 auto; /* Center the card */
+    margin: 1.5rem auto; /* Add vertical margin and center the card */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
     opacity: 1; /* Make cards visible by default */
     transition: opacity 0.5s ease; /* Add transition for fade effect */
@@ -457,6 +457,7 @@
 
   .team-carousel-track {
     grid-auto-columns: 100%; /* Show only 1 card on smaller mobile */
+    gap: 4rem; /* Even bigger gap for smaller screens */
     padding: 1.5rem; /* Adjusted padding for smaller screens */
     margin: 0 auto; /* Center the track */
     max-width: 95%; /* Slightly wider on smaller screens */
@@ -470,7 +471,7 @@
     width: 100%; /* Ensure full width */
     height: auto; /* Allow height to adjust based on content */
     min-height: 420px; /* Slightly reduced minimum height */
-    margin: 0 auto; /* Center the card */
+    margin: 2rem auto; /* Increased vertical margin and center the card */
     scroll-snap-align: center; /* Ensure cards snap into place */
     touch-action: pan-x; /* Optimize for horizontal touch gestures */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Adjusted shadow for smaller screens */
