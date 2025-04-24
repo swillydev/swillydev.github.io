@@ -13,69 +13,147 @@ document.addEventListener('DOMContentLoaded', function() {
         // Convert NodeList to Array for easier manipulation
         const teamCardsArray = Array.from(teamCards);
         let currentIndex = 0;
+        let isAnimating = false; // Flag to prevent multiple animations at once
 
-        // Set up the carousel for mobile view
-        function setupMobileCarousel() {
+        // Function to initialize the carousel
+        function initCarousel() {
+            // Set initial state
             if (window.innerWidth <= 768) {
-                // Calculate card width including any margins/padding
-                const cardWidth = teamCardsArray[0].offsetWidth;
-
-                // Set the track width to accommodate all cards side by side
-                teamCarouselTrack.style.width = `${cardWidth * teamCardsArray.length}px`;
-
-                // Position each card side by side
+                // Mobile view - position all cards in the container
                 teamCardsArray.forEach((card, index) => {
-                    card.style.position = 'relative';
-                    card.style.left = `${index * cardWidth}px`;
-                    card.style.display = 'flex';
-                    card.style.opacity = '1';
+                    // Hide all cards except the first one
+                    if (index === 0) {
+                        card.classList.add('active');
+                        card.style.opacity = '1';
+                        card.style.transform = 'translateX(0)';
+                        card.style.zIndex = '5';
+                        card.style.display = 'flex';
+                    } else {
+                        card.classList.remove('active');
+                        card.style.opacity = '0';
+                        card.style.transform = 'translateX(100%)';
+                        card.style.zIndex = '1';
+                        card.style.display = 'none';
+                    }
                 });
+
+                // Set up card counter
+                const carouselContainer = document.querySelector('.team-carousel-container');
+                if (carouselContainer) {
+                    carouselContainer.setAttribute('data-current-card', currentIndex + 1);
+                    carouselContainer.setAttribute('data-total-cards', teamCardsArray.length);
+                }
             } else {
-                // Reset styles for desktop view
-                teamCarouselTrack.style.width = '';
+                // Desktop view - reset all styles
                 teamCardsArray.forEach(card => {
-                    card.style.position = '';
-                    card.style.left = '';
+                    card.style.opacity = '';
+                    card.style.transform = '';
+                    card.style.zIndex = '';
+                    card.style.display = '';
+                    card.classList.remove('active');
                 });
+
+                // Remove card counter attributes
+                const carouselContainer = document.querySelector('.team-carousel-container');
+                if (carouselContainer) {
+                    carouselContainer.removeAttribute('data-current-card');
+                    carouselContainer.removeAttribute('data-total-cards');
+                }
             }
         }
 
-        // Function to slide to a specific card
-        function slideToCard(index) {
+        // Function to navigate to a specific card with fade animation
+        function navigateToCard(index) {
+            // Prevent animation if already animating
+            if (isAnimating) return;
+            isAnimating = true;
+
             // Ensure index is within bounds
             if (index < 0) index = 0;
             if (index >= teamCardsArray.length) index = teamCardsArray.length - 1;
 
-            // Update current index
-            currentIndex = index;
+            // If same card, do nothing
+            if (index === currentIndex) {
+                isAnimating = false;
+                return;
+            }
+
+            // Determine direction (next or previous)
+            const direction = index > currentIndex ? 1 : -1;
+
+            // Get current and next cards
+            const currentCard = teamCardsArray[currentIndex];
+            const nextCard = teamCardsArray[index];
 
             if (window.innerWidth <= 768) {
-                // Calculate the scroll position
-                const cardWidth = teamCardsArray[0].offsetWidth;
-                const scrollPosition = currentIndex * cardWidth;
+                // Mobile view - fade out current card and fade in next card
 
-                // Scroll to the position
-                teamCarouselTrack.scrollTo({
-                    left: scrollPosition,
-                    behavior: 'smooth'
-                });
+                // Prepare next card for animation
+                nextCard.style.opacity = '0';
+                nextCard.style.transform = `translateX(${direction * 100}%)`;
+                nextCard.style.zIndex = '1';
+                nextCard.style.display = 'flex';
 
-                console.log(`Sliding to card ${currentIndex + 1} of ${teamCardsArray.length}`);
+                // Start animation after a small delay
+                setTimeout(() => {
+                    // Fade out current card
+                    currentCard.style.opacity = '0';
+                    currentCard.style.transform = `translateX(${-direction * 100}%)`;
+                    currentCard.style.zIndex = '1';
+                    currentCard.classList.remove('active');
+
+                    // Fade in next card
+                    nextCard.style.opacity = '1';
+                    nextCard.style.transform = 'translateX(0)';
+                    nextCard.style.zIndex = '5';
+                    nextCard.classList.add('active');
+
+                    // Update current index
+                    currentIndex = index;
+
+                    // Reset animation flag after transition completes
+                    setTimeout(() => {
+                        isAnimating = false;
+
+                        // Hide all other cards
+                        teamCardsArray.forEach((card, i) => {
+                            if (i !== currentIndex) {
+                                card.style.display = 'none';
+                            }
+                        });
+                    }, 500); // Match this with the CSS transition duration
+                }, 50);
+
+                console.log(`Navigating to card ${currentIndex + 1} of ${teamCardsArray.length}`);
             } else {
-                // On desktop, just scroll to the card
-                teamCardsArray[currentIndex].scrollIntoView({
+                // Desktop view - use default scrolling behavior
+                teamCardsArray[index].scrollIntoView({
                     behavior: 'smooth',
                     block: 'nearest',
                     inline: 'center'
                 });
+
+                // Update current index
+                currentIndex = index;
+                isAnimating = false;
             }
 
-            // Update active card indicator
-            updateActiveCard();
+            // Update indicators and counter
+            updateIndicators();
+
+            // Update card counter for mobile
+            if (window.innerWidth <= 768) {
+                const carouselContainer = document.querySelector('.team-carousel-container');
+                if (carouselContainer) {
+                    carouselContainer.setAttribute('data-current-card', currentIndex + 1);
+                }
+            }
         }
 
-        // Function to update which card is active
-        function updateActiveCard() {
+        // Function to update indicators
+        function updateIndicators() {
+            // You can add indicators here if needed
+            // For now, we'll just update the active class
             teamCardsArray.forEach((card, index) => {
                 if (index === currentIndex) {
                     card.classList.add('active');
@@ -86,14 +164,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
 
         // Initialize the carousel
-        setupMobileCarousel();
-        updateActiveCard();
+        initCarousel();
 
         // Previous button click handler
         if (prevButton) {
             prevButton.addEventListener('click', function(e) {
                 e.preventDefault();
-                slideToCard(currentIndex - 1);
+                navigateToCard(currentIndex - 1);
             });
         }
 
@@ -101,17 +178,17 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nextButton) {
             nextButton.addEventListener('click', function(e) {
                 e.preventDefault();
-                slideToCard(currentIndex + 1);
+                navigateToCard(currentIndex + 1);
             });
         }
 
         // Handle window resize
         window.addEventListener('resize', function() {
-            setupMobileCarousel();
-            // After setup, slide to current card
-            setTimeout(() => {
-                slideToCard(currentIndex);
-            }, 100);
+            // Reset animation flag
+            isAnimating = false;
+
+            // Reinitialize carousel
+            initCarousel();
         });
 
         // Add touch swipe functionality for mobile
@@ -132,27 +209,13 @@ document.addEventListener('DOMContentLoaded', function() {
             if (Math.abs(swipeDistance) > 50) {
                 if (swipeDistance > 0) {
                     // Swipe left - go to next
-                    slideToCard(currentIndex + 1);
+                    navigateToCard(currentIndex + 1);
                 } else {
                     // Swipe right - go to previous
-                    slideToCard(currentIndex - 1);
+                    navigateToCard(currentIndex - 1);
                 }
             }
         }, { passive: true });
-
-        // Handle scroll events to update current index
-        teamCarouselTrack.addEventListener('scroll', function() {
-            if (window.innerWidth <= 768) {
-                const cardWidth = teamCardsArray[0].offsetWidth;
-                const scrollPosition = teamCarouselTrack.scrollLeft;
-                const newIndex = Math.round(scrollPosition / cardWidth);
-
-                if (newIndex !== currentIndex) {
-                    currentIndex = newIndex;
-                    updateActiveCard();
-                }
-            }
-        });
     }
 
     // Team member popup functionality

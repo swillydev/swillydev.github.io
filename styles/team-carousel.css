@@ -359,19 +359,13 @@
   }
 
   .team-carousel-track {
-    display: flex; /* Use flexbox for horizontal layout */
-    flex-wrap: nowrap; /* Prevent wrapping */
+    display: block; /* Block display for absolute positioning of cards */
     padding: 1rem; /* Reduced padding */
     margin: 0 auto; /* Center the track */
     max-width: 90%; /* Width for the visible area */
     position: relative; /* For proper positioning */
     min-height: 520px; /* Height to match card height */
-    overflow-x: auto; /* Enable horizontal scrolling */
-    overflow-y: hidden; /* Prevent vertical scrolling */
-    scroll-snap-type: x mandatory; /* Snap to cards */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scrollbar-width: none; /* Hide scrollbar in Firefox */
-    -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+    overflow: hidden; /* Hide overflow */
   }
 
   .team-carousel-track::-webkit-scrollbar {
@@ -386,25 +380,38 @@
     min-height: 500px; /* Minimum height to prevent squishing */
     margin: 0 5%; /* Add horizontal margin for spacing */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
-    opacity: 1; /* Make cards visible by default */
-    transition: all 0.3s ease; /* Smooth transitions */
-    position: relative; /* For proper positioning */
+    opacity: 0; /* Hidden by default */
+    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transitions for fade and slide */
+    position: absolute; /* Absolute positioning for slide effect */
     display: flex; /* Use flexbox for better layout */
     flex-direction: column; /* Stack content vertically */
-    flex-shrink: 0; /* Prevent cards from shrinking */
-    scroll-snap-align: center; /* Snap to center of viewport */
+    left: 0; /* Start at left edge */
+    right: 0; /* Stretch to right edge */
+    top: 0; /* Align at top */
+    transform: translateX(100%); /* Start off-screen to the right */
     border-radius: 10px; /* Rounded corners */
+    z-index: 1; /* Lower z-index for inactive cards */
+  }
+
+  /* First card is visible by default */
+  .team-card:first-child {
+    opacity: 1;
+    transform: translateX(0);
+    z-index: 5;
   }
 
   /* Active card styling */
   .team-card.active {
-    transform: scale(1.02); /* Slightly larger */
+    opacity: 1; /* Fully visible */
+    transform: translateX(0); /* Centered in view */
+    z-index: 5; /* Higher z-index for active card */
     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
   }
 
-  /* First card is always visible */
-  .team-card:first-child {
+  /* Card visibility classes */
+  .team-card.visible {
     opacity: 1;
+    pointer-events: auto;
   }
 
   /* Card that is in view */
@@ -481,6 +488,19 @@
     max-width: 100%; /* Full width container */
     position: relative; /* For proper button positioning */
     overflow: hidden; /* Hide overflow */
+  }
+
+  /* Add card counter for mobile */
+  .team-carousel-container::after {
+    content: attr(data-current-card) '/' attr(data-total-cards);
+    position: absolute;
+    bottom: -30px;
+    left: 0;
+    right: 0;
+    text-align: center;
+    font-family: 'Urbanist', sans-serif;
+    font-size: 0.9rem;
+    color: #666;
   }
 
   /* Enhance buttons for mobile single card view */
