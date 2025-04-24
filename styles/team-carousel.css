@@ -296,42 +296,9 @@
   line-height: 1.6;
 }
 
-/* Carousel Navigation Buttons */
+/* Carousel Navigation Buttons - Hidden for all screen sizes */
 .team-carousel-button {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 50%;
-  width: 50px;
-  height: 50px;
-  cursor: pointer;
-  display: none; /* Hide by default (desktop view) */
-  align-items: center;
-  justify-content: center;
-  font-size: 1.5rem;
-  transition: all 0.3s ease;
-  z-index: 50; /* Higher z-index to ensure visibility */
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
-  opacity: 0.9; /* Slightly transparent */
-  -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-}
-
-.team-carousel-button:hover {
-  background-color: #7C2F84;
-  border-color: #7C2F84;
-  color: white;
-  opacity: 1;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-}
-
-.team-carousel-button.prev {
-  left: 0;
-}
-
-.team-carousel-button.next {
-  right: 0;
+  display: none !important;
 }
 
 /* Responsive Styles */
@@ -362,7 +329,7 @@
 
   .team-carousel-track {
     display: block; /* Block display for mobile carousel */
-    padding: 1rem 1.5rem; /* Increased horizontal padding */
+    padding: 1rem 2rem; /* Further increased horizontal padding */
     margin: 0 auto; /* Center the track */
     width: 100%; /* Full width */
     max-width: 100%; /* Full width for the visible area */
@@ -378,7 +345,7 @@
 
   /* Enhance card styling for mobile 3-card carousel */
   .team-card {
-    width: 260px; /* Reduced card width for mobile to prevent overflow */
+    width: 240px; /* Further reduced card width for mobile to prevent overflow */
     height: auto; /* Allow height to adjust based on content */
     min-height: 450px; /* Minimum height */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
@@ -472,7 +439,7 @@
 
   /* Adjust container for mobile fan view */
   .team-carousel-container {
-    padding: 0 15px; /* Add horizontal padding to prevent cards from touching edges */
+    padding: 0 25px; /* Increased horizontal padding to prevent cards from touching edges */
     margin: 0 auto;
     max-width: 100%;
     width: 100%;
@@ -487,18 +454,7 @@
     display: none !important; /* Hide buttons on mobile */
   }
 
-  /* Position buttons for single card view */
-  .team-carousel-button.prev {
-    left: 10px;
-    padding-right: 3px; /* Adjust icon position */
-    touch-action: manipulation; /* Optimize for touch */
-  }
-
-  .team-carousel-button.next {
-    right: 10px;
-    padding-left: 3px; /* Adjust icon position */
-    touch-action: manipulation; /* Optimize for touch */
-  }
+  /* Navigation buttons removed */
 
   .team-popup-content {
     padding: 1.5rem;
@@ -536,7 +492,7 @@
   }
 
   .team-carousel-track {
-    padding: 0.5rem 2rem; /* Increased horizontal padding for smaller screens */
+    padding: 0.5rem 2.5rem; /* Further increased horizontal padding for smaller screens */
     margin: 0 auto; /* Center the track */
     max-width: 100%; /* Full width on smallest screens */
     min-height: 480px; /* Adjusted height for smaller screens */
@@ -590,31 +546,13 @@
 
   /* Adjust container padding for smaller screens */
   .team-carousel-container {
-    padding: 0 20px; /* Increased padding to prevent cards from touching edges */
+    padding: 0 30px; /* Further increased padding to prevent cards from touching edges */
     max-width: 100%;
     position: relative; /* Ensure proper positioning */
     overflow: hidden; /* Prevent horizontal scrolling */
   }
 
-  /* Make buttons more visible on mobile */
-  .team-carousel-button {
-    width: 45px;
-    height: 45px;
-    font-size: 1.3rem;
-    opacity: 1; /* Fully visible on mobile */
-    background-color: #fff;
-  }
-
-  /* Position buttons for better visibility on mobile */
-  .team-carousel-button.prev {
-    left: 5px;
-    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1); /* Add shadow on the right side */
-  }
-
-  .team-carousel-button.next {
-    right: 5px;
-    box-shadow: -2px 0 10px rgba(0, 0, 0, 0.1); /* Add shadow on the left side */
-  }
+  /* Navigation buttons removed */
 
   /* Popup adjustments for mobile */
   .team-popup-content {

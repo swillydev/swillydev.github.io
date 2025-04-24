@@ -51,8 +51,8 @@ document.addEventListener('DOMContentLoaded', function() {
             centerCard.style.display = 'flex';
             rightCard.style.display = 'flex';
 
-            // Position and style left card - reduced offset for mobile
-            leftCard.style.transform = 'translateX(calc(-50% - 80px)) rotate(-30deg)';
+            // Position and style left card - further reduced offset for mobile
+            leftCard.style.transform = 'translateX(calc(-50% - 70px)) rotate(-30deg)';
             leftCard.style.zIndex = '2';
 
             // Position and style center (active) card
@@ -61,8 +61,8 @@ document.addEventListener('DOMContentLoaded', function() {
             centerCard.style.opacity = '1';
             centerCard.classList.add('active-card');
 
-            // Position and style right card - reduced offset for mobile
-            rightCard.style.transform = 'translateX(calc(-50% + 80px)) rotate(30deg)';
+            // Position and style right card - further reduced offset for mobile
+            rightCard.style.transform = 'translateX(calc(-50% + 70px)) rotate(30deg)';
             rightCard.style.zIndex = '2';
 
             // Add click handlers to side cards
@@ -136,18 +136,18 @@ document.addEventListener('DOMContentLoaded', function() {
                 const oldCenterCard = teamCardsArray[oldIndex];
                 oldCenterCard.style.display = 'flex';
 
-                // Initial positions for animation - reduced offsets for mobile
-                leftCard.style.transform = 'translateX(calc(-50% - 160px)) rotate(-30deg)';
+                // Initial positions for animation - further reduced offsets for mobile
+                leftCard.style.transform = 'translateX(calc(-50% - 140px)) rotate(-30deg)';
                 leftCard.style.opacity = '0';
 
-                centerCard.style.transform = 'translateX(calc(-50% - 80px)) rotate(-30deg)';
+                centerCard.style.transform = 'translateX(calc(-50% - 70px)) rotate(-30deg)';
                 centerCard.style.opacity = '0.7';
 
                 oldCenterCard.style.transform = 'translateX(-50%) scale(1.1)';
                 oldCenterCard.style.zIndex = '3';
                 oldCenterCard.style.opacity = '1';
 
-                rightCard.style.transform = 'translateX(calc(-50% + 80px)) rotate(30deg)';
+                rightCard.style.transform = 'translateX(calc(-50% + 70px)) rotate(30deg)';
                 rightCard.style.zIndex = '2';
                 rightCard.style.opacity = '0.7';
 
@@ -159,8 +159,8 @@ document.addEventListener('DOMContentLoaded', function() {
                     card.style.transition = 'all 0.5s ease';
                 });
 
-                // Animate to final positions - reduced offsets for mobile
-                leftCard.style.transform = 'translateX(calc(-50% - 80px)) rotate(-30deg)';
+                // Animate to final positions - further reduced offsets for mobile
+                leftCard.style.transform = 'translateX(calc(-50% - 70px)) rotate(-30deg)';
                 leftCard.style.opacity = '0.7';
                 leftCard.style.zIndex = '2';
 
@@ -169,7 +169,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 centerCard.style.opacity = '1';
                 centerCard.classList.add('active-card');
 
-                oldCenterCard.style.transform = 'translateX(calc(-50% + 80px)) rotate(30deg)';
+                oldCenterCard.style.transform = 'translateX(calc(-50% + 70px)) rotate(30deg)';
                 oldCenterCard.style.zIndex = '2';
                 oldCenterCard.style.opacity = '0.7';
 
@@ -187,8 +187,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const oldCenterCard = teamCardsArray[oldIndex];
                 oldCenterCard.style.display = 'flex';
 
-                // Initial positions for animation - reduced offsets for mobile
-                leftCard.style.transform = 'translateX(calc(-50% - 80px)) rotate(-30deg)';
+                // Initial positions for animation - further reduced offsets for mobile
+                leftCard.style.transform = 'translateX(calc(-50% - 70px)) rotate(-30deg)';
                 leftCard.style.zIndex = '2';
                 leftCard.style.opacity = '0.7';
 
@@ -196,11 +196,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 oldCenterCard.style.zIndex = '3';
                 oldCenterCard.style.opacity = '1';
 
-                centerCard.style.transform = 'translateX(calc(-50% + 80px)) rotate(30deg)';
+                centerCard.style.transform = 'translateX(calc(-50% + 70px)) rotate(30deg)';
                 centerCard.style.opacity = '0.7';
                 centerCard.style.zIndex = '2';
 
-                rightCard.style.transform = 'translateX(calc(-50% + 160px)) rotate(30deg)';
+                rightCard.style.transform = 'translateX(calc(-50% + 140px)) rotate(30deg)';
                 rightCard.style.opacity = '0';
                 rightCard.style.zIndex = '1';
 
@@ -212,11 +212,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     card.style.transition = 'all 0.5s ease';
                 });
 
-                // Animate to final positions - reduced offsets for mobile
-                leftCard.style.transform = 'translateX(calc(-50% - 80px)) rotate(-30deg)';
+                // Animate to final positions - further reduced offsets for mobile
+                leftCard.style.transform = 'translateX(calc(-50% - 70px)) rotate(-30deg)';
                 leftCard.style.zIndex = '2';
 
-                oldCenterCard.style.transform = 'translateX(calc(-50% - 80px)) rotate(-30deg)';
+                oldCenterCard.style.transform = 'translateX(calc(-50% - 70px)) rotate(-30deg)';
                 oldCenterCard.style.zIndex = '2';
                 oldCenterCard.style.opacity = '0.7';
 
@@ -225,7 +225,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 centerCard.style.opacity = '1';
                 centerCard.classList.add('active-card');
 
-                rightCard.style.transform = 'translateX(calc(-50% + 80px)) rotate(30deg)';
+                rightCard.style.transform = 'translateX(calc(-50% + 70px)) rotate(30deg)';
                 rightCard.style.zIndex = '2';
                 rightCard.style.opacity = '0.7';
 
