@@ -40,6 +40,7 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   scroll-snap-type: x mandatory;
+  position: relative; /* For proper positioning */
 }
 
 .team-carousel-track::-webkit-scrollbar {
@@ -358,28 +359,47 @@
   }
 
   .team-carousel-track {
-    display: block; /* Change from grid to block on mobile */
+    display: flex; /* Use flexbox for horizontal layout */
+    flex-wrap: nowrap; /* Prevent wrapping */
     padding: 1rem; /* Reduced padding */
     margin: 0 auto; /* Center the track */
-    max-width: 95%; /* Increased width to give more space */
-    position: relative; /* For proper positioning of cards */
-    min-height: 520px; /* Increased height to match card height */
-    overflow: visible; /* Allow content to overflow */
+    max-width: 90%; /* Width for the visible area */
+    position: relative; /* For proper positioning */
+    min-height: 520px; /* Height to match card height */
+    overflow-x: auto; /* Enable horizontal scrolling */
+    overflow-y: hidden; /* Prevent vertical scrolling */
+    scroll-snap-type: x mandatory; /* Snap to cards */
+    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+    scrollbar-width: none; /* Hide scrollbar in Firefox */
+    -ms-overflow-style: none; /* Hide scrollbar in IE/Edge */
+  }
+
+  .team-carousel-track::-webkit-scrollbar {
+    display: none; /* Hide scrollbar in Chrome/Safari/Opera */
   }
 
   /* Enhance card styling for mobile single view */
   .team-card {
-    min-width: 100%; /* Full width of the container */
-    width: 100%; /* Ensure full width */
+    min-width: 90%; /* Card takes 90% of the container width */
+    width: 90%; /* Fixed width for each card */
     height: auto; /* Allow height to adjust based on content */
-    min-height: 500px; /* Increased minimum height to prevent squishing */
-    margin: 0 auto; /* Center the card */
+    min-height: 500px; /* Minimum height to prevent squishing */
+    margin: 0 5%; /* Add horizontal margin for spacing */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
     opacity: 1; /* Make cards visible by default */
-    transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for fade effect */
-    position: relative; /* Changed to relative positioning */
+    transition: all 0.3s ease; /* Smooth transitions */
+    position: relative; /* For proper positioning */
     display: flex; /* Use flexbox for better layout */
     flex-direction: column; /* Stack content vertically */
+    flex-shrink: 0; /* Prevent cards from shrinking */
+    scroll-snap-align: center; /* Snap to center of viewport */
+    border-radius: 10px; /* Rounded corners */
+  }
+
+  /* Active card styling */
+  .team-card.active {
+    transform: scale(1.02); /* Slightly larger */
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
   }
 
   /* First card is always visible */
@@ -456,9 +476,11 @@
 
   /* Adjust container padding for mobile */
   .team-carousel-container {
-    padding: 0 50px; /* Increased padding to accommodate navigation buttons */
+    padding: 0 50px; /* Padding for navigation buttons */
     margin: 0 auto;
-    max-width: 95%;
+    max-width: 100%; /* Full width container */
+    position: relative; /* For proper button positioning */
+    overflow: hidden; /* Hide overflow */
   }
 
   /* Enhance buttons for mobile single card view */
@@ -525,28 +547,24 @@
   }
 
   .team-carousel-track {
-    display: block; /* Use block display */
     padding: 0.5rem; /* Reduced padding for smaller screens */
     margin: 0 auto; /* Center the track */
     max-width: 100%; /* Full width on smallest screens */
-    min-height: 500px; /* Ensure enough height for cards */
-    -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    overflow: visible; /* Allow content to overflow */
+    min-height: 480px; /* Adjusted height for smaller screens */
   }
 
-  /* Enhance card styling for smaller mobile single view */
+  /* Adjust card width for smaller screens */
   .team-card {
-    min-width: 100%; /* Full width of the container */
-    width: 100%; /* Ensure full width */
-    height: auto; /* Allow height to adjust based on content */
-    min-height: 480px; /* Adjusted minimum height for smaller screens */
-    margin: 0 auto; /* Center the card */
-    scroll-snap-align: center; /* Ensure cards snap into place */
-    touch-action: pan-x; /* Optimize for horizontal touch gestures */
+    min-width: 85%; /* Slightly smaller cards on smallest screens */
+    width: 85%;
+    margin: 0 7.5%; /* Increased margins */
+  }
+
+  /* Additional styling for smaller screens */
+  .team-card {
+    min-height: 460px; /* Reduced minimum height for smaller screens */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Adjusted shadow for smaller screens */
     border-radius: 12px; /* Slightly larger border radius */
-    opacity: 1; /* Make cards visible by default */
-    position: relative; /* Ensure proper positioning */
   }
 
   /* Adjust image height for smaller screens */
