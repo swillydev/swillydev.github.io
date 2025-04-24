@@ -30,12 +30,18 @@ document.addEventListener('DOMContentLoaded', function() {
                         // Show current card
                         card.style.display = 'flex';
                         card.style.opacity = '1';
+                        card.style.position = 'relative';
+                        card.style.zIndex = '5';
                         // Scroll to it
-                        card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        setTimeout(() => {
+                            card.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+                        }, 50);
                     } else {
                         // Hide other cards on mobile
                         card.style.display = 'none';
                         card.style.opacity = '0';
+                        card.style.position = 'absolute';
+                        card.style.zIndex = '1';
                     }
                 });
 

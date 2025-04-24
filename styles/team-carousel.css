@@ -358,13 +358,13 @@
   }
 
   .team-carousel-track {
-    grid-auto-columns: 100%; /* Show only 1 card on mobile */
-    gap: 3rem; /* Add a big gap between cards */
-    padding: 2rem; /* Maintain good padding */
+    display: block; /* Change from grid to block on mobile */
+    padding: 1rem; /* Reduced padding */
     margin: 0 auto; /* Center the track */
-    max-width: 90%; /* Limit width to prevent overflow */
+    max-width: 95%; /* Increased width to give more space */
     position: relative; /* For proper positioning of cards */
-    min-height: 450px; /* Ensure enough height for cards */
+    min-height: 520px; /* Increased height to match card height */
+    overflow: visible; /* Allow content to overflow */
   }
 
   /* Enhance card styling for mobile single view */
@@ -372,14 +372,14 @@
     min-width: 100%; /* Full width of the container */
     width: 100%; /* Ensure full width */
     height: auto; /* Allow height to adjust based on content */
-    min-height: 450px; /* Minimum height */
+    min-height: 500px; /* Increased minimum height to prevent squishing */
     margin: 0 auto; /* Center the card */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
     opacity: 1; /* Make cards visible by default */
     transition: opacity 0.3s ease, transform 0.3s ease; /* Add transition for fade effect */
-    position: absolute; /* Position cards absolutely for our carousel */
-    left: 0;
-    right: 0;
+    position: relative; /* Changed to relative positioning */
+    display: flex; /* Use flexbox for better layout */
+    flex-direction: column; /* Stack content vertically */
   }
 
   /* First card is always visible */
@@ -394,32 +394,64 @@
 
   /* Adjust image height for better proportions */
   .team-card-image {
-    height: 220px; /* Maintain good image height */
+    height: 240px; /* Increased image height */
+    width: 100%;
+    overflow: hidden;
   }
 
-  /* Increase the content padding */
+  .team-card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /* Adjust the content padding */
   .team-card-content {
-    padding: 2rem; /* Increased padding */
+    padding: 1.5rem; /* Reduced padding */
+    flex-grow: 1; /* Allow content to take remaining space */
+    display: flex;
+    flex-direction: column;
   }
 
-  /* Keep font sizes the same */
+  /* Adjust font sizes and spacing */
+  .team-card-header {
+    margin-bottom: 0.75rem;
+  }
+
   .team-card-name {
     font-size: 1.5rem; /* Same as desktop */
+    margin-bottom: 0.25rem;
   }
 
   .team-card-title,
   .team-card-area {
     font-size: 1rem; /* Same as desktop */
+    margin-bottom: 0.25rem;
+  }
+
+  .team-card-contact {
+    margin-top: 0.75rem;
   }
 
   .team-card-contact p {
     font-size: 0.9rem; /* Same as desktop */
+    margin: 0.25rem 0;
+    line-height: 1.4;
   }
 
-  /* Keep button styling the same */
+  /* Improve button styling and positioning */
+  .team-card-button {
+    margin-top: auto; /* Push button to bottom */
+    text-align: center;
+    padding-top: 1rem;
+  }
+
   .see-more-btn {
     padding: 0.75rem 1.5rem; /* Same as desktop */
     font-size: 0.9rem; /* Same as desktop */
+    width: auto; /* Allow button to size naturally */
+    min-width: 120px; /* Ensure minimum width */
+    border-radius: 5px;
   }
 
   /* Adjust container padding for mobile */
@@ -493,13 +525,13 @@
   }
 
   .team-carousel-track {
-    grid-auto-columns: 100%; /* Show only 1 card on smaller mobile */
-    gap: 4rem; /* Even bigger gap for smaller screens */
-    padding: 1.5rem; /* Adjusted padding for smaller screens */
+    display: block; /* Use block display */
+    padding: 0.5rem; /* Reduced padding for smaller screens */
     margin: 0 auto; /* Center the track */
-    max-width: 95%; /* Slightly wider on smaller screens */
+    max-width: 100%; /* Full width on smallest screens */
+    min-height: 500px; /* Ensure enough height for cards */
     -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
-    scroll-snap-type: x mandatory; /* Ensure cards snap into place */
+    overflow: visible; /* Allow content to overflow */
   }
 
   /* Enhance card styling for smaller mobile single view */
@@ -507,13 +539,14 @@
     min-width: 100%; /* Full width of the container */
     width: 100%; /* Ensure full width */
     height: auto; /* Allow height to adjust based on content */
-    min-height: 420px; /* Slightly reduced minimum height */
-    margin: 2rem auto; /* Increased vertical margin and center the card */
+    min-height: 480px; /* Adjusted minimum height for smaller screens */
+    margin: 0 auto; /* Center the card */
     scroll-snap-align: center; /* Ensure cards snap into place */
     touch-action: pan-x; /* Optimize for horizontal touch gestures */
     box-shadow: 0 6px 15px rgba(0, 0, 0, 0.12); /* Adjusted shadow for smaller screens */
     border-radius: 12px; /* Slightly larger border radius */
     opacity: 1; /* Make cards visible by default */
+    position: relative; /* Ensure proper positioning */
   }
 
   /* Adjust image height for smaller screens */
@@ -550,8 +583,10 @@
 
   /* Adjust container padding for smaller screens */
   .team-carousel-container {
-    padding: 0 45px; /* Adjusted padding for smaller screens */
+    padding: 0 50px; /* Increased padding for navigation buttons */
     max-width: 100%;
+    position: relative; /* Ensure proper positioning */
+    overflow: hidden; /* Prevent horizontal scrolling */
   }
 
   /* Make buttons more visible on mobile */
