@@ -19,14 +19,16 @@
 
 .team-carousel-container {
   position: relative;
-  max-width: 1520px;
+  max-width: 1400px;
   margin: 0 auto;
   display: flex;
   align-items: center;
-  gap: 2rem;
-  padding: 0 60px;
+  justify-content: center;
+  padding: 0;
   box-sizing: border-box;
   width: 100%;
+  min-height: 600px;
+  overflow: visible;
 }
 
 .team-carousel-track {
@@ -40,7 +42,7 @@
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
   scroll-snap-type: x mandatory;
-  position: relative; /* For proper positioning */
+  position: relative;
 }
 
 .team-carousel-track::-webkit-scrollbar {
@@ -359,65 +361,51 @@
   }
 
   .team-carousel-track {
-    display: block; /* Block display for absolute positioning of cards */
-    padding: 1rem; /* Reduced padding */
+    display: block; /* Block display for mobile carousel */
+    padding: 1rem 1.5rem; /* Increased horizontal padding */
     margin: 0 auto; /* Center the track */
     width: 100%; /* Full width */
     max-width: 100%; /* Full width for the visible area */
+    min-height: 550px; /* Increased height for better spacing */
+    overflow: visible; /* Allow overflow for 3D effect */
     position: relative; /* For proper positioning */
-    min-height: 520px; /* Height to match card height */
-    overflow: hidden; /* Hide overflow */
+    perspective: 1000px; /* Add perspective for 3D effect */
   }
 
   .team-carousel-track::-webkit-scrollbar {
     display: none; /* Hide scrollbar in Chrome/Safari/Opera */
   }
 
-  /* Enhance card styling for mobile single view */
+  /* Enhance card styling for mobile 3-card carousel */
   .team-card {
-    width: 85%; /* Fixed width for each card */
+    width: 260px; /* Reduced card width for mobile to prevent overflow */
     height: auto; /* Allow height to adjust based on content */
-    min-height: 500px; /* Minimum height to prevent squishing */
-    margin: 0 auto; /* Center the card */
+    min-height: 450px; /* Minimum height */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
-    opacity: 0; /* Hidden by default */
-    transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transitions for fade and slide */
-    position: absolute; /* Absolute positioning for slide effect */
+    transition: all 0.5s ease; /* Smooth transitions */
+    position: absolute; /* Absolute positioning for 3D effect */
     display: flex; /* Use flexbox for better layout */
     flex-direction: column; /* Stack content vertically */
-    left: 0; /* Start at left edge */
-    right: 0; /* Stretch to right edge */
-    top: 0; /* Align at top */
-    transform: translateX(100%); /* Start off-screen to the right */
     border-radius: 10px; /* Rounded corners */
-    z-index: 1; /* Lower z-index for inactive cards */
     background-color: #fff; /* Ensure background is visible */
-  }
-
-  /* First card is visible by default */
-  .team-card:first-child {
-    opacity: 1;
-    transform: translateX(0);
-    z-index: 5;
+    left: 50%; /* Center horizontally */
+    cursor: pointer; /* Show pointer cursor on cards */
+    backface-visibility: hidden; /* Prevent flickering during animations */
+    transform-style: preserve-3d; /* Enable 3D transformations */
   }
 
   /* Active card styling */
-  .team-card.active {
-    opacity: 1; /* Fully visible */
-    transform: translateX(0); /* Centered in view */
-    z-index: 5; /* Higher z-index for active card */
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2); /* Enhanced shadow */
+  .team-card.active-card {
+    transform: translateX(-50%) scale(1.1) !important;
+    z-index: 10 !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
   }
 
-  /* Card visibility classes */
-  .team-card.visible {
-    opacity: 1;
-    pointer-events: auto;
-  }
-
-  /* Card that is in view */
-  .team-card.in-view {
-    opacity: 1; /* Fully visible when in view */
+  /* Mobile hover effect for side cards only */
+  .team-card:not(.active-card):hover {
+    transform: translateX(-50%) translateY(-10px) !important;
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    z-index: 5 !important;
   }
 
   /* Adjust image height for better proportions */
@@ -482,43 +470,21 @@
     border-radius: 5px;
   }
 
-  /* Adjust container padding for mobile */
+  /* Adjust container for mobile fan view */
   .team-carousel-container {
-    padding: 0 50px; /* Padding for navigation buttons */
+    padding: 0 15px; /* Add horizontal padding to prevent cards from touching edges */
     margin: 0 auto;
-    max-width: 100%; /* Full width container */
-    width: 100%; /* Ensure full width */
-    position: relative; /* For proper button positioning */
-    overflow: hidden; /* Hide overflow */
-    box-sizing: border-box; /* Include padding in width calculation */
+    max-width: 100%;
+    width: 100%;
+    position: relative;
+    overflow: visible;
+    box-sizing: border-box;
+    min-height: 550px;
   }
 
-  /* Add card counter for mobile */
-  .team-carousel-container::after {
-    content: attr(data-current-card) '/' attr(data-total-cards);
-    position: absolute;
-    bottom: -30px;
-    left: 0;
-    right: 0;
-    text-align: center;
-    font-family: 'Urbanist', sans-serif;
-    font-size: 0.9rem;
-    color: #666;
-  }
-
-  /* Enhance buttons for mobile single card view */
+  /* Hide navigation buttons on mobile */
   .team-carousel-button {
-    width: 40px;
-    height: 40px;
-    font-size: 1.2rem;
-    opacity: 1; /* Fully visible on mobile */
-    background-color: white;
-    border: 2px solid #7C2F84; /* Brand color border */
-    color: #7C2F84; /* Brand color */
-    z-index: 100; /* Ensure buttons are above cards */
-    display: flex !important; /* Show buttons on mobile */
-    -webkit-tap-highlight-color: transparent; /* Remove tap highlight on mobile */
-    pointer-events: auto !important; /* Ensure clicks are registered */
+    display: none !important; /* Hide buttons on mobile */
   }
 
   /* Position buttons for single card view */
@@ -570,7 +536,7 @@
   }
 
   .team-carousel-track {
-    padding: 0.5rem; /* Reduced padding for smaller screens */
+    padding: 0.5rem 2rem; /* Increased horizontal padding for smaller screens */
     margin: 0 auto; /* Center the track */
     max-width: 100%; /* Full width on smallest screens */
     min-height: 480px; /* Adjusted height for smaller screens */
@@ -578,9 +544,9 @@
 
   /* Adjust card width for smaller screens */
   .team-card {
-    min-width: 85%; /* Slightly smaller cards on smallest screens */
-    width: 85%;
-    margin: 0 7.5%; /* Increased margins */
+    min-width: 240px; /* Fixed width for smallest screens */
+    width: 240px;
+    margin: 0 auto; /* Center cards */
   }
 
   /* Additional styling for smaller screens */
@@ -624,7 +590,7 @@
 
   /* Adjust container padding for smaller screens */
   .team-carousel-container {
-    padding: 0 50px; /* Increased padding for navigation buttons */
+    padding: 0 20px; /* Increased padding to prevent cards from touching edges */
     max-width: 100%;
     position: relative; /* Ensure proper positioning */
     overflow: hidden; /* Prevent horizontal scrolling */
