@@ -362,7 +362,8 @@
     display: block; /* Block display for absolute positioning of cards */
     padding: 1rem; /* Reduced padding */
     margin: 0 auto; /* Center the track */
-    max-width: 90%; /* Width for the visible area */
+    width: 100%; /* Full width */
+    max-width: 100%; /* Full width for the visible area */
     position: relative; /* For proper positioning */
     min-height: 520px; /* Height to match card height */
     overflow: hidden; /* Hide overflow */
@@ -374,11 +375,10 @@
 
   /* Enhance card styling for mobile single view */
   .team-card {
-    min-width: 90%; /* Card takes 90% of the container width */
-    width: 90%; /* Fixed width for each card */
+    width: 85%; /* Fixed width for each card */
     height: auto; /* Allow height to adjust based on content */
     min-height: 500px; /* Minimum height to prevent squishing */
-    margin: 0 5%; /* Add horizontal margin for spacing */
+    margin: 0 auto; /* Center the card */
     box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); /* Stronger shadow for better visibility */
     opacity: 0; /* Hidden by default */
     transition: opacity 0.5s ease, transform 0.5s ease; /* Smooth transitions for fade and slide */
@@ -391,6 +391,7 @@
     transform: translateX(100%); /* Start off-screen to the right */
     border-radius: 10px; /* Rounded corners */
     z-index: 1; /* Lower z-index for inactive cards */
+    background-color: #fff; /* Ensure background is visible */
   }
 
   /* First card is visible by default */
@@ -486,8 +487,10 @@
     padding: 0 50px; /* Padding for navigation buttons */
     margin: 0 auto;
     max-width: 100%; /* Full width container */
+    width: 100%; /* Ensure full width */
     position: relative; /* For proper button positioning */
     overflow: hidden; /* Hide overflow */
+    box-sizing: border-box; /* Include padding in width calculation */
   }
 
   /* Add card counter for mobile */

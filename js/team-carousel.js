@@ -15,183 +15,348 @@ document.addEventListener('DOMContentLoaded', function() {
         let currentIndex = 0;
         let isAnimating = false; // Flag to prevent multiple animations at once
 
-        // Function to initialize the carousel
-        function initCarousel() {
-            // Set initial state
-            if (window.innerWidth <= 768) {
-                // Mobile view - position all cards in the container
-                teamCardsArray.forEach((card, index) => {
-                    // Hide all cards except the first one
-                    if (index === 0) {
-                        card.classList.add('active');
-                        card.style.opacity = '1';
-                        card.style.transform = 'translateX(0)';
-                        card.style.zIndex = '5';
-                        card.style.display = 'flex';
-                    } else {
-                        card.classList.remove('active');
-                        card.style.opacity = '0';
-                        card.style.transform = 'translateX(100%)';
-                        card.style.zIndex = '1';
-                        card.style.display = 'none';
-                    }
-                });
+        // Function to create 3-card mobile carousel with centered active card
+        function createMobileCarousel() {
+            const totalCards = teamCardsArray.length;
 
-                // Set up card counter
-                const carouselContainer = document.querySelector('.team-carousel-container');
-                if (carouselContainer) {
-                    carouselContainer.setAttribute('data-current-card', currentIndex + 1);
-                    carouselContainer.setAttribute('data-total-cards', teamCardsArray.length);
-                }
-            } else {
-                // Desktop view - reset all styles
-                teamCardsArray.forEach(card => {
-                    card.style.opacity = '';
-                    card.style.transform = '';
-                    card.style.zIndex = '';
-                    card.style.display = '';
-                    card.classList.remove('active');
-                });
+            // Hide all cards first
+            teamCardsArray.forEach(card => {
+                card.style.display = 'none';
+                card.style.position = 'absolute';
+                card.style.left = '50%';
+                card.style.transform = 'translateX(-50%)';
+                card.style.transformOrigin = 'center';
+                card.style.transition = 'all 0.5s ease';
+                card.style.zIndex = '1';
+                card.style.opacity = '0.7';
+                card.classList.remove('active-card');
 
-                // Remove card counter attributes
-                const carouselContainer = document.querySelector('.team-carousel-container');
-                if (carouselContainer) {
-                    carouselContainer.removeAttribute('data-current-card');
-                    carouselContainer.removeAttribute('data-total-cards');
+                // Add click event to each card
+                card.onclick = null; // Remove any existing click handlers
+            });
+
+            // Calculate indices for left, center, and right cards
+            // Using modulo to ensure we always wrap around at the edges
+            const leftIndex = (currentIndex - 1 + totalCards) % totalCards;
+            const centerIndex = currentIndex;
+            const rightIndex = (currentIndex + 1) % totalCards;
+
+            // Get the cards
+            const leftCard = teamCardsArray[leftIndex];
+            const centerCard = teamCardsArray[centerIndex];
+            const rightCard = teamCardsArray[rightIndex];
+
+            // Show all three cards
+            leftCard.style.display = 'flex';
+            centerCard.style.display = 'flex';
+            rightCard.style.display = 'flex';
+
+            // Position and style left card
+            leftCard.style.transform = 'translateX(calc(-50% - 100px)) rotate(-30deg)';
+            leftCard.style.zIndex = '2';
+
+            // Position and style center (active) card
+            centerCard.style.transform = 'translateX(-50%) scale(1.1)';
+            centerCard.style.zIndex = '3';
+            centerCard.style.opacity = '1';
+            centerCard.classList.add('active-card');
+
+            // Position and style right card
+            rightCard.style.transform = 'translateX(calc(-50% + 100px)) rotate(30deg)';
+            rightCard.style.zIndex = '2';
+
+            // Add click handlers to side cards
+            leftCard.onclick = function() {
+                if (!isAnimating) {
+                    navigateToCard(leftIndex);
                 }
-            }
+            };
+
+            rightCard.onclick = function() {
+                if (!isAnimating) {
+                    navigateToCard(rightIndex);
+                }
+            };
+
+            console.log(`Mobile carousel: Left=${leftIndex+1}, Center=${centerIndex+1}, Right=${rightIndex+1}`);
         }
 
-        // Function to navigate to a specific card with fade animation
+        // Function to navigate to a specific card in mobile view
         function navigateToCard(index) {
-            // Prevent animation if already animating
             if (isAnimating) return;
             isAnimating = true;
 
-            // Ensure index is within bounds
-            if (index < 0) index = 0;
-            if (index >= teamCardsArray.length) index = teamCardsArray.length - 1;
+            const totalCards = teamCardsArray.length;
+            const oldIndex = currentIndex;
 
-            // If same card, do nothing
-            if (index === currentIndex) {
-                isAnimating = false;
-                return;
-            }
+            // Ensure index wraps around using modulo
+            // This creates a circular carousel that can go infinitely in either direction
+            index = ((index % totalCards) + totalCards) % totalCards;
 
-            // Determine direction (next or previous)
-            const direction = index > currentIndex ? 1 : -1;
+            // Determine if we're moving forward or backward
+            const isMovingBackward = (oldIndex === 0 && index === totalCards - 1) ||
+                                    (index < oldIndex && !(oldIndex === totalCards - 1 && index === 0));
 
-            // Get current and next cards
-            const currentCard = teamCardsArray[currentIndex];
-            const nextCard = teamCardsArray[index];
+            // Hide all cards first
+            teamCardsArray.forEach(card => {
+                card.style.display = 'none';
+                card.style.position = 'absolute';
+                card.style.left = '50%';
+                card.style.transformOrigin = 'center';
+                card.style.transition = 'all 0.5s ease';
+                card.style.zIndex = '1';
+                card.style.opacity = '0.7';
+                card.classList.remove('active-card');
+                card.onclick = null; // Remove any existing click handlers
+            });
 
-            if (window.innerWidth <= 768) {
-                // Mobile view - fade out current card and fade in next card
+            // Calculate indices for left, center, and right cards
+            const leftIndex = (index - 1 + totalCards) % totalCards;
+            const centerIndex = index;
+            const rightIndex = (index + 1) % totalCards;
 
-                // Prepare next card for animation
-                nextCard.style.opacity = '0';
-                nextCard.style.transform = `translateX(${direction * 100}%)`;
-                nextCard.style.zIndex = '1';
-                nextCard.style.display = 'flex';
+            // Get the cards
+            const leftCard = teamCardsArray[leftIndex];
+            const centerCard = teamCardsArray[centerIndex];
+            const rightCard = teamCardsArray[rightIndex];
 
-                // Start animation after a small delay
-                setTimeout(() => {
-                    // Fade out current card
-                    currentCard.style.opacity = '0';
-                    currentCard.style.transform = `translateX(${-direction * 100}%)`;
-                    currentCard.style.zIndex = '1';
-                    currentCard.classList.remove('active');
+            // Show all three cards
+            leftCard.style.display = 'flex';
+            centerCard.style.display = 'flex';
+            rightCard.style.display = 'flex';
 
-                    // Fade in next card
-                    nextCard.style.opacity = '1';
-                    nextCard.style.transform = 'translateX(0)';
-                    nextCard.style.zIndex = '5';
-                    nextCard.classList.add('active');
+            // First set initial positions without transitions
+            teamCardsArray.forEach(card => {
+                card.style.transition = 'none';
+            });
 
-                    // Update current index
-                    currentIndex = index;
+            if (isMovingBackward) {
+                // Moving backward - animate from right to left
+                // The card that was in center moves to right
+                const oldCenterCard = teamCardsArray[oldIndex];
+                oldCenterCard.style.display = 'flex';
 
-                    // Reset animation flag after transition completes
-                    setTimeout(() => {
-                        isAnimating = false;
+                // Initial positions for animation
+                leftCard.style.transform = 'translateX(calc(-50% - 200px)) rotate(-30deg)';
+                leftCard.style.opacity = '0';
 
-                        // Hide all other cards
-                        teamCardsArray.forEach((card, i) => {
-                            if (i !== currentIndex) {
-                                card.style.display = 'none';
-                            }
-                        });
-                    }, 500); // Match this with the CSS transition duration
-                }, 50);
+                centerCard.style.transform = 'translateX(calc(-50% - 100px)) rotate(-30deg)';
+                centerCard.style.opacity = '0.7';
 
-                console.log(`Navigating to card ${currentIndex + 1} of ${teamCardsArray.length}`);
-            } else {
-                // Desktop view - use default scrolling behavior
-                teamCardsArray[index].scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'nearest',
-                    inline: 'center'
+                oldCenterCard.style.transform = 'translateX(-50%) scale(1.1)';
+                oldCenterCard.style.zIndex = '3';
+                oldCenterCard.style.opacity = '1';
+
+                rightCard.style.transform = 'translateX(calc(-50% + 100px)) rotate(30deg)';
+                rightCard.style.zIndex = '2';
+                rightCard.style.opacity = '0.7';
+
+                // Force reflow to ensure initial positions are applied
+                void leftCard.offsetWidth;
+
+                // Re-enable transitions
+                teamCardsArray.forEach(card => {
+                    card.style.transition = 'all 0.5s ease';
                 });
 
-                // Update current index
-                currentIndex = index;
-                isAnimating = false;
+                // Animate to final positions
+                leftCard.style.transform = 'translateX(calc(-50% - 100px)) rotate(-30deg)';
+                leftCard.style.opacity = '0.7';
+                leftCard.style.zIndex = '2';
+
+                centerCard.style.transform = 'translateX(-50%) scale(1.1)';
+                centerCard.style.zIndex = '3';
+                centerCard.style.opacity = '1';
+                centerCard.classList.add('active-card');
+
+                oldCenterCard.style.transform = 'translateX(calc(-50% + 100px)) rotate(30deg)';
+                oldCenterCard.style.zIndex = '2';
+                oldCenterCard.style.opacity = '0.7';
+
+                // Hide the old right card if it's not the new right card
+                if (oldIndex !== rightIndex) {
+                    setTimeout(() => {
+                        const oldRightIndex = (oldIndex + 1) % totalCards;
+                        if (oldRightIndex !== leftIndex && oldRightIndex !== centerIndex && oldRightIndex !== rightIndex) {
+                            teamCardsArray[oldRightIndex].style.display = 'none';
+                        }
+                    }, 500);
+                }
+            } else {
+                // Moving forward - animate from left to right
+                const oldCenterCard = teamCardsArray[oldIndex];
+                oldCenterCard.style.display = 'flex';
+
+                // Initial positions for animation
+                leftCard.style.transform = 'translateX(calc(-50% - 100px)) rotate(-30deg)';
+                leftCard.style.zIndex = '2';
+                leftCard.style.opacity = '0.7';
+
+                oldCenterCard.style.transform = 'translateX(-50%) scale(1.1)';
+                oldCenterCard.style.zIndex = '3';
+                oldCenterCard.style.opacity = '1';
+
+                centerCard.style.transform = 'translateX(calc(-50% + 100px)) rotate(30deg)';
+                centerCard.style.opacity = '0.7';
+                centerCard.style.zIndex = '2';
+
+                rightCard.style.transform = 'translateX(calc(-50% + 200px)) rotate(30deg)';
+                rightCard.style.opacity = '0';
+                rightCard.style.zIndex = '1';
+
+                // Force reflow to ensure initial positions are applied
+                void rightCard.offsetWidth;
+
+                // Re-enable transitions
+                teamCardsArray.forEach(card => {
+                    card.style.transition = 'all 0.5s ease';
+                });
+
+                // Animate to final positions
+                leftCard.style.transform = 'translateX(calc(-50% - 100px)) rotate(-30deg)';
+                leftCard.style.zIndex = '2';
+
+                oldCenterCard.style.transform = 'translateX(calc(-50% - 100px)) rotate(-30deg)';
+                oldCenterCard.style.zIndex = '2';
+                oldCenterCard.style.opacity = '0.7';
+
+                centerCard.style.transform = 'translateX(-50%) scale(1.1)';
+                centerCard.style.zIndex = '3';
+                centerCard.style.opacity = '1';
+                centerCard.classList.add('active-card');
+
+                rightCard.style.transform = 'translateX(calc(-50% + 100px)) rotate(30deg)';
+                rightCard.style.zIndex = '2';
+                rightCard.style.opacity = '0.7';
+
+                // Hide the old left card if it's not the new left card
+                if (oldIndex !== leftIndex) {
+                    setTimeout(() => {
+                        const oldLeftIndex = (oldIndex - 1 + totalCards) % totalCards;
+                        if (oldLeftIndex !== leftIndex && oldLeftIndex !== centerIndex && oldLeftIndex !== rightIndex) {
+                            teamCardsArray[oldLeftIndex].style.display = 'none';
+                        }
+                    }, 500);
+                }
             }
 
-            // Update indicators and counter
-            updateIndicators();
+            // Add click handlers to side cards
+            leftCard.onclick = function() {
+                if (!isAnimating) {
+                    navigateToCard(leftIndex);
+                }
+            };
 
-            // Update card counter for mobile
+            rightCard.onclick = function() {
+                if (!isAnimating) {
+                    navigateToCard(rightIndex);
+                }
+            };
+
+            // Update current index
+            currentIndex = index;
+
+            // Reset animation flag after transition completes
+            setTimeout(() => {
+                isAnimating = false;
+            }, 500);
+
+            console.log(`Navigated to card ${index + 1} of ${totalCards} (${isMovingBackward ? 'backward' : 'forward'})`);
+        }
+
+        // Function to set up desktop carousel
+        function setupDesktopCarousel() {
+            // Reset all card styles
+            teamCardsArray.forEach(card => {
+                card.style.transform = '';
+                card.style.zIndex = '';
+                card.style.opacity = '';
+                card.style.display = '';
+                card.style.position = '';
+                card.style.transformOrigin = '';
+                card.style.left = '';
+                card.style.right = '';
+                card.style.margin = '';
+                card.style.transition = '';
+                card.classList.remove('active-card');
+                card.onclick = null; // Remove click handlers
+            });
+
+            // Show navigation buttons
+            if (prevButton) prevButton.style.display = 'flex';
+            if (nextButton) nextButton.style.display = 'flex';
+
+            console.log('Desktop carousel initialized');
+        }
+
+        // Function to initialize the carousel based on viewport size
+        function initCarousel() {
             if (window.innerWidth <= 768) {
-                const carouselContainer = document.querySelector('.team-carousel-container');
-                if (carouselContainer) {
-                    carouselContainer.setAttribute('data-current-card', currentIndex + 1);
+                // Mobile view - create 3-card carousel
+                createMobileCarousel();
+
+                // Show navigation buttons on mobile for next/prev
+                if (prevButton) {
+                    prevButton.style.display = 'flex';
+                    prevButton.onclick = function(e) {
+                        e.preventDefault();
+                        navigateToCard(currentIndex - 1);
+                    };
+                }
+
+                if (nextButton) {
+                    nextButton.style.display = 'flex';
+                    nextButton.onclick = function(e) {
+                        e.preventDefault();
+                        navigateToCard(currentIndex + 1);
+                    };
+                }
+            } else {
+                // Desktop view - use original carousel
+                setupDesktopCarousel();
+
+                // Set up desktop navigation
+                if (prevButton) {
+                    prevButton.onclick = function(e) {
+                        e.preventDefault();
+                        scrollToCard(currentIndex - 1);
+                    };
+                }
+
+                if (nextButton) {
+                    nextButton.onclick = function(e) {
+                        e.preventDefault();
+                        scrollToCard(currentIndex + 1);
+                    };
                 }
             }
         }
 
-        // Function to update indicators
-        function updateIndicators() {
-            // You can add indicators here if needed
-            // For now, we'll just update the active class
-            teamCardsArray.forEach((card, index) => {
-                if (index === currentIndex) {
-                    card.classList.add('active');
-                } else {
-                    card.classList.remove('active');
-                }
+        // Function to scroll to a specific card (for desktop view)
+        function scrollToCard(index) {
+            const totalCards = teamCardsArray.length;
+
+            // For desktop, we don't wrap around but stop at the edges
+            if (index < 0) index = 0;
+            if (index >= totalCards) index = totalCards - 1;
+
+            // Update current index
+            currentIndex = index;
+
+            // Scroll to the card
+            teamCardsArray[index].scrollIntoView({
+                behavior: 'smooth',
+                block: 'nearest',
+                inline: 'center'
             });
+
+            console.log(`Scrolling to card ${index + 1} of ${totalCards}`);
         }
 
         // Initialize the carousel
         initCarousel();
 
-        // Previous button click handler
-        if (prevButton) {
-            prevButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigateToCard(currentIndex - 1);
-            });
-        }
-
-        // Next button click handler
-        if (nextButton) {
-            nextButton.addEventListener('click', function(e) {
-                e.preventDefault();
-                navigateToCard(currentIndex + 1);
-            });
-        }
-
-        // Handle window resize
-        window.addEventListener('resize', function() {
-            // Reset animation flag
-            isAnimating = false;
-
-            // Reinitialize carousel
-            initCarousel();
-        });
-
-        // Add touch swipe functionality for mobile
+        // Add touch swipe functionality
         let touchStartX = 0;
         let touchEndX = 0;
 
@@ -207,15 +372,33 @@ document.addEventListener('DOMContentLoaded', function() {
 
             // Only process significant swipes
             if (Math.abs(swipeDistance) > 50) {
-                if (swipeDistance > 0) {
-                    // Swipe left - go to next
-                    navigateToCard(currentIndex + 1);
+                if (window.innerWidth <= 768) {
+                    // Mobile view
+                    if (swipeDistance > 0) {
+                        // Swipe left - go to next
+                        navigateToCard(currentIndex + 1);
+                    } else {
+                        // Swipe right - go to previous
+                        navigateToCard(currentIndex - 1);
+                    }
                 } else {
-                    // Swipe right - go to previous
-                    navigateToCard(currentIndex - 1);
+                    // Desktop view
+                    if (swipeDistance > 0) {
+                        // Swipe left - go to next
+                        scrollToCard(currentIndex + 1);
+                    } else {
+                        // Swipe right - go to previous
+                        scrollToCard(currentIndex - 1);
+                    }
                 }
             }
         }, { passive: true });
+
+        // Handle window resize
+        window.addEventListener('resize', function() {
+            // Reinitialize carousel on resize
+            initCarousel();
+        });
     }
 
     // Team member popup functionality
@@ -316,8 +499,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 email: 'emma@haleys-solicitors.co.uk',
                 phone: '0121 285 3215',
                 image: '/images/girl3.webp',
-                quote: 'Estate planning is about protecting your family's future and ensuring your wishes are respected.',
-                bio: 'Emma Williams brings a compassionate approach to wills and probate matters, helping clients navigate what can be a difficult and emotional process. With 8 years of experience in estate planning, Emma provides clear and practical advice on wills, trusts, powers of attorney, and estate administration. She takes the time to understand each client's unique circumstances and family dynamics to create tailored solutions that protect their assets and provide for their loved ones. Emma is particularly skilled at handling complex estates and contentious probate matters.'
+                quote: "Estate planning is about protecting your family's future and ensuring your wishes are respected.",
+                bio: "Emma Williams brings a compassionate approach to wills and probate matters, helping clients navigate what can be a difficult and emotional process. With 8 years of experience in estate planning, Emma provides clear and practical advice on wills, trusts, powers of attorney, and estate administration. She takes the time to understand each client's unique circumstances and family dynamics to create tailored solutions that protect their assets and provide for their loved ones. Emma is particularly skilled at handling complex estates and contentious probate matters."
             }
         };
 
