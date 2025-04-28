@@ -537,7 +537,7 @@ body {
 }
 
 #hero-text{
-    font-family: "urbanist";
+    font-family: "Urbanist", sans-serif;
     font-size: 1.5rem;
     position: relative;
     z-index: 2; /* Ensure text is above video and overlay */
@@ -594,7 +594,7 @@ body {
 .practice-area p {
     color: #333;
     font-size: 1rem;
-    font-family: 'urbanist';
+    font-family: 'Urbanist', sans-serif;
 }
 
 #contact-title{
@@ -949,7 +949,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: "urbanist";
+  font-family: "Urbanist", sans-serif;
 }
 
 /* Add a wrapper div for the text content */
@@ -1118,13 +1118,14 @@ form {
 	width: 45%;
 }
 
-input[type='text'], [type='email'], select, textarea {
+input[type='text'], input[type='email'], select, textarea {
 	background: none;
     border: none;
 	border-bottom: solid 2px #474544;
 	color: #474544;
 	font-size: 1.000em;
     font-weight: 400;
+    font-family: "Urbanist", sans-serif;
     letter-spacing: 1px;
 	margin: 0em 0 1.875em 0;
 	padding: 0 0 0.875em 0;
@@ -1140,9 +1141,11 @@ input[type='text'], [type='email'], select, textarea {
 	-ms-transition: all 0.3s;
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
+	pointer-events: auto;
+	cursor: text;
 }
 
-input[type='text']:focus, [type='email']:focus, textarea:focus {
+input[type='text']:focus, input[type='email']:focus, textarea:focus, select:focus {
 	outline: none;
 	padding: 0 0 0.875em 0;
 }
@@ -1184,20 +1187,24 @@ textarea {
 
 ::-webkit-input-placeholder {
 	color: #474544;
+	font-family: "Urbanist", sans-serif;
 }
 
 :-moz-placeholder {
 	color: #474544;
 	opacity: 1;
+	font-family: "Urbanist", sans-serif;
 }
 
 ::-moz-placeholder {
 	color: #474544;
 	opacity: 1;
+	font-family: "Urbanist", sans-serif;
 }
 
 :-ms-input-placeholder {
 	color: #474544;
+	font-family: "Urbanist", sans-serif;
 }
 
 #form_button {
@@ -1206,7 +1213,7 @@ textarea {
   color: #474544;
   cursor: pointer;
   display: inline-block;
-  font-family: 'Helvetica', Arial, sans-serif;
+  font-family: "Urbanist", sans-serif;
   font-size: 0.875em;
   font-weight: bold;
   outline: none;
@@ -1259,7 +1266,7 @@ textarea {
     width: 53px;
   }
 
-  input[type='text'], [type='email'], select, textarea {
+  input[type='text'], input[type='email'], select, textarea {
     font-size: 0.875em;
   }
 }
@@ -1619,8 +1626,8 @@ textarea {
 }
 
 .address{
-  font-family: "Urbanist";
-  font-family: 1rem;
+  font-family: "Urbanist", sans-serif;
+  font-size: 1rem;
   }
 
   section .location-section h2{

@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="/styles/notable-cases.css">
     <link rel="stylesheet" href="/styles/mobile-nav.css">
     <link rel="stylesheet" href="/styles/mobile-navbar-fix.css">
+    <link rel="stylesheet" href="/styles/form-fix.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Urbanist:wght@300&display=swap');
@@ -16,6 +17,35 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <!-- Direct Form Fix Script -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all form elements
+            const forms = document.querySelectorAll('form');
+
+            forms.forEach(form => {
+                // Get all input fields, selects, and textareas in the form
+                const formFields = form.querySelectorAll('input, select, textarea');
+
+                formFields.forEach(field => {
+                    // Set inline styles to ensure the field is clickable
+                    field.style.pointerEvents = 'auto';
+                    field.style.cursor = field.tagName.toLowerCase() === 'input' && field.type === 'submit' ? 'pointer' : 'text';
+                    field.style.position = 'relative';
+                    field.style.zIndex = '10001';
+
+                    // Add a click event listener to each field
+                    field.addEventListener('click', function(e) {
+                        // Prevent event propagation
+                        e.stopPropagation();
+
+                        // Focus the field
+                        field.focus();
+                    });
+                });
+            });
+        });
+    </script>
 </head>
 <body>
     <!-- Popup Contact Form Overlay -->
@@ -275,27 +305,26 @@
                 <p>Contact us and one of our advisors will be in touch to discuss your situation. We will take some initial information and if we can help, we will book you in for a consultation.</p>
                 <p>Please provide as much information as possible so that your enquiry can be directed to the most appropriate department. Your enquiry will be treated in confidence, however we take the safety of your personal information serious, therefore please refrain from sending confidential information, such as full names of 3rd parties involved, address details etc.</p>
             </div>
-            <div id="container">
+            <div id="container" style="position: relative; z-index: 9999;">
                 <div class="icon_wrapper">
 
                 </div>
-                <form action="https://api.web3forms.com/submit" method="POST" id="contact_form">
-                  <input type="hidden" name="access_key" value="4366b25c-8d7f-49d2-8a6b-17784f13aaf9">
-                  <div class="name">
+                <form id="contact_form" onclick="event.stopPropagation();" style="position: relative; z-index: 10000; pointer-events: auto;">
+                  <div class="name" style="pointer-events: none;">
                     <label for="name"></label>
-                    <input type="text" placeholder="Full Name:" name="name" id="name_input" required>
+                    <input type="text" placeholder="Full Name:" name="name" id="name_input" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: text;" onclick="event.stopPropagation(); this.focus();">
                   </div>
-                  <div class="email">
+                  <div class="email" style="pointer-events: none;">
                     <label for="email"></label>
-                    <input type="email" placeholder="E-mail:" name="email" id="email_input" required>
+                    <input type="email" placeholder="E-mail:" name="email" id="email_input" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: text;" onclick="event.stopPropagation(); this.focus();">
                   </div>
-                  <div class="telephone">
+                  <div class="telephone" style="pointer-events: none;">
                     <label for="name"></label>
-                    <input type="text" placeholder="Phone Number:" name="telephone" id="telephone_input" required>
+                    <input type="text" placeholder="Phone Number:" name="telephone" id="telephone_input" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: text;" onclick="event.stopPropagation(); this.focus();">
                   </div>
-                  <div class="subject">
+                  <div class="subject" style="pointer-events: none;">
                     <label for="subject"></label>
-                    <select placeholder="Subject line" name="subject" id="subject_input" required>
+                    <select placeholder="Subject line" name="subject" id="subject_input" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: pointer;" onclick="event.stopPropagation(); this.focus();">
                         <option disabled hidden selected>Subject line</option>
                         <option>General Enquiries</option>
                         <option>Criminal Appeal Enquiries</option>
@@ -307,12 +336,12 @@
                         <option>Immigration Law Enquiries</option>
                     </select>
                   </div>
-                  <div class="message">
+                  <div class="message" style="pointer-events: none;">
                     <label for="message"></label>
-                    <textarea name="message" placeholder="I'd like to chat about" id="message_input" cols="30" rows="5" required></textarea>
+                    <textarea name="message" placeholder="I'd like to chat about" id="message_input" cols="30" rows="5" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: text;" onclick="event.stopPropagation(); this.focus();"></textarea>
                   </div>
-                  <div class="submit">
-                    <input type="submit" value="Send Message" id="form_button" />
+                  <div class="submit" style="pointer-events: none;">
+                    <input type="submit" value="Send Message" id="form_button" style="position: relative; z-index: 10001; pointer-events: auto; cursor: pointer;" onclick="event.stopPropagation();" />
                   </div>
                 </form><!-- // End form -->
               </div><!-- // End #container -->
@@ -362,8 +391,8 @@
     </footer>
     <!-- Toast Notifications -->
     <script src="/js/toast-notification.js"></script>
-    <!-- Form Handler for MongoDB -->
-    <script src="/js/form-handler.js"></script>
+    <!-- Form Handler for SubmitJSON -->
+    <script src="/js/submitjson-form-handler.js"></script>
     <!-- Scroll Animations -->
     <script src="/js/scroll-animations.js"></script>
     <script src="/js/sidebar-fix.js"></script>
@@ -374,9 +403,43 @@
     <!-- Popup Contact Form -->
     <script src="/js/popup-contact.js"></script>
     <script src="/js/phone-number-formatter.js"></script>
+    <!-- Form Fix Scripts -->
+    <script src="/js/form-fix.js"></script>
+    <script src="/js/notable-cases-form-fix.js"></script>
 
     <!-- Sidebar overlay -->
-    <div id="sidebar-overlay" class="sidebar-overlay"></div>
+    <div id="sidebar-overlay" class="sidebar-overlay" style="pointer-events: none !important;"></div>
+
+    <!-- Disable overlays that might block form interaction -->
+    <script>
+        // Disable any overlays that might block form interaction
+        document.addEventListener('DOMContentLoaded', function() {
+            // Get all overlay elements
+            const overlays = document.querySelectorAll('.sidebar-overlay, .mobile-overlay, #mobileOverlay');
+
+            // Disable pointer events on all overlays
+            overlays.forEach(overlay => {
+                if (overlay) {
+                    overlay.style.pointerEvents = 'none';
+                    overlay.style.zIndex = '-1';
+                }
+            });
+
+            // Ensure the form container and fields are above any overlays
+            const container = document.getElementById('container');
+            if (container) {
+                container.style.position = 'relative';
+                container.style.zIndex = '9999';
+            }
+
+            const form = document.getElementById('contact_form');
+            if (form) {
+                form.style.position = 'relative';
+                form.style.zIndex = '10000';
+                form.style.pointerEvents = 'auto';
+            }
+        });
+    </script>
 
     <!-- Mobile menu script -->
     <script>
@@ -695,4 +758,64 @@
               }
           }
       });
+    </script>
+
+    <!-- Direct Form Fix for Notable Cases Page -->
+    <script>
+        // Execute immediately
+        (function() {
+            // Function to fix the form
+            function fixForm() {
+                // Get all form container divs
+                const formContainers = document.querySelectorAll('.name, .email, .telephone, .subject, .message, .submit');
+
+                // Disable pointer events on all form container divs
+                formContainers.forEach(container => {
+                    container.style.pointerEvents = 'none';
+                });
+
+                // Get all form fields
+                const formFields = document.querySelectorAll('input, select, textarea');
+
+                // Enable pointer events on all form fields
+                formFields.forEach(field => {
+                    field.style.pointerEvents = 'auto';
+                    field.style.cursor = field.tagName.toLowerCase() === 'input' && field.type === 'submit' ? 'pointer' : 'text';
+                    field.style.position = 'relative';
+                    field.style.zIndex = '10001';
+
+                    // Only add event listeners if they don't already exist
+                    if (!field.hasAttribute('data-event-listeners-added')) {
+                        // Add event listeners to prevent propagation
+                        field.addEventListener('click', function(e) {
+                            e.stopPropagation();
+                            this.focus();
+                        });
+
+                        field.addEventListener('mousedown', function(e) {
+                            e.stopPropagation();
+                        });
+
+                        field.addEventListener('mouseup', function(e) {
+                            e.stopPropagation();
+                        });
+
+                        // Mark this field as having event listeners added
+                        field.setAttribute('data-event-listeners-added', 'true');
+                    }
+                });
+            }
+
+            // Fix the form immediately
+            fixForm();
+
+            // Fix the form after a short delay
+            setTimeout(fixForm, 500);
+
+            // Fix the form after the page is fully loaded
+            window.addEventListener('load', function() {
+                fixForm();
+                setTimeout(fixForm, 500);
+            });
+        })();
     </script>

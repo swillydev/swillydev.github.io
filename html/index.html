@@ -9,11 +9,14 @@
     <link rel="stylesheet" href="/styles/animations.css">
     <link rel="stylesheet" href="/styles/mobile-nav.css">
     <link rel="stylesheet" href="/styles/mobile-navbar-fix.css">
+    <link rel="stylesheet" href="/styles/form-fix.css">
     <link rel="stylesheet" href="/styles/team-carousel.css">
     <script type="module" src="/script.js"></script>
     <script src="/js/scroll-animations.js"></script>
     <script src="/js/sidebar-fix.js"></script>
     <script src="/js/phone-number-formatter.js"></script>
+    <!-- Form Fix Script -->
+    <script src="/js/form-fix.js"></script>
     <script src="/js/active-page.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -821,8 +824,7 @@
                 <div class="icon_wrapper">
 
                 </div>
-                <form action="https://api.web3forms.com/submit" method="POST" id="contact_form">
-                  <input type="hidden" name="access_key" value="4366b25c-8d7f-49d2-8a6b-17784f13aaf9">
+                <form id="contact_form">
                   <div class="name">
                     <label for="name"></label>
                     <input type="text" placeholder="Full Name:" name="name" id="name_input" required>
@@ -1014,8 +1016,8 @@
 </footer>
     <!-- Toast Notifications -->
     <script src="../js/toast-notification.js"></script>
-    <!-- Form Handler for MongoDB -->
-    <script src="../js/form-handler.js"></script>
+    <!-- Form Handler for SubmitJSON -->
+    <script src="../js/submitjson-form-handler.js"></script>
     <!-- Popup Contact Form -->
     <script src="/js/popup-contact.js"></script>
     <!-- Team Carousel -->
