@@ -96,23 +96,53 @@ body::after {
   #contact_form textarea {
     font-size: 16px !important; /* Prevents iOS zoom */
     font-family: "Urbanist", sans-serif !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    pointer-events: auto !important;
+    cursor: text !important;
+    z-index: 20000 !important; /* Much higher z-index for mobile */
+    position: relative !important;
+    touch-action: auto !important;
+    -webkit-touch-callout: default !important;
+    -webkit-tap-highlight-color: rgba(124, 47, 132, 0.3) !important; /* Purple highlight on tap */
+  }
+
+  #contact_form #form_button {
+    cursor: pointer !important;
+    -webkit-appearance: none !important;
+    appearance: none !important;
+    z-index: 20000 !important;
   }
 
   #container {
     z-index: 9999 !important;
+    pointer-events: auto !important;
   }
 
   form {
     z-index: 10000 !important;
-  }
-
-  input, select, textarea {
-    z-index: 10001 !important;
+    pointer-events: auto !important;
   }
 
   /* Ensure form container divs don't capture clicks on mobile */
   .name, .email, .telephone, .subject, .message, .submit {
     pointer-events: none !important;
+    position: relative !important;
+    z-index: 1 !important; /* Lower z-index than inputs */
+  }
+
+  /* Ensure inputs are above everything else */
+  input, select, textarea {
+    z-index: 20000 !important; /* Very high z-index */
+    pointer-events: auto !important;
+    touch-action: auto !important;
+  }
+
+  /* Fix for iOS devices */
+  input[type="text"], input[type="email"] {
+    -webkit-user-select: text !important;
+    user-select: text !important;
+    -webkit-touch-callout: default !important;
   }
 }
 

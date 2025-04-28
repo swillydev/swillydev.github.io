@@ -74,6 +74,22 @@ document.addEventListener('DOMContentLoaded', function() {
                 e.stopPropagation();
             });
 
+            // Add touch events for mobile devices
+            field.addEventListener('touchstart', function(e) {
+                console.log('Field touchstart:', field.id || field.name);
+                // Don't prevent default here to allow normal touch behavior
+                e.stopPropagation();
+            });
+
+            field.addEventListener('touchend', function(e) {
+                console.log('Field touchend:', field.id || field.name);
+                // Focus the field on touch end
+                setTimeout(() => {
+                    field.focus();
+                }, 100);
+                e.stopPropagation();
+            });
+
             // Add a focus event listener to each field
             field.addEventListener('focus', function() {
                 console.log('Field focused:', field.id || field.name);
@@ -168,4 +184,46 @@ document.addEventListener('DOMContentLoaded', function() {
             field.style.zIndex = '10001';
         });
     }, 1000);
+
+    // Special fix for mobile devices
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        console.log('Mobile device detected, applying special fixes');
+
+        // Apply mobile-specific fixes
+        setTimeout(function() {
+            // Get all form fields
+            const mobileFields = document.querySelectorAll('input[type="text"], input[type="email"], textarea, select');
+
+            mobileFields.forEach(field => {
+                // Apply enhanced mobile styles
+                field.style.zIndex = '20000';
+                field.style.touchAction = 'auto';
+                field.style.webkitAppearance = 'none';
+                field.style.appearance = 'none';
+                field.style.webkitTapHighlightColor = 'rgba(124, 47, 132, 0.3)';
+
+                // Add a special click handler for mobile
+                field.addEventListener('touchstart', function(e) {
+                    // Highlight the field to show it's tappable
+                    this.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                });
+
+                field.addEventListener('touchend', function(e) {
+                    // Reset background and focus the field
+                    this.style.backgroundColor = '';
+                    setTimeout(() => {
+                        this.focus();
+                    }, 50);
+                });
+            });
+
+            // Make container divs completely transparent to touches
+            const mobileContainers = document.querySelectorAll('.name, .email, .telephone, .subject, .message, .submit');
+            mobileContainers.forEach(container => {
+                container.style.pointerEvents = 'none';
+                container.style.touchAction = 'none';
+                container.style.zIndex = '1';
+            });
+        }, 1500);
+    }
 });

@@ -309,14 +309,14 @@
                 <div class="icon_wrapper">
 
                 </div>
-                <form id="contact_form" onclick="event.stopPropagation();" style="position: relative; z-index: 10000; pointer-events: auto;">
+                <form id="contact_form" onclick="event.stopPropagation();" style="position: relative; z-index: 10000; pointer-events: auto;" data-mobile-fixed="true">
                   <div class="name" style="pointer-events: none;">
                     <label for="name"></label>
-                    <input type="text" placeholder="Full Name:" name="name" id="name_input" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: text;" onclick="event.stopPropagation(); this.focus();">
+                    <input type="text" placeholder="Full Name:" name="name" id="name_input" required style="position: relative; z-index: 20001; pointer-events: auto; cursor: text; -webkit-appearance: none; appearance: none; touch-action: auto;" onclick="event.stopPropagation(); this.focus();" ontouchstart="event.stopPropagation(); this.style.backgroundColor='rgba(255,255,255,0.9)';" ontouchend="event.stopPropagation(); this.style.backgroundColor=''; setTimeout(() => this.focus(), 50);">
                   </div>
                   <div class="email" style="pointer-events: none;">
                     <label for="email"></label>
-                    <input type="email" placeholder="E-mail:" name="email" id="email_input" required style="position: relative; z-index: 10001; pointer-events: auto; cursor: text;" onclick="event.stopPropagation(); this.focus();">
+                    <input type="email" placeholder="E-mail:" name="email" id="email_input" required style="position: relative; z-index: 20001; pointer-events: auto; cursor: text; -webkit-appearance: none; appearance: none; touch-action: auto;" onclick="event.stopPropagation(); this.focus();" ontouchstart="event.stopPropagation(); this.style.backgroundColor='rgba(255,255,255,0.9)';" ontouchend="event.stopPropagation(); this.style.backgroundColor=''; setTimeout(() => this.focus(), 50);">
                   </div>
                   <div class="telephone" style="pointer-events: none;">
                     <label for="name"></label>
@@ -782,7 +782,8 @@
                     field.style.pointerEvents = 'auto';
                     field.style.cursor = field.tagName.toLowerCase() === 'input' && field.type === 'submit' ? 'pointer' : 'text';
                     field.style.position = 'relative';
-                    field.style.zIndex = '10001';
+                    field.style.zIndex = '20001';
+                    field.style.touchAction = 'auto';
 
                     // Only add event listeners if they don't already exist
                     if (!field.hasAttribute('data-event-listeners-added')) {
@@ -798,6 +799,18 @@
 
                         field.addEventListener('mouseup', function(e) {
                             e.stopPropagation();
+                        });
+
+                        // Add touch events for mobile
+                        field.addEventListener('touchstart', function(e) {
+                            e.stopPropagation();
+                            this.style.backgroundColor = 'rgba(255, 255, 255, 0.9)';
+                        });
+
+                        field.addEventListener('touchend', function(e) {
+                            e.stopPropagation();
+                            this.style.backgroundColor = '';
+                            setTimeout(() => this.focus(), 50);
                         });
 
                         // Mark this field as having event listeners added
@@ -816,6 +829,50 @@
             window.addEventListener('load', function() {
                 fixForm();
                 setTimeout(fixForm, 500);
+
+                // Special fix for mobile devices
+                if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                    console.log('Mobile device detected, applying emergency fixes');
+
+                    // Apply emergency fixes for mobile
+                    setTimeout(function() {
+                        // Direct fix for name and email fields
+                        const nameInput = document.getElementById('name_input');
+                        const emailInput = document.getElementById('email_input');
+
+                        if (nameInput) {
+                            nameInput.style.zIndex = '30000';
+                            nameInput.style.pointerEvents = 'auto';
+                            nameInput.style.touchAction = 'auto';
+                            nameInput.style.webkitAppearance = 'none';
+                            nameInput.style.appearance = 'none';
+                        }
+
+                        if (emailInput) {
+                            emailInput.style.zIndex = '30000';
+                            emailInput.style.pointerEvents = 'auto';
+                            emailInput.style.touchAction = 'auto';
+                            emailInput.style.webkitAppearance = 'none';
+                            emailInput.style.appearance = 'none';
+                        }
+
+                        // Make sure container divs don't block touches
+                        const nameContainer = document.querySelector('.name');
+                        const emailContainer = document.querySelector('.email');
+
+                        if (nameContainer) {
+                            nameContainer.style.pointerEvents = 'none';
+                            nameContainer.style.touchAction = 'none';
+                            nameContainer.style.zIndex = '1';
+                        }
+
+                        if (emailContainer) {
+                            emailContainer.style.pointerEvents = 'none';
+                            emailContainer.style.touchAction = 'none';
+                            emailContainer.style.zIndex = '1';
+                        }
+                    }, 1000);
+                }
             });
         })();
     </script>
