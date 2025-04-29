@@ -1,15 +1,64 @@
 /* Team Carousel Styles */
 
+/* Carousel Indicator */
+.carousel-indicator {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 0.75rem; /* Reduced from 1.5rem to 0.75rem */
+}
+
+.carousel-indicator-icon {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #f0f0f0;
+  border-radius: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: #7C2F84;
+  font-family: "Urbanist", sans-serif;
+  font-size: 0.9rem;
+  animation: pulse 2s infinite;
+}
+
+.carousel-indicator-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #7C2F84;
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.05);
+    opacity: 0.8;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* Hide carousel indicator on mobile */
+@media (max-width: 768px) {
+  .carousel-indicator {
+    display: none;
+  }
+}
+
 .team-section {
   margin: 0;
   overflow: hidden;
-  padding: 4rem 0;
+  padding: 2rem 0; /* Reduced from 4rem to 2rem */
   background-color: #f9f9f9;
 }
 
 .team-section h2 {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem; /* Reduced from 2rem to 1rem */
   color: #7C2F84;
   font-family: "Bebas Neue";
   text-transform: uppercase;
@@ -566,3 +615,4 @@
     overflow-y: auto;
   }
 }
+
