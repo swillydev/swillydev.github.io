@@ -42,11 +42,25 @@
   }
 }
 
-/* Hide carousel indicator on mobile */
+/* Show carousel indicator for team section on desktop only */
 @media (max-width: 768px) {
-  .carousel-indicator {
-    display: none;
+  .team-section .carousel-indicator {
+    display: none !important; /* Hide on mobile */
   }
+  
+  /* Keep team carousel container styling */
+  .team-carousel-container {
+    padding: 0 25px;
+    min-height: 550px;
+  }
+}
+
+/* Ensure testimonial section indicator remains visible on all devices */
+.testimonial-section .carousel-indicator {
+  display: flex !important; /* Always show for testimonials */
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
 }
 
 .team-section {
@@ -615,4 +629,5 @@
     overflow-y: auto;
   }
 }
+
 
