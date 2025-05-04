@@ -4,7 +4,7 @@
 .carousel-indicator {
   display: flex;
   justify-content: center;
-  margin-bottom: 0.75rem; /* Reduced from 1.5rem to 0.75rem */
+  margin-bottom: 0.25rem; /* Reduced from 1.5rem to 0.75rem */
 }
 
 .carousel-indicator-icon {
@@ -47,7 +47,7 @@
   .team-section .carousel-indicator {
     display: none !important; /* Hide on mobile */
   }
-  
+
   /* Keep team carousel container styling */
   .team-carousel-container {
     padding: 0 25px;
@@ -100,12 +100,20 @@
   grid-auto-columns: calc((100% - 4rem) / 3);
   gap: 2rem;
   overflow-x: auto;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Changed from smooth to auto for free-flowing drag */
   padding: 2rem;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: none; /* Removed snap points completely for free-flowing drag */
   position: relative;
+  user-select: none; /* Prevent text selection during drag */
+  transition: none; /* Removed transition for immediate response to mouse movement */
+}
+
+.team-carousel-track:active {
+  scroll-snap-type: none; /* Disable snap during active dragging for smoother movement */
+  transform: scale(1); /* No scale effect for more precise dragging */
+  transition: none; /* No transition for immediate response */
 }
 
 .team-carousel-track::-webkit-scrollbar {
@@ -125,6 +133,12 @@
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: flex;
   flex-direction: column;
+}
+
+/* Add enhanced shadow effect when carousel is being dragged */
+.team-carousel-track:active .team-card {
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 
 .team-card:hover {
@@ -629,5 +643,8 @@
     overflow-y: auto;
   }
 }
+
+
+
 
 

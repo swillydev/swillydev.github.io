@@ -830,16 +830,24 @@ body {
   grid-auto-columns: calc((100% - 4rem) / 3);
   gap: 2rem;
   overflow-x: auto;
-  scroll-behavior: smooth;
+  scroll-behavior: auto; /* Auto for free-flowing drag */
   padding: 2rem;
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE and Edge */
-  scroll-snap-type: x mandatory;
+  scroll-snap-type: none; /* No snap points for free-flowing drag */
+  user-select: none; /* Prevent text selection during drag */
+  transition: none; /* No transition for immediate response */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
 }
 
-/* Add scroll-snap-align to testimonial cards */
+.carousel-track:active {
+  scroll-snap-type: none; /* Disable snap during active dragging for smoother movement */
+  transform: scale(1); /* No scale effect for more precise dragging */
+  transition: none; /* No transition for immediate response */
+}
+
+/* Testimonial cards */
 .testimonial-card {
-  scroll-snap-align: center;
   min-width: 300px;
   height: 100%;
   position: relative;
@@ -850,7 +858,13 @@ body {
   padding: 30px;
   background-image: linear-gradient(-25deg, rgba(0, 0, 0, 0.2) 0%, rgba(255, 255, 255, 0.1) 100%);
   box-sizing: border-box;
-  transition: transform 0.3s ease;
+  transition: none; /* No transition for immediate response */
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Add subtle shadow effect when carousel is being dragged */
+.carousel-track:active .testimonial-card {
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
 }
 
 /* Add specific fade-in animations for testimonial cards */
@@ -1681,6 +1695,8 @@ textarea {
 
 .carousel-track::-webkit-scrollbar {
   display: none; /* Chrome, Safari and Opera */
+  width: 0;
+  height: 0;
 }
 
 .testimonial-card {

@@ -335,6 +335,9 @@ document.addEventListener('DOMContentLoaded', function() {
             // Update current index
             currentIndex = index;
 
+            // Enable smooth scrolling temporarily for button navigation
+            teamCarouselTrack.style.scrollBehavior = 'smooth';
+
             // Scroll to the card
             teamCardsArray[index].scrollIntoView({
                 behavior: 'smooth',
@@ -342,16 +345,26 @@ document.addEventListener('DOMContentLoaded', function() {
                 inline: 'center'
             });
 
+            // Reset to auto after animation completes
+            setTimeout(() => {
+                teamCarouselTrack.style.scrollBehavior = 'auto';
+            }, 500);
+
             console.log(`Scrolling to card ${index + 1} of ${totalCards}`);
         }
 
         // Initialize the carousel
         initCarousel();
 
-        // Add touch swipe functionality
+        // Add touch and mouse drag functionality
         let touchStartX = 0;
         let touchEndX = 0;
+        let mouseStartX = 0;
+        let mouseDown = false;
+        let isDragging = false;
+        let startScrollLeft = 0;
 
+        // Touch events for mobile
         teamCarouselTrack.addEventListener('touchstart', function(e) {
             touchStartX = e.changedTouches[0].screenX;
         }, { passive: true });
@@ -385,6 +398,66 @@ document.addEventListener('DOMContentLoaded', function() {
                 }
             }
         }, { passive: true });
+
+        // Mouse events for desktop drag
+        teamCarouselTrack.addEventListener('mousedown', function(e) {
+            mouseDown = true;
+            isDragging = false;
+            mouseStartX = e.pageX;
+            startScrollLeft = teamCarouselTrack.scrollLeft;
+            // Prevent default behavior to avoid text selection during drag
+            e.preventDefault();
+        });
+
+        teamCarouselTrack.addEventListener('mousemove', function(e) {
+            if (!mouseDown) return;
+
+            // Calculate distance moved
+            const x = e.pageX;
+            const distance = x - mouseStartX;
+
+            // Consider any movement a drag for immediate response
+            if (Math.abs(distance) > 0) {
+                isDragging = true;
+
+                // Direct 1:1 movement with the mouse - no animation or delay
+                teamCarouselTrack.scrollLeft = startScrollLeft - distance;
+            }
+
+            e.preventDefault();
+        });
+
+        // Handle mouse release - simply end the drag without snapping
+        document.addEventListener('mouseup', function() {
+            if (mouseDown) {
+                mouseDown = false;
+
+                // If it was a drag, just update the current index based on position
+                if (isDragging) {
+                    const cardWidth = teamCarouselTrack.offsetWidth / getVisibleCards();
+                    const scrollPosition = teamCarouselTrack.scrollLeft;
+                    const index = Math.floor(scrollPosition / cardWidth);
+
+                    // Just update the current index without forcing a snap
+                    currentIndex = index;
+                }
+            }
+        });
+
+        // Prevent drag conflicts with click events
+        teamCarouselTrack.addEventListener('click', function(e) {
+            if (isDragging) {
+                e.preventDefault();
+                e.stopPropagation();
+            }
+        });
+
+        // Helper function to get number of visible cards based on screen width
+        function getVisibleCards() {
+            if (window.innerWidth <= 768) return 1;
+            if (window.innerWidth <= 1024) return 2;
+            return 3;
+        }
 
         // Handle window resize
         window.addEventListener('resize', function() {
