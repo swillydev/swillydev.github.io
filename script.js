@@ -366,6 +366,26 @@ document.querySelectorAll('#contact_form').forEach(form => {
     card.classList.add('fade-in-section');
     card.style.transitionDelay = `${index * 0.1}s`;
     observer.observe(card);
+
+    // Prevent any movement on touch for mobile devices
+    if (window.innerWidth <= 768 || 'ontouchstart' in window) {
+      // Add touch event listeners to prevent default behavior
+      card.addEventListener('touchstart', function() {
+        // Don't prevent default here to allow scrolling
+        // Just ensure the card doesn't move
+        this.style.transform = 'none';
+      }, { passive: true });
+
+      card.addEventListener('touchmove', function() {
+        // Ensure the card doesn't move during touch
+        this.style.transform = 'none';
+      }, { passive: true });
+
+      card.addEventListener('touchend', function() {
+        // Reset any transforms
+        this.style.transform = 'none';
+      }, { passive: true });
+    }
   });
 });
 

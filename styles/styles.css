@@ -222,8 +222,11 @@ body {
   transition: all 0.8s ease-out;
 }
 
-.testimonial-card:hover {
-  transform: translateY(-30px);
+/* Only apply hover effect on non-touch devices/desktop */
+@media (hover: hover) and (pointer: fine) {
+  .testimonial-card:hover {
+    transform: translateY(-30px);
+  }
 }
 
 /* Ensure smooth transitions for all interactive elements */
@@ -880,9 +883,11 @@ body {
   transform: translateY(0);
 }
 
-/* Preserve hover effect */
-.testimonial-card.fade-in-visible:hover {
-  transform: translateY(-30px);
+/* Preserve hover effect only on desktop */
+@media (min-width: 769px) {
+  .testimonial-card.fade-in-visible:hover {
+    transform: translateY(-30px);
+  }
 }
 
 /* Adjust animation timing for mobile */
@@ -891,14 +896,21 @@ body {
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
   }
 
-  /* Disable hover effect on mobile */
-  .testimonial-card.fade-in-visible:hover {
-    transform: translateY(0);
+  /* Completely disable hover and touch effects on mobile */
+  .testimonial-card,
+  .testimonial-card.fade-in-visible,
+  .testimonial-card:hover,
+  .testimonial-card:active,
+  .testimonial-card.fade-in-visible:hover,
+  .testimonial-card.fade-in-visible:active {
+    transform: translateY(0) !important;
+    transition: none !important;
   }
 
-  /* Disable transition on touch */
+  /* Prevent any movement on touch */
   .testimonial-card {
-    transition: none;
+    touch-action: pan-x;
+    -webkit-tap-highlight-color: transparent;
   }
 }
 
@@ -1843,6 +1855,11 @@ textarea {
     margin: 0 auto; /* Center the card */
     max-width: 95vw; /* Almost full viewport width */
     box-sizing: border-box;
+    transform: none !important; /* Prevent any transform on mobile */
+    transition: none !important; /* Disable transitions on mobile */
+    will-change: auto; /* Optimize performance */
+    -webkit-tap-highlight-color: transparent; /* Remove tap highlight */
+    touch-action: pan-x; /* Allow only horizontal swiping */
   }
 
   /* Make blockquote shorter */
@@ -1906,5 +1923,16 @@ textarea {
 @supports (-webkit-touch-callout: none) {
   .carousel-track {
     -webkit-overflow-scrolling: touch;
+  }
+
+  /* Prevent any movement on touch devices */
+  .testimonial-card,
+  .testimonial-card:hover,
+  .testimonial-card:active,
+  .testimonial-card.fade-in-visible,
+  .testimonial-card.fade-in-visible:hover,
+  .testimonial-card.fade-in-visible:active {
+    transform: none !important;
+    transition: none !important;
   }
 }
